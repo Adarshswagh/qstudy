@@ -60,7 +60,11 @@ export const Header = () => {
     >
       <div className="container px-6">
         <div className="flex items-center justify-between py-4">
-          <a href="#hero" className="flex items-center gap-3" aria-label="QStudy home">
+          <a
+            href="#hero"
+            className="flex items-center gap-3"
+            aria-label="QStudy home"
+          >
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
               <span className="text-xl font-semibold">Q</span>
             </div>
@@ -99,7 +103,11 @@ export const Header = () => {
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label="Toggle navigation"
             >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </button>
           </div>
         </div>

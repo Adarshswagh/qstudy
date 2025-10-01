@@ -1,4 +1,12 @@
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Youtube,
+} from "lucide-react";
 
 const quickLinks = [
   { label: "About", href: "#about" },
@@ -10,10 +18,26 @@ const quickLinks = [
 ];
 
 const socialLinks = [
-  { label: "Instagram", href: "https://www.instagram.com/qstudy_world", icon: Instagram },
-  { label: "Facebook", href: "https://www.facebook.com/qstudyworld", icon: Facebook },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/q-study-world/", icon: Linkedin },
-  { label: "YouTube", href: "https://www.youtube.com/@qstudyworld", icon: Youtube },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/qstudy_world",
+    icon: Instagram,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/qstudyworld",
+    icon: Facebook,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/q-study-world/",
+    icon: Linkedin,
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@qstudyworld",
+    icon: Youtube,
+  },
 ];
 
 export const Footer = () => {
@@ -29,25 +53,35 @@ export const Footer = () => {
                   Q
                 </span>
                 <div>
-                  <p className="text-lg font-bold tracking-tight">QStudy World</p>
+                  <p className="text-lg font-bold tracking-tight">
+                    QStudy World
+                  </p>
                   <p className="text-sm text-primary-foreground/80">
                     Official Authorised University Representative
                   </p>
                 </div>
               </div>
               <p className="max-w-xs text-sm leading-relaxed text-primary-foreground/80">
-                Empowering students with personalised guidance, seamless applications, and end-to-end support for global education journeys.
+                Empowering students with personalised guidance, seamless
+                applications, and end-to-end support for global education
+                journeys.
               </p>
               <div className="space-y-3 text-sm">
                 <div className="flex items-start gap-3">
                   <Phone className="mt-0.5 h-4 w-4" aria-hidden />
-                  <a href="tel:+60125037122" className="transition hover:text-white">
+                  <a
+                    href="tel:+60125037122"
+                    className="transition hover:text-white"
+                  >
                     +6012-503 7122
                   </a>
                 </div>
                 <div className="flex items-start gap-3">
                   <Mail className="mt-0.5 h-4 w-4" aria-hidden />
-                  <a href="mailto:info@qstudyworld.com" className="transition hover:text-white">
+                  <a
+                    href="mailto:info@qstudyworld.com"
+                    className="transition hover:text-white"
+                  >
                     info@qstudyworld.com
                   </a>
                 </div>
@@ -65,7 +99,11 @@ export const Footer = () => {
                 </p>
                 <div className="mt-4 flex flex-col gap-3 text-primary-foreground/80">
                   {quickLinks.map((link) => (
-                    <a key={link.href} href={link.href} className="transition hover:text-white">
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className="transition hover:text-white"
+                    >
                       {link.label}
                     </a>
                   ))}
@@ -103,7 +141,8 @@ export const Footer = () => {
                 ))}
               </div>
               <p className="text-xs text-primary-foreground/70">
-                Follow QStudy World for campus updates, scholarship news, and student success stories.
+                Follow QStudy World for campus updates, scholarship news, and
+                student success stories.
               </p>
             </div>
           </div>
@@ -111,7 +150,9 @@ export const Footer = () => {
 
         <div className="border-t border-primary-foreground/20">
           <div className="container flex flex-col items-center justify-between gap-4 px-6 py-6 text-xs text-primary-foreground/80 sm:flex-row">
-            <p>© {new Date().getFullYear()} QStudy World. All rights reserved.</p>
+            <p>
+              © {new Date().getFullYear()} QStudy World. All rights reserved.
+            </p>
             <div className="flex gap-6">
               <a href="#hero" className="transition hover:text-white">
                 Privacy Policy

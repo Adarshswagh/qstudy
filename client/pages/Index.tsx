@@ -109,7 +109,8 @@ const programCatalog: ProgramCategory[] = [
   },
   {
     category: "Engineering & Technology",
-    description: "Design innovation across the world’s most advanced industries.",
+    description:
+      "Design innovation across the world’s most advanced industries.",
     icon: Cpu,
     highlights: [
       "Software Engineering",
@@ -277,7 +278,8 @@ const galleryShowcase: GalleryCard[] = [
   },
   {
     title: "Global Networking",
-    caption: "Connect with international peers through QStudy exchange pathways.",
+    caption:
+      "Connect with international peers through QStudy exchange pathways.",
     accent: "from-accent/40 to-transparent",
   },
   {
@@ -338,7 +340,8 @@ const Index = () => {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const name = (data.get("name") as string | null)?.trim() || "Future Scholar";
+    const name =
+      (data.get("name") as string | null)?.trim() || "Future Scholar";
 
     toast.success(
       `Thank you, ${name}! Our counsellors will connect with you within 24 hours.`,
@@ -369,7 +372,12 @@ interface SectionHeaderProps {
   align?: "left" | "center";
 }
 
-const SectionHeader = ({ eyebrow, title, description, align = "left" }: SectionHeaderProps) => {
+const SectionHeader = ({
+  eyebrow,
+  title,
+  description,
+  align = "left",
+}: SectionHeaderProps) => {
   const alignment = align === "center" ? "text-center mx-auto" : "text-left";
 
   return (
@@ -380,17 +388,31 @@ const SectionHeader = ({ eyebrow, title, description, align = "left" }: SectionH
       <h2 className="mt-4 text-3xl font-bold tracking-tight text-primary sm:text-4xl">
         {title}
       </h2>
-      <p className="mt-4 text-base text-muted-foreground sm:text-lg">{description}</p>
+      <p className="mt-4 text-base text-muted-foreground sm:text-lg">
+        {description}
+      </p>
     </div>
   );
 };
 
 const HeroSection = () => {
   return (
-    <section id="hero" className="relative overflow-hidden pt-32 pb-28 sm:pt-36">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-white to-accent/20" aria-hidden />
-      <div className="absolute -right-24 top-[-180px] -z-10 h-[420px] w-[420px] rounded-full bg-primary/10 blur-3xl" aria-hidden />
-      <div className="absolute left-1/2 top-10 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-accent/30 blur-3xl" aria-hidden />
+    <section
+      id="hero"
+      className="relative overflow-hidden pt-32 pb-28 sm:pt-36"
+    >
+      <div
+        className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-white to-accent/20"
+        aria-hidden
+      />
+      <div
+        className="absolute -right-24 top-[-180px] -z-10 h-[420px] w-[420px] rounded-full bg-primary/10 blur-3xl"
+        aria-hidden
+      />
+      <div
+        className="absolute left-1/2 top-10 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-accent/30 blur-3xl"
+        aria-hidden
+      />
 
       <div className="container px-6">
         <div className="grid items-center gap-16 lg:grid-cols-[1.05fr,0.9fr]">
@@ -409,7 +431,12 @@ const HeroSection = () => {
               Your Largest One-Stop Application Centre
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-              QStudy World connects you to globally recognised universities with personalised counselling, transparent planning, and a stress-free application process. Looking to study in Malaysia? <span className="font-semibold text-primary">We make it simple.</span>
+              QStudy World connects you to globally recognised universities with
+              personalised counselling, transparent planning, and a stress-free
+              application process. Looking to study in Malaysia?{" "}
+              <span className="font-semibold text-primary">
+                We make it simple.
+              </span>
             </p>
 
             <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
@@ -434,8 +461,12 @@ const HeroSection = () => {
                   key={highlight.title}
                   className="rounded-3xl border border-primary/15 bg-white/70 p-5 shadow-lg shadow-primary/10 backdrop-blur-sm"
                 >
-                  <p className="text-sm font-semibold text-primary">{highlight.title}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">{highlight.description}</p>
+                  <p className="text-sm font-semibold text-primary">
+                    {highlight.title}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {highlight.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -460,7 +491,10 @@ const HeroSection = () => {
             className="relative"
           >
             <div className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-2xl shadow-primary/15 backdrop-blur">
-              <div className="absolute -top-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" aria-hidden />
+              <div
+                className="absolute -top-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
+                aria-hidden
+              />
               <div className="relative">
                 <div className="mb-6 flex items-center justify-between">
                   <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-xs font-semibold text-primary">
@@ -478,15 +512,23 @@ const HeroSection = () => {
                       initial={{ opacity: 0, x: 24 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true, amount: 0.4 }}
-                      transition={{ delay: index * 0.05, duration: 0.5, ease: "easeOut" }}
+                      transition={{
+                        delay: index * 0.05,
+                        duration: 0.5,
+                        ease: "easeOut",
+                      }}
                       className="group flex items-start gap-4 rounded-3xl border border-transparent bg-secondary/50 p-4 transition hover:border-primary/30 hover:bg-white"
                     >
                       <div className="mt-1 grid h-10 w-10 place-items-center rounded-2xl bg-primary/15 text-primary group-hover:bg-primary group-hover:text-primary-foreground">
                         <step.icon className="h-5 w-5" aria-hidden />
                       </div>
                       <div>
-                        <p className="font-semibold text-primary">{step.title}</p>
-                        <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>
+                        <p className="font-semibold text-primary">
+                          {step.title}
+                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {step.description}
+                        </p>
                       </div>
                     </motion.div>
                   ))}
@@ -520,10 +562,16 @@ const AboutSection = () => {
 
           <div className="mt-8 space-y-4 text-sm text-muted-foreground">
             <p>
-              From foundation to postgraduate studies, we champion your aspirations with curated program recommendations, scholarship strategies, and interview preparation. Our multilingual counsellors provide tailored support that respects your cultural background and career goals.
+              From foundation to postgraduate studies, we champion your
+              aspirations with curated program recommendations, scholarship
+              strategies, and interview preparation. Our multilingual
+              counsellors provide tailored support that respects your cultural
+              background and career goals.
             </p>
             <p>
-              We are the official representatives of premier Malaysian universities, ensuring direct admissions, accurate information, and seamless onboarding for students across the globe.
+              We are the official representatives of premier Malaysian
+              universities, ensuring direct admissions, accurate information,
+              and seamless onboarding for students across the globe.
             </p>
           </div>
 
@@ -533,7 +581,10 @@ const AboutSection = () => {
                 key={item}
                 className="flex items-start gap-3 rounded-3xl border border-primary/15 bg-white/70 p-4 shadow-sm shadow-primary/10"
               >
-                <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary" aria-hidden />
+                <CheckCircle2
+                  className="mt-0.5 h-5 w-5 text-primary"
+                  aria-hidden
+                />
                 <p className="text-sm font-medium text-primary">{item}</p>
               </div>
             ))}
@@ -541,13 +592,17 @@ const AboutSection = () => {
         </div>
 
         <div className="relative">
-          <div className="absolute -right-12 top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" aria-hidden />
+          <div
+            className="absolute -right-12 top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl"
+            aria-hidden
+          />
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="space-y-5">
               <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 shadow-xl shadow-primary/15">
                 <h3 className="text-3xl font-bold text-primary">2000+</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Students successfully enrolled across Malaysia, the UK, Canada, Australia, and beyond.
+                  Students successfully enrolled across Malaysia, the UK,
+                  Canada, Australia, and beyond.
                 </p>
               </div>
               <div className="rounded-[2.5rem] border border-primary/10 bg-accent/60 p-6 shadow-xl shadow-primary/20">
@@ -555,21 +610,28 @@ const AboutSection = () => {
                   End-to-End Support
                 </h3>
                 <p className="mt-2 text-sm text-primary">
-                  Professional counsellors assist with documentation, visa processing, and pre-departure preparation.
+                  Professional counsellors assist with documentation, visa
+                  processing, and pre-departure preparation.
                 </p>
               </div>
             </div>
             <div className="flex flex-col justify-between">
               <div className="rounded-[2.5rem] border border-primary/10 bg-primary text-primary-foreground p-6 shadow-2xl shadow-primary/25">
-                <h3 className="text-lg font-semibold">Official Representation</h3>
+                <h3 className="text-lg font-semibold">
+                  Official Representation
+                </h3>
                 <p className="mt-2 text-sm text-primary-foreground/80">
-                  Direct partnerships with Malaysia’s leading government and private universities.
+                  Direct partnerships with Malaysia’s leading government and
+                  private universities.
                 </p>
               </div>
               <div className="rounded-[2.5rem] border border-primary/5 bg-white/90 p-6 shadow-xl shadow-primary/10">
-                <h3 className="text-lg font-semibold text-primary">Career & Interests Test</h3>
+                <h3 className="text-lg font-semibold text-primary">
+                  Career & Interests Test
+                </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Register for a free diagnostic to uncover programs that fit your passion and future goals.
+                  Register for a free diagnostic to uncover programs that fit
+                  your passion and future goals.
                 </p>
                 <a
                   href="#contact"
@@ -595,7 +657,9 @@ const AboutSection = () => {
           Official representation of leading Malaysian universities
         </h3>
         <p className="mt-3 text-sm text-muted-foreground">
-          Gain exclusive access to admissions from Malaysia’s top government and private institutions, plus globally recognised foreign branch campuses.
+          Gain exclusive access to admissions from Malaysia’s top government and
+          private institutions, plus globally recognised foreign branch
+          campuses.
         </p>
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           {representationGroups.map((group) => (
@@ -609,7 +673,10 @@ const AboutSection = () => {
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                 {group.items.map((item) => (
                   <li key={item} className="flex items-start gap-2">
-                    <ScrollText className="mt-0.5 h-4 w-4 text-primary" aria-hidden />
+                    <ScrollText
+                      className="mt-0.5 h-4 w-4 text-primary"
+                      aria-hidden
+                    />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -654,13 +721,20 @@ const ProgramsSection = () => {
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">
                   <program.icon className="h-6 w-6" aria-hidden />
                 </div>
-                <h3 className="text-lg font-semibold text-primary">{program.category}</h3>
+                <h3 className="text-lg font-semibold text-primary">
+                  {program.category}
+                </h3>
               </div>
-              <p className="mt-4 text-sm text-muted-foreground">{program.description}</p>
+              <p className="mt-4 text-sm text-muted-foreground">
+                {program.description}
+              </p>
               <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
                 {program.highlights.map((highlight) => (
                   <li key={highlight} className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden />
+                    <CheckCircle2
+                      className="h-4 w-4 text-primary"
+                      aria-hidden
+                    />
                     {highlight}
                   </li>
                 ))}
@@ -707,8 +781,12 @@ const WhySection = () => {
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
               <feature.icon className="h-6 w-6" aria-hidden />
             </div>
-            <h3 className="mt-6 text-lg font-semibold text-primary">{feature.title}</h3>
-            <p className="mt-3 text-sm text-muted-foreground">{feature.description}</p>
+            <h3 className="mt-6 text-lg font-semibold text-primary">
+              {feature.title}
+            </h3>
+            <p className="mt-3 text-sm text-muted-foreground">
+              {feature.description}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -741,7 +819,9 @@ const SuccessSection = () => {
                   key={metric.label}
                   className="rounded-3xl border border-primary/10 bg-white/80 p-6 text-center shadow-lg shadow-primary/10"
                 >
-                  <p className="text-3xl font-bold text-primary">{metric.value}</p>
+                  <p className="text-3xl font-bold text-primary">
+                    {metric.value}
+                  </p>
                   <p className="mt-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
                     {metric.label}
                   </p>
@@ -757,21 +837,30 @@ const SuccessSection = () => {
                 whileHover={{ y: -6 }}
                 className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white p-7 shadow-xl shadow-primary/10"
               >
-                <div className="absolute -right-8 -top-12 h-32 w-32 rounded-full bg-primary/10 blur-3xl" aria-hidden />
+                <div
+                  className="absolute -right-8 -top-12 h-32 w-32 rounded-full bg-primary/10 blur-3xl"
+                  aria-hidden
+                />
                 <Quote className="h-6 w-6 text-primary" aria-hidden />
                 <p className="mt-4 text-sm text-muted-foreground">
                   “{testimonial.quote}”
                 </p>
                 <div className="mt-6 flex items-center justify-between">
                   <div>
-                    <p className="text-base font-semibold text-primary">{testimonial.name}</p>
+                    <p className="text-base font-semibold text-primary">
+                      {testimonial.name}
+                    </p>
                     <p className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
                       {testimonial.program}
                     </p>
                   </div>
                   <div className="flex items-center gap-1 text-primary">
                     {Array.from({ length: 5 }).map((_, index) => (
-                      <Star key={index} className="h-4 w-4 fill-current" aria-hidden />
+                      <Star
+                        key={index}
+                        className="h-4 w-4 fill-current"
+                        aria-hidden
+                      />
                     ))}
                   </div>
                 </div>
@@ -816,8 +905,12 @@ const GallerySection = () => {
               aria-hidden
             />
             <div className="relative flex h-full flex-col justify-between">
-              <h3 className="text-lg font-semibold text-primary">{card.title}</h3>
-              <p className="mt-4 text-sm text-muted-foreground">{card.caption}</p>
+              <h3 className="text-lg font-semibold text-primary">
+                {card.title}
+              </h3>
+              <p className="mt-4 text-sm text-muted-foreground">
+                {card.caption}
+              </p>
               <div className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
                 Discover More
                 <ArrowRight className="h-4 w-4" aria-hidden />
@@ -840,8 +933,14 @@ const CtaSection = () => {
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="relative isolate py-24"
     >
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary to-primary/80" aria-hidden />
-      <div className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-black/10 to-transparent" aria-hidden />
+      <div
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-primary to-primary/80"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-black/10 to-transparent"
+        aria-hidden
+      />
       <div className="container px-6 text-primary-foreground">
         <div className="flex flex-col items-start gap-8 rounded-[2.5rem] border border-white/20 bg-white/10 p-10 shadow-2xl shadow-primary/30 backdrop-blur xl:flex-row xl:items-center xl:justify-between">
           <div className="max-w-3xl">
@@ -852,7 +951,8 @@ const CtaSection = () => {
               Apply now for a free consultation – where every question matters
             </h3>
             <p className="mt-4 text-sm text-primary-foreground/80">
-              Confidence from the first enquiry to campus arrival. Let QStudy design your personalised roadmap.
+              Confidence from the first enquiry to campus arrival. Let QStudy
+              design your personalised roadmap.
             </p>
           </div>
           <div className="flex flex-wrap gap-4">
@@ -895,14 +995,24 @@ const FaqSection = () => {
 
       <div className="mt-12 grid gap-10 lg:grid-cols-[1fr,1.1fr]">
         <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10">
-          <h3 className="text-lg font-semibold text-primary">Not sure where to start?</h3>
+          <h3 className="text-lg font-semibold text-primary">
+            Not sure where to start?
+          </h3>
           <p className="mt-4 text-sm text-muted-foreground">
-            Register now for a free Career & Interests Test to uncover the programs and destinations that align with your strengths. Our counsellors are available 24/7 to answer your questions in your preferred language.
+            Register now for a free Career & Interests Test to uncover the
+            programs and destinations that align with your strengths. Our
+            counsellors are available 24/7 to answer your questions in your
+            preferred language.
           </p>
           <div className="mt-6 space-y-3 text-sm text-muted-foreground">
-            <p className="font-semibold text-primary">Counsellors are available:</p>
+            <p className="font-semibold text-primary">
+              Counsellors are available:
+            </p>
             <p>
-              لك متاح • األكاديمي مستشارنا • Консультанты доступны • Maslahatchilar doim aloqada • का उंसलर उपलब्ध हैं • کنسلرز دستیاب ہیں • ஆலோசகர்கள் கிடைக்கின்றனர் • Les conseillers sont disponibles • Kaunselor tersedia • มีที่ปรึกษาพร้อมให้บริการ • 顾问可供咨询
+              لك متاح • األكاديمي مستشارنا • Консультанты доступны •
+              Maslahatchilar doim aloqada • का उंसलर उपलब्ध हैं • کنسلرز دستیاب
+              ہیں • ஆலோசகர்கள் கிடைக்கின்றனர் • Les conseillers sont disponibles
+              • Kaunselor tersedia • มีที่ปรึกษาพร้อมให้บริการ • 顾问可供咨询
             </p>
           </div>
           <a
@@ -960,9 +1070,33 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
             />
 
             <div className="mt-8 space-y-4 text-sm text-muted-foreground">
-              <p>Whatsapp / Call: <a href="tel:+60125037122" className="font-semibold text-primary">+6012-503 7122</a></p>
-              <p>Email: <a href="mailto:info@qstudyworld.com" className="font-semibold text-primary">info@qstudyworld.com</a></p>
-              <p>Website: <a href="https://www.qstudyworld.com" className="font-semibold text-primary">www.qstudyworld.com</a></p>
+              <p>
+                Whatsapp / Call:{" "}
+                <a
+                  href="tel:+60125037122"
+                  className="font-semibold text-primary"
+                >
+                  +6012-503 7122
+                </a>
+              </p>
+              <p>
+                Email:{" "}
+                <a
+                  href="mailto:info@qstudyworld.com"
+                  className="font-semibold text-primary"
+                >
+                  info@qstudyworld.com
+                </a>
+              </p>
+              <p>
+                Website:{" "}
+                <a
+                  href="https://www.qstudyworld.com"
+                  className="font-semibold text-primary"
+                >
+                  www.qstudyworld.com
+                </a>
+              </p>
             </div>
           </div>
 
@@ -972,12 +1106,16 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
           >
             <h3 className="text-lg font-semibold text-primary">Enquiry Form</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Complete the form and our counsellors will respond with curated options within 24 hours.
+              Complete the form and our counsellors will respond with curated
+              options within 24 hours.
             </p>
 
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
               <div className="sm:col-span-1">
-                <label htmlFor="name" className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <label
+                  htmlFor="name"
+                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
+                >
                   Full Name
                 </label>
                 <input
@@ -990,7 +1128,10 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                 />
               </div>
               <div className="sm:col-span-1">
-                <label htmlFor="email" className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <label
+                  htmlFor="email"
+                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
+                >
                   Email
                 </label>
                 <input
@@ -1003,7 +1144,10 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                 />
               </div>
               <div className="sm:col-span-1">
-                <label htmlFor="phone" className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <label
+                  htmlFor="phone"
+                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
+                >
                   Phone / WhatsApp
                 </label>
                 <input
@@ -1015,7 +1159,10 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                 />
               </div>
               <div className="sm:col-span-1">
-                <label htmlFor="destination" className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <label
+                  htmlFor="destination"
+                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
+                >
                   Preferred Destination
                 </label>
                 <select
@@ -1032,7 +1179,10 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                 </select>
               </div>
               <div className="sm:col-span-2">
-                <label htmlFor="message" className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                <label
+                  htmlFor="message"
+                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
+                >
                   Tell us about your goals
                 </label>
                 <textarea

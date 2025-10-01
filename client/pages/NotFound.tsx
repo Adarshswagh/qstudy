@@ -23,7 +23,9 @@ const NotFound = () => {
           Page not found
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          The page you are looking for may have been moved or no longer exists. Return to the QStudy homepage to continue exploring programs and services.
+          The page you are looking for may have been moved or no longer exists.
+          Return to the QStudy homepage to continue exploring programs and
+          services.
         </p>
         <div className="mt-8">
           <Link
