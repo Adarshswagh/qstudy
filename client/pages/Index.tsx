@@ -459,7 +459,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="relative"
           >
-            <div className="relative overflow-hidden rounded-4xl border border-primary/10 bg-white/80 p-8 shadow-2xl shadow-primary/15 backdrop-blur">
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-2xl shadow-primary/15 backdrop-blur">
               <div className="absolute -top-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" aria-hidden />
               <div className="relative">
                 <div className="mb-6 flex items-center justify-between">
@@ -544,13 +544,13 @@ const AboutSection = () => {
           <div className="absolute -right-12 top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" aria-hidden />
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="space-y-5">
-              <div className="rounded-4xl border border-primary/10 bg-white/80 p-6 shadow-xl shadow-primary/15">
+              <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 shadow-xl shadow-primary/15">
                 <h3 className="text-3xl font-bold text-primary">2000+</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Students successfully enrolled across Malaysia, the UK, Canada, Australia, and beyond.
                 </p>
               </div>
-              <div className="rounded-4xl border border-primary/10 bg-accent/60 p-6 shadow-xl shadow-primary/20">
+              <div className="rounded-[2.5rem] border border-primary/10 bg-accent/60 p-6 shadow-xl shadow-primary/20">
                 <h3 className="text-lg font-semibold text-primary">
                   End-to-End Support
                 </h3>
@@ -560,13 +560,13 @@ const AboutSection = () => {
               </div>
             </div>
             <div className="flex flex-col justify-between">
-              <div className="rounded-4xl border border-primary/10 bg-primary text-primary-foreground p-6 shadow-2xl shadow-primary/25">
+              <div className="rounded-[2.5rem] border border-primary/10 bg-primary text-primary-foreground p-6 shadow-2xl shadow-primary/25">
                 <h3 className="text-lg font-semibold">Official Representation</h3>
                 <p className="mt-2 text-sm text-primary-foreground/80">
                   Direct partnerships with Malaysia’s leading government and private universities.
                 </p>
               </div>
-              <div className="rounded-4xl border border-primary/5 bg-white/90 p-6 shadow-xl shadow-primary/10">
+              <div className="rounded-[2.5rem] border border-primary/5 bg-white/90 p-6 shadow-xl shadow-primary/10">
                 <h3 className="text-lg font-semibold text-primary">Career & Interests Test</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Register for a free diagnostic to uncover programs that fit your passion and future goals.
@@ -589,7 +589,7 @@ const AboutSection = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-        className="mt-16 rounded-4xl border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10"
+        className="mt-16 rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10"
       >
         <h3 className="text-xl font-semibold text-primary">
           Official representation of leading Malaysian universities
@@ -648,7 +648,7 @@ const ProgramsSection = () => {
             <motion.div
               key={program.category}
               whileHover={{ y: -8 }}
-              className="flex h-full flex-col rounded-4xl border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10 transition"
+              className="flex h-full flex-col rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10 transition"
             >
               <div className="flex items-center gap-3">
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">
@@ -702,7 +702,7 @@ const WhySection = () => {
           <motion.div
             key={feature.title}
             whileHover={{ y: -6 }}
-            className="group rounded-4xl border border-primary/10 bg-white/80 p-7 shadow-lg shadow-primary/10 transition"
+            className="group rounded-[2.5rem] border border-primary/10 bg-white/80 p-7 shadow-lg shadow-primary/10 transition"
           >
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
               <feature.icon className="h-6 w-6" aria-hidden />
@@ -755,7 +755,7 @@ const SuccessSection = () => {
               <motion.div
                 key={testimonial.name}
                 whileHover={{ y: -6 }}
-                className="relative overflow-hidden rounded-4xl border border-primary/10 bg-white p-7 shadow-xl shadow-primary/10"
+                className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white p-7 shadow-xl shadow-primary/10"
               >
                 <div className="absolute -right-8 -top-12 h-32 w-32 rounded-full bg-primary/10 blur-3xl" aria-hidden />
                 <Quote className="h-6 w-6 text-primary" aria-hidden />
@@ -809,7 +809,7 @@ const GallerySection = () => {
           <motion.div
             key={card.title}
             whileHover={{ scale: 1.02 }}
-            className="relative overflow-hidden rounded-4xl border border-primary/10 bg-white/90 p-6 shadow-xl shadow-primary/10"
+            className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white/90 p-6 shadow-xl shadow-primary/10"
           >
             <div
               className={`absolute inset-0 bg-gradient-to-br ${card.accent}`}
@@ -843,7 +843,7 @@ const CtaSection = () => {
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary to-primary/80" aria-hidden />
       <div className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-black/10 to-transparent" aria-hidden />
       <div className="container px-6 text-primary-foreground">
-        <div className="flex flex-col items-start gap-8 rounded-4xl border border-white/20 bg-white/10 p-10 shadow-2xl shadow-primary/30 backdrop-blur xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex flex-col items-start gap-8 rounded-[2.5rem] border border-white/20 bg-white/10 p-10 shadow-2xl shadow-primary/30 backdrop-blur xl:flex-row xl:items-center xl:justify-between">
           <div className="max-w-3xl">
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-foreground/80">
               Get started today
@@ -894,7 +894,7 @@ const FaqSection = () => {
       />
 
       <div className="mt-12 grid gap-10 lg:grid-cols-[1fr,1.1fr]">
-        <div className="rounded-4xl border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10">
+        <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10">
           <h3 className="text-lg font-semibold text-primary">Not sure where to start?</h3>
           <p className="mt-4 text-sm text-muted-foreground">
             Register now for a free Career & Interests Test to uncover the programs and destinations that align with your strengths. Our counsellors are available 24/7 to answer your questions in your preferred language.
@@ -913,7 +913,7 @@ const FaqSection = () => {
             <ArrowRight className="h-4 w-4" aria-hidden />
           </a>
         </div>
-        <div className="rounded-4xl border border-primary/10 bg-white/80 p-6 shadow-xl shadow-primary/10">
+        <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 shadow-xl shadow-primary/10">
           <Accordion type="single" collapsible className="space-y-4">
             {faqItems.map((item, index) => (
               <AccordionItem
@@ -952,7 +952,7 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
     >
       <div className="container px-6">
         <div className="grid gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:items-center">
-          <div className="rounded-4xl border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10">
+          <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10">
             <SectionHeader
               eyebrow="Contact"
               title="Get your personalised admission consultation"
@@ -968,7 +968,7 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
 
           <form
             onSubmit={onSubmit}
-            className="rounded-4xl border border-primary/10 bg-white p-8 shadow-2xl shadow-primary/10"
+            className="rounded-[2.5rem] border border-primary/10 bg-white p-8 shadow-2xl shadow-primary/10"
           >
             <h3 className="text-lg font-semibold text-primary">Enquiry Form</h3>
             <p className="mt-2 text-sm text-muted-foreground">
