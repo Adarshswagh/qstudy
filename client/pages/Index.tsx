@@ -1,4 +1,5 @@
 import { type FormEvent } from "react";
+import { type FormEvent } from "react";
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -27,7 +28,6 @@ import {
   Sparkles,
   Star,
   Target,
-  Users2,
   Wallet,
 } from "lucide-react";
 import { toast } from "sonner";
