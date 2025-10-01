@@ -14,7 +14,7 @@ const NotFound = () => {
 
   return (
     <section className="container px-6 py-24">
-      <div className="mx-auto max-w-xl rounded-4xl border border-primary/15 bg-white/80 p-10 text-center shadow-xl shadow-primary/10">
+      <div className="mx-auto max-w-xl rounded-[2.5rem] border border-primary/15 bg-white/80 p-10 text-center shadow-xl shadow-primary/10">
         <div className="inline-flex items-center gap-3 rounded-full border border-primary/20 bg-secondary/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
           <span aria-hidden>Oops</span>
           <span className="text-primary/70">404</span>
