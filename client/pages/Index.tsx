@@ -1,5 +1,5 @@
-import { type FormEvent } from "react";
-import { type FormEvent } from "react";
+"use client";
+import { type FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Award,
   Briefcase,
+  Building2,
   CheckCircle2,
   Clock,
   Compass,
@@ -28,10 +29,14 @@ import {
   Sparkles,
   Star,
   Target,
+  TrendingUp,
   Wallet,
 } from "lucide-react";
 import { toast } from "sonner";
 import type { LucideIcon } from "lucide-react";
+import ContactForm from "@/components/ContactForm";
+
+
 
 const heroHighlights = [
   {
@@ -330,10 +335,108 @@ const faqItems: FaqItem[] = [
 const contactHighlights = [
   "Official authorised university representative",
   "Personalised program roadmap based on your interests",
-  "Continuous support from application to arrival",
 ];
 
 const accreditationBadges = ["IATA", "NAFSA", "IELTS"];
+
+type ComplianceCategory = {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+  count: number;
+};
+
+const complianceCategories: ComplianceCategory[] = [
+  {
+    id: "regional",
+    title: "Regional",
+    icon: Building2,
+    count: 14,
+  },
+  {
+    id: "accounting",
+    title: "Accounting",
+    icon: TrendingUp,
+    count: 26,
+  },
+  {
+    id: "international",
+    title: "International",
+    icon: Globe2,
+    count: 10,
+  },
+  {
+    id: "banking",
+    title: "Banking",
+    icon: ShieldCheck,
+    count: 0,
+  },
+];
+
+type UniversityLogo = {
+  name: string;
+  logo: string;
+};
+
+const universityLogos: Record<string, UniversityLogo[]> = {
+  regional: [
+    { name: "University Malaya", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/1.png" },
+    { name: "Universiti Kebangsaan Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/2.png" },
+    { name: "Universiti Sains Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/3.png" },
+    { name: "Universiti Teknologi Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/4.png" },
+    { name: "Universiti Putra Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/5.png" },
+    { name: "Universiti Teknologi MARA", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/6.png" },
+    { name: "Universiti Malaysia Sabah", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/7.png" },
+    { name: "Universiti Malaysia Sarawak", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/8.png" },
+    { name: "Universiti Malaysia Terengganu", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/9.png" },
+    { name: "Universiti Malaysia Pahang", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/10.png" },
+    { name: "Universiti Malaysia Perlis", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/11.png" },
+    { name: "Universiti Sultan Zainal Abidin", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/12.png" },
+    { name: "Universiti Malaysia Kelantan", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/13.png" },
+    { name: "Universiti Pertahanan Nasional Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/14.png" },
+  ],
+  accounting: [
+    { name: "Taylor's University", logo: "/images/logos/taylors.png" },
+    { name: "Sunway University", logo: "/images/logos/sunway.png" },
+    { name: "Asia Pacific University", logo: "/images/logos/apu.png" },
+    { name: "INTI International University", logo: "/images/logos/inti.png" },
+    { name: "HELP University", logo: "/images/logos/help.png" },
+    { name: "UCSI University", logo: "/images/logos/ucsi.png" },
+    { name: "Multimedia University", logo: "/images/logos/mmu.png" },
+    { name: "Universiti Tunku Abdul Rahman", logo: "/images/logos/utar.png" },
+    { name: "SEGI University", logo: "/images/logos/segi.png" },
+    { name: "Management & Science University", logo: "/images/logos/msu.png" },
+    { name: "Limkokwing University", logo: "/images/logos/limkokwing.png" },
+    { name: "Quest International University", logo: "/images/logos/quest.png" },
+    { name: "Universiti Tenaga Nasional", logo: "/images/logos/uniten.png" },
+    { name: "Universiti Teknologi Petronas", logo: "/images/logos/utp.png" },
+    { name: "Universiti Islam Antarabangsa Malaysia", logo: "/images/logos/uiam.png" },
+    { name: "Universiti Tun Hussein Onn Malaysia", logo: "/images/logos/uthm.png" },
+    { name: "Universiti Teknikal Malaysia Melaka", logo: "/images/logos/utem.png" },
+    { name: "Universiti Malaysia Perlis", logo: "/images/logos/unimap.png" },
+    { name: "Universiti Sultan Zainal Abidin", logo: "/images/logos/unisza.png" },
+    { name: "Universiti Malaysia Kelantan", logo: "/images/logos/umk.png" },
+    { name: "Universiti Pertahanan Nasional Malaysia", logo: "/images/logos/upnm.png" },
+    { name: "Universiti Malaysia Terengganu", logo: "/images/logos/umt.png" },
+    { name: "Universiti Malaysia Pahang", logo: "/images/logos/ump.png" },
+    { name: "Universiti Malaysia Sabah", logo: "/images/logos/ums.png" },
+    { name: "Universiti Malaysia Sarawak", logo: "/images/logos/unimas.png" },
+    { name: "Universiti Teknologi MARA", logo: "/images/logos/uitm.png" },
+  ],
+  international: [
+    { name: "Monash University Malaysia", logo: "/images/logos/monash.png" },
+    { name: "University of Nottingham Malaysia", logo: "/images/logos/nottingham.png" },
+    { name: "Swinburne University Sarawak", logo: "/images/logos/swinburne.png" },
+    { name: "Heriot-Watt University Malaysia", logo: "/images/logos/heriot-watt.png" },
+    { name: "University of Reading Malaysia", logo: "/images/logos/reading.png" },
+    { name: "University of Southampton Malaysia", logo: "/images/logos/southampton.png" },
+    { name: "Newcastle University Medicine Malaysia", logo: "/images/logos/newcastle.png" },
+    { name: "University of Wollongong Malaysia", logo: "/images/logos/uow.png" },
+    { name: "Curtin University Malaysia", logo: "/images/logos/curtin.png" },
+    { name: "RMIT University Malaysia", logo: "/images/logos/rmit.png" },
+  ],
+  banking: [],
+};
 
 const Index = () => {
   const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -354,10 +457,11 @@ const Index = () => {
     <div className="overflow-hidden bg-background text-foreground">
       <HeroSection />
       <AboutSection />
+      <ComplianceSection />
       <ProgramsSection />
       <WhySection />
       <SuccessSection />
-      <GallerySection />
+
       <CtaSection />
       <FaqSection />
       <ContactSection onSubmit={handleContactSubmit} />
@@ -365,8 +469,10 @@ const Index = () => {
   );
 };
 
+import type { ReactNode } from "react";
+
 interface SectionHeaderProps {
-  eyebrow: string;
+  eyebrow: string | ReactNode;
   title: string;
   description: string;
   align?: "left" | "center";
@@ -399,22 +505,34 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden pt-32 pb-28 sm:pt-36"
+      className="relative overflow-hidden pb-20 pt-16"
     >
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/images/bg-hero.png')",
+        }}
+      />
+      
+      {/* Gradient overlay with reduced opacity to show background image */}
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-white to-accent/20"
+        className="absolute inset-0 z-0 bg-gradient-to-br from-primary/5 via-white/20 to-accent/10"
+        aria-hidden
+      />
+      
+      {/* Decorative blur elements */}
+      <div
+        className="absolute -right-24 top-[-180px] z-0 h-[420px] w-[420px] rounded-full bg-primary/10 blur-3xl"
         aria-hidden
       />
       <div
-        className="absolute -right-24 top-[-180px] -z-10 h-[420px] w-[420px] rounded-full bg-primary/10 blur-3xl"
-        aria-hidden
-      />
-      <div
-        className="absolute left-1/2 top-10 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-accent/30 blur-3xl"
+        className="absolute left-1/2 top-10 z-0 h-64 w-64 -translate-x-1/2 rounded-full bg-accent/30 blur-3xl"
         aria-hidden
       />
 
       <div className="container px-6">
+        {/* Rest of your hero content remains the same */}
         <div className="grid items-center gap-16 lg:grid-cols-[1.05fr,0.9fr]">
           <motion.div
             initial={{ opacity: 0, y: 48 }}
@@ -423,6 +541,7 @@ const HeroSection = () => {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="relative"
           >
+            {/* Your hero content */}
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/60 px-4 py-2 text-sm font-medium text-primary shadow-sm shadow-primary/10 backdrop-blur">
               <Sparkles className="h-4 w-4" aria-hidden />
               Study in Malaysia & Beyond
@@ -496,43 +615,19 @@ const HeroSection = () => {
                 aria-hidden
               />
               <div className="relative">
-                <div className="mb-6 flex items-center justify-between">
+                <div className="mb-6">
                   <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-xs font-semibold text-primary">
                     <Award className="h-4 w-4" aria-hidden />
-                    Guided Application Blueprint
+                    Quick Enquiry Form
                   </div>
-                  <span className="text-xs font-medium text-muted-foreground">
-                    Foundation to PhD
-                  </span>
+                  <h3 className="mt-4 text-xl font-bold text-primary">
+                    Start Your Journey Today
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Fill out the form below and our counsellors will get back to you within 24 hours.
+                  </p>
                 </div>
-                <div className="flex flex-col gap-4">
-                  {journeySteps.map((step, index) => (
-                    <motion.div
-                      key={step.title}
-                      initial={{ opacity: 0, x: 24 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, amount: 0.4 }}
-                      transition={{
-                        delay: index * 0.05,
-                        duration: 0.5,
-                        ease: "easeOut",
-                      }}
-                      className="group flex items-start gap-4 rounded-3xl border border-transparent bg-secondary/50 p-4 transition hover:border-primary/30 hover:bg-white"
-                    >
-                      <div className="mt-1 grid h-10 w-10 place-items-center rounded-2xl bg-primary/15 text-primary group-hover:bg-primary group-hover:text-primary-foreground">
-                        <step.icon className="h-5 w-5" aria-hidden />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-primary">
-                          {step.title}
-                        </p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {step.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                <ContactForm />
               </div>
             </div>
           </motion.div>
@@ -550,15 +645,48 @@ const AboutSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="container px-6 pb-20"
+      className="container px-6 pb-20 pt-10"
     >
-      <div className="grid gap-14 lg:grid-cols-[1.05fr,0.95fr]">
-        <div>
-          <SectionHeader
-            eyebrow="About QStudy"
-            title="Your personalised gateway to world-class education"
-            description="QStudy World is dedicated to guiding ambitious students through every stage of their international education journey. As Malaysia’s largest one-stop application centre, we partner with top institutions to deliver expert counselling and life-changing opportunities."
+      <div className="grid items-center gap-14 lg:grid-cols-2">
+        {/* Left side - Image */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="relative"
+        >
+          <div
+            className="absolute -left-12 top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl"
+            aria-hidden
           />
+          <div className="relative overflow-hidden">
+            <img
+              src="/images/about-image.svg"
+              alt="QStudy World - Your Gateway to World-Class Education"
+              className="h-auto w-full object-cover"
+            />
+          </div>
+        </motion.div>
+
+        {/* Right side - Content */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
+        <SectionHeader
+          eyebrow={
+            <span className="inline-flex items-center gap-2 rounded-full bg-[blue-50] px-4 py-1.5 text-sm font-semibold text-[#1b2f57] border border-blue-200">
+              <span className="h-2 w-2 rounded-full bg-[#1b2f57]"></span>
+              About QStudy
+            </span>
+          }
+          title="Your personalised gateway to world-class education"
+          description="QStudy World is dedicated to guiding ambitious students through every stage of their international education journey. As Malaysia's largest one-stop application centre, we partner with top institutions to deliver expert counselling and life-changing opportunities."
+        />
+
 
           <div className="mt-8 space-y-4 text-sm text-muted-foreground">
             <p>
@@ -589,105 +717,215 @@ const AboutSection = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="relative">
-          <div
-            className="absolute -right-12 top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl"
-            aria-hidden
-          />
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div className="space-y-5">
-              <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 shadow-xl shadow-primary/15">
-                <h3 className="text-3xl font-bold text-primary">2000+</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Students successfully enrolled across Malaysia, the UK,
-                  Canada, Australia, and beyond.
-                </p>
-              </div>
-              <div className="rounded-[2.5rem] border border-primary/10 bg-accent/60 p-6 shadow-xl shadow-primary/20">
-                <h3 className="text-lg font-semibold text-primary">
-                  End-to-End Support
-                </h3>
-                <p className="mt-2 text-sm text-primary">
-                  Professional counsellors assist with documentation, visa
-                  processing, and pre-departure preparation.
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-between">
-              <div className="rounded-[2.5rem] border border-primary/10 bg-primary text-primary-foreground p-6 shadow-2xl shadow-primary/25">
-                <h3 className="text-lg font-semibold">
-                  Official Representation
-                </h3>
-                <p className="mt-2 text-sm text-primary-foreground/80">
-                  Direct partnerships with Malaysia’s leading government and
-                  private universities.
-                </p>
-              </div>
-              <div className="rounded-[2.5rem] border border-primary/5 bg-white/90 p-6 shadow-xl shadow-primary/10">
-                <h3 className="text-lg font-semibold text-primary">
-                  Career & Interests Test
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Register for a free diagnostic to uncover programs that fit
-                  your passion and future goals.
-                </p>
-                <a
-                  href="#contact"
-                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1"
-                >
-                  Take the free test
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-        className="mt-16 rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10"
-      >
-        <h3 className="text-xl font-semibold text-primary">
-          Official representation of leading Malaysian universities
-        </h3>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Gain exclusive access to admissions from Malaysia’s top government and
-          private institutions, plus globally recognised foreign branch
-          campuses.
-        </p>
-        <div className="mt-8 grid gap-6 lg:grid-cols-3">
-          {representationGroups.map((group) => (
-            <div
-              key={group.title}
-              className="rounded-3xl border border-primary/10 bg-secondary/40 p-6 shadow-sm shadow-primary/5"
+    </motion.section>
+  );
+};
+
+const ComplianceSection = () => {
+  const [activeCategory, setActiveCategory] = useState("government");
+
+  const universityCategories = {
+    government: [
+      { name: "University Malaya", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/1.png" },
+      { name: "Universiti Kebangsaan Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/2.png" },
+      { name: "Universiti Sains Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/3.png" },
+      { name: "Universiti Teknologi Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/4.png" },
+      { name: "Universiti Putra Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/5.png" },
+      { name: "Universiti Teknologi MARA", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/6.png" },
+      { name: "Universiti Malaysia Sabah", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/7.png" },
+      { name: "Universiti Malaysia Sarawak", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/8.png" },
+      { name: "Universiti Malaysia Terengganu", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/9.png" },
+      { name: "Universiti Malaysia Pahang", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/10.png" },
+      { name: "Universiti Malaysia Perlis", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/11.png" },
+      { name: "Universiti Sultan Zainal Abidin", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/12.png" },
+      { name: "Universiti Malaysia Kelantan", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/13.png" },
+      { name: "Universiti Pertahanan Nasional Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/14.png" },
+    ],
+    private: [
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/1.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/2.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/3.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/4.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/5.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/6.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/7.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/8.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/9.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/10.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/11.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/12.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/13.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/14.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/15.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/16.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/17.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/18.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/19.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/20.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/21.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/22.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/23.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/24.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/25.png" },
+      { name: "University Malaya", logo: "/images/MALAYSIAN PRIVATE UNIVERSITIES/26.png" },
+  
+    ],
+    international: [
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/1.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/2.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/3.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/4.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/5.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/6.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/7.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/8.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/9.png" }, 
+      { name: "University Malaya", logo: "/images/FOREIGN BRANCH CAMPUSES IN MALAYSIA/10.png" }, 
+      ]
+  };
+
+  const getCategoryTitle = (categoryId: string) => {
+    switch (categoryId) {
+      case "government":
+        return "Malaysian Government Universities";
+      case "private":
+        return "Malaysian Private Universities";
+      case "international":
+        return "Foreign Branch Campuses in Malaysia";
+      default:
+        return "";
+    }
+  };
+
+  const getCategoryDescription = (categoryId: string) => {
+    switch (categoryId) {
+      case "government":
+        return "Partner with Malaysia's top government universities for world-class education and research opportunities.";
+      case "private":
+        return "Explore diverse programs at Malaysia's leading private universities with flexible learning pathways.";
+      case "international":
+        return "Study at globally recognized foreign branch campuses offering international degrees in Malaysia.";
+      default:
+        return "";
+    }
+  };
+
+  return (
+    <motion.section
+      id="compliance"
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="relative bg-[#1b2f57] py-24"
+    >
+      <div className="container px-6">
+        {/* Main Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-center"
+        >
+          <h2 className="text-4xl font-bold text-white sm:text-5xl">
+            Top Universities in Malaysia
+          </h2>
+        </motion.div>
+
+        {/* Navigation Tabs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+          className="mt-12 flex justify-center"
+        >
+          <div className="flex gap-2">
+            {[
+              { id: "government", label: "Government Universities" },
+              { id: "private", label: "Private Universities" },
+              { id: "international", label: "Foreign Universities" }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveCategory(tab.id)}
+                className={`rounded-lg px-6 py-3 text-sm font-medium transition-all duration-300 ${
+                  activeCategory === tab.id
+                    ? "bg-white text-[#1b2f57]"
+                    : "border border-white text-white hover:bg-white/10"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Description */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          className="mt-8 text-center"
+        >
+          <p className="text-lg text-white/90 max-w-4xl mx-auto">
+            {getCategoryDescription(activeCategory)}
+          </p>
+        </motion.div>
+
+        {/* University Grid */}
+        <motion.div
+          key={activeCategory}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="mt-16 grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4"
+        >
+          {universityCategories[activeCategory as keyof typeof universityCategories]?.map((university, index) => (
+            <motion.div
+              key={university.name}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.4,
+                ease: "easeOut",
+                delay: index * 0.05,
+              }}
+              whileHover={{ y: -8, scale: 1.05 }}
+              className="bg-gray-100 rounded-lg p-4 shadow-lg transition-all duration-300 hover:shadow-xl"
             >
-              <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
-                {group.title}
-              </h4>
-              <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                {group.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <ScrollText
-                      className="mt-0.5 h-4 w-4 text-primary"
-                      aria-hidden
-                    />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-4 text-xs font-medium text-primary/80">
-                +100 universities around the globe
-              </p>
-            </div>
+              {/* University Logo */}
+              <div className=" rounded-lg p-3 mb-3 flex items-center justify-center h-18">
+                <img
+                  src={university.logo}
+                  alt={`${university.name} logo`}
+                  className="max-h-[130px] max-w-full object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = target.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
+                />
+                <div className="hidden h-10 w-10 items-center justify-center rounded bg-[#1b2f57]/10 text-[#1b2f57]">
+                  <GraduationCap className="h-5 w-5" />
+                </div>
+              </div>
+
+              {/* University Name */}
+              <h3 className="text-sm font-bold text-[#1b2f57] leading-tight text-center">
+                {university.name}
+              </h3>
+            </motion.div>
           ))}
-        </div>
-      </motion.div>
+        </motion.div>
+
+      </div>
     </motion.section>
   );
 };
@@ -876,52 +1114,7 @@ const SuccessSection = () => {
   );
 };
 
-const GallerySection = () => {
-  return (
-    <motion.section
-      id="gallery"
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className="container px-6 py-24"
-    >
-      <SectionHeader
-        eyebrow="Campus Life"
-        title="A glimpse into the QStudy experience"
-        description="From immersive orientation sessions to global networking events, QStudy students thrive in dynamic and supportive environments."
-        align="center"
-      />
 
-      <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {galleryShowcase.map((card) => (
-          <motion.div
-            key={card.title}
-            whileHover={{ scale: 1.02 }}
-            className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white/90 p-6 shadow-xl shadow-primary/10"
-          >
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${card.accent}`}
-              aria-hidden
-            />
-            <div className="relative flex h-full flex-col justify-between">
-              <h3 className="text-lg font-semibold text-primary">
-                {card.title}
-              </h3>
-              <p className="mt-4 text-sm text-muted-foreground">
-                {card.caption}
-              </p>
-              <div className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
-                Discover More
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.section>
-  );
-};
 
 const CtaSection = () => {
   return (
@@ -986,62 +1179,75 @@ const FaqSection = () => {
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="container px-6 py-24"
     >
-      <SectionHeader
-        eyebrow="Frequently Asked Questions"
-        title="Everything you need to know before you begin"
-        description="Our counsellors are available in English, Malay, Arabic, Mandarin, Tamil, Hindi, Russian, Uzbek, Thai, and more to support you around the clock."
-        align="center"
-      />
-
-      <div className="mt-12 grid gap-10 lg:grid-cols-[1fr,1.1fr]">
-        <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10">
-          <h3 className="text-lg font-semibold text-primary">
-            Not sure where to start?
-          </h3>
-          <p className="mt-4 text-sm text-muted-foreground">
-            Register now for a free Career & Interests Test to uncover the
-            programs and destinations that align with your strengths. Our
-            counsellors are available 24/7 to answer your questions in your
-            preferred language.
-          </p>
-          <div className="mt-6 space-y-3 text-sm text-muted-foreground">
-            <p className="font-semibold text-primary">
-              Counsellors are available:
-            </p>
-            <p>
-              لك متاح • األكاديمي مستشارنا • Консультанты доступны •
-              Maslahatchilar doim aloqada • का उंसलर उपलब्ध हैं • کنسلرز دستیاب
-              ہیں • ஆலோசகர்கள் கிடைக்கின்றனர் • Les conseillers sont disponibles
-              • Kaunselor tersedia • มีที่ปรึกษาพร้อมให้บริการ • 顾问可供咨询
-            </p>
-          </div>
-          <a
-            href="#contact"
-            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1"
-          >
-            Register for the free test
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </a>
-        </div>
-        <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 shadow-xl shadow-primary/10">
+      <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
+        {/* Left Side - FAQ Questions */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <Accordion type="single" collapsible className="space-y-4">
             {faqItems.map((item, index) => (
               <AccordionItem
                 value={`faq-${index}`}
                 key={item.question}
-                className="rounded-3xl border border-primary/10 bg-secondary/40 px-4"
+                className="rounded-xl border border-primary/10 bg-white/80 px-6 py-4 shadow-lg shadow-primary/5"
               >
-                <AccordionTrigger className="text-left text-sm font-semibold text-primary">
+                <AccordionTrigger className="text-left text-base font-semibold text-primary hover:no-underline">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground">
+                <AccordionContent className="text-sm text-muted-foreground mt-2">
                   {item.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </motion.div>
+
+        {/* Right Side - Heading and Description */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+          className="lg:pl-8"
+        >
+          <h3 className="text-4xl font-bold text-primary mb-6">
+            Frequently Asked Questions
+          </h3>
+          <p className="text-lg text-muted-foreground">
+            Register now for a free Career & Interests Test to uncover the
+            programs and destinations that align with your strengths. Our
+            counsellors are available 24/7 to answer your questions in your
+            preferred language.
+          </p>
+        </motion.div>
       </div>
+
+      {/* Bottom Image */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+        className="mt-16"
+      >
+        <img
+          src="/images/faq.png"
+          alt="FAQ Support"
+          className="w-full h-auto object-contain rounded-2xl"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+            const fallback = target.nextElementSibling as HTMLElement;
+            if (fallback) fallback.style.display = 'flex';
+          }}
+        />
+        <div className="hidden items-center justify-center h-64 text-primary/60">
+          <GraduationCap className="h-16 w-16" />
+        </div>
+      </motion.div>
     </motion.section>
   );
 };

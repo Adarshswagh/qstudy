@@ -1,6 +1,9 @@
+"use client";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
+
 
 import { cn } from "@/lib/utils";
 
@@ -9,7 +12,6 @@ const navItems = [
   { label: "Programs", href: "#programs" },
   { label: "Why QStudy", href: "#why" },
   { label: "Success Stories", href: "#success" },
-  { label: "Gallery", href: "#gallery" },
   { label: "FAQs", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
@@ -60,23 +62,23 @@ export const Header = () => {
     >
       <div className="container px-6">
         <div className="flex items-center justify-between py-4">
-          <a
-            href="#hero"
-            className="flex items-center gap-3"
-            aria-label="QStudy home"
-          >
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
-              <span className="text-xl font-semibold">Q</span>
-            </div>
-            <div className="leading-tight">
-              <span className="block text-lg font-bold tracking-tight text-primary">
-                QStudy World
-              </span>
-              <span className="block text-xs font-medium text-muted-foreground">
-                Your Global Education Partner
-              </span>
-            </div>
-          </a>
+            <a
+              href="#hero"
+              className="flex items-center gap-3"
+              aria-label="QStudy home"
+            >
+              <div className="h-auto w-auto">
+                <Image
+                  src="/images/logo.png"
+                  alt="QStudy Logo"
+                  width={130}
+                  height={120}
+                  className=""
+                  priority
+                />
+              </div>
+
+            </a>
 
           <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground lg:flex">
             {navItems.map((item) => (
