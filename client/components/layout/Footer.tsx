@@ -48,18 +48,13 @@ export const Footer = () => {
         <div className="container px-6 py-16">
           <div className="grid gap-12 lg:grid-cols-4">
             <div className="space-y-5">
-              <div className="inline-flex items-center gap-3 rounded-3xl bg-primary-foreground/10 px-4 py-2">
-                <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary-foreground text-primary font-semibold">
-                  Q
-                </span>
-                <div>
-                  <p className="text-lg font-bold tracking-tight">
-                    QStudy World
-                  </p>
-                  <p className="text-sm text-primary-foreground/80">
-                    Official Authorised University Representative
-                  </p>
-                </div>
+              <div className="inline-flex items-center">
+                <img
+                  src="/images/logo_footer.png"
+                  alt="QStudy World Logo"
+                  className="h-[70px] w-25"
+                />
+
               </div>
               <p className="max-w-xs text-sm leading-relaxed text-primary-foreground/80">
                 Empowering students with personalised guidance, seamless

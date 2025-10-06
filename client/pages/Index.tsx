@@ -1255,7 +1255,7 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
       className="bg-white py-10"
     >
       <div className="container px-6">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-8xl">
           <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
             {/* Left Side - Information */}
             <motion.div
