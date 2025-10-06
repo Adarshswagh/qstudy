@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
-
-
+// Using public folder path for Next.js
+const logo = '/images/logo.png'
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -62,14 +63,14 @@ export const Header = () => {
     >
       <div className="container px-6">
         <div className="flex items-center justify-between py-4">
-            <a
+            <Link
               href="#hero"
               className="flex items-center gap-3"
               aria-label="QStudy home"
             >
               <div className="h-auto w-auto">
                 <Image
-                  src="/images/logo.png"
+                  src={logo}
                   alt="QStudy Logo"
                   width={130}
                   height={120}
@@ -78,7 +79,7 @@ export const Header = () => {
                 />
               </div>
 
-            </a>
+            </Link>
 
           <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground lg:flex">
             {navItems.map((item) => (
