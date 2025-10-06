@@ -21,7 +21,9 @@ import {
   Globe2,
   GraduationCap,
   Languages,
+  Mail,
   Map,
+  Phone,
   PlaneTakeoff,
   Quote,
   ScrollText,
@@ -1205,7 +1207,7 @@ const FaqSection = () => {
           </Accordion>
         </motion.div>
 
-        {/* Right Side - Heading and Description */}
+        {/* Right Side - Heading and Image */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -1216,38 +1218,24 @@ const FaqSection = () => {
           <h3 className="text-4xl font-bold text-primary mb-6">
             Frequently Asked Questions
           </h3>
-          <p className="text-lg text-muted-foreground">
-            Register now for a free Career & Interests Test to uncover the
-            programs and destinations that align with your strengths. Our
-            counsellors are available 24/7 to answer your questions in your
-            preferred language.
-          </p>
+          <div className="mt-8">
+            <img
+              src="/images/faq.png"
+              alt="FAQ Support"
+              className="w-full h-auto object-contain rounded-2xl"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const fallback = target.nextElementSibling as HTMLElement;
+                if (fallback) fallback.style.display = 'flex';
+              }}
+            />
+            <div className="hidden items-center justify-center h-64 text-primary/60">
+              <GraduationCap className="h-16 w-16" />
+            </div>
+          </div>
         </motion.div>
       </div>
-
-      {/* Bottom Image */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-        className="mt-16"
-      >
-        <img
-          src="/images/faq.png"
-          alt="FAQ Support"
-          className="w-full h-auto object-contain rounded-2xl"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            const fallback = target.nextElementSibling as HTMLElement;
-            if (fallback) fallback.style.display = 'flex';
-          }}
-        />
-        <div className="hidden items-center justify-center h-64 text-primary/60">
-          <GraduationCap className="h-16 w-16" />
-        </div>
-      </motion.div>
     </motion.section>
   );
 };
@@ -1264,151 +1252,197 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="bg-gradient-to-b from-primary/5 to-white py-24"
+      className="bg-white py-10"
     >
       <div className="container px-6">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:items-center">
-          <div className="rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10">
-            <SectionHeader
-              eyebrow="Contact"
-              title="Get your personalised admission consultation"
-              description="Speak with a QStudy counsellor for detailed program information, scholarships, and visa support tailored to your aspirations."
-            />
-
-            <div className="mt-8 space-y-4 text-sm text-muted-foreground">
-              <p>
-                Whatsapp / Call:{" "}
-                <a
-                  href="tel:+60125037122"
-                  className="font-semibold text-primary"
-                >
-                  +6012-503 7122
-                </a>
-              </p>
-              <p>
-                Email:{" "}
-                <a
-                  href="mailto:info@qstudyworld.com"
-                  className="font-semibold text-primary"
-                >
-                  info@qstudyworld.com
-                </a>
-              </p>
-              <p>
-                Website:{" "}
-                <a
-                  href="https://www.qstudyworld.com"
-                  className="font-semibold text-primary"
-                >
-                  www.qstudyworld.com
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <form
-            onSubmit={onSubmit}
-            className="rounded-[2.5rem] border border-primary/10 bg-white p-8 shadow-2xl shadow-primary/10"
-          >
-            <h3 className="text-lg font-semibold text-primary">Enquiry Form</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Complete the form and our counsellors will respond with curated
-              options within 24 hours.
-            </p>
-
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="sm:col-span-1">
-                <label
-                  htmlFor="name"
-                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
-                >
-                  Full Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  required
-                  type="text"
-                  placeholder="Enter your full name"
-                  className="mt-3 w-full rounded-3xl border border-primary/20 bg-secondary/40 px-4 py-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                />
-              </div>
-              <div className="sm:col-span-1">
-                <label
-                  htmlFor="email"
-                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="you@example.com"
-                  className="mt-3 w-full rounded-3xl border border-primary/20 bg-secondary/40 px-4 py-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                />
-              </div>
-              <div className="sm:col-span-1">
-                <label
-                  htmlFor="phone"
-                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
-                >
-                  Phone / WhatsApp
-                </label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="e.g., +60 12 345 6789"
-                  className="mt-3 w-full rounded-3xl border border-primary/20 bg-secondary/40 px-4 py-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                />
-              </div>
-              <div className="sm:col-span-1">
-                <label
-                  htmlFor="destination"
-                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
-                >
-                  Preferred Destination
-                </label>
-                <select
-                  id="destination"
-                  name="destination"
-                  className="mt-3 w-full rounded-3xl border border-primary/20 bg-secondary/40 px-4 py-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                  defaultValue="Malaysia"
-                >
-                  <option value="Malaysia">Malaysia</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Australia">Australia</option>
-                  <option value="Other">Other Destination</option>
-                </select>
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="message"
-                  className="text-xs font-semibold uppercase tracking-[0.25em] text-primary"
-                >
-                  Tell us about your goals
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  placeholder="Share your desired program, intake, and any questions for our counsellors."
-                  className="mt-3 w-full rounded-3xl border border-primary/20 bg-secondary/40 px-4 py-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
+            {/* Left Side - Information */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="space-y-8"
             >
-              Submit Enquiry
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </button>
-          </form>
+              <div>
+                <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  WE'RE HERE TO HELP YOU
+                </span>
+                <h2 className="mt-4 text-4xl font-bold text-gray-900 leading-tight">
+                  Discuss Your Study
+                  <br />
+                  Solution Needs
+                </h2>
+                <p className="mt-6 text-lg text-gray-600">
+                  Are you looking for top-quality education solutions tailored to your needs? 
+                  Reach out to us.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
+                    <Mail className="h-6 w-6" style={{ color: '#1a2e56' }} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">E-mail</p>
+                    <a
+                      href="mailto:info@qstudyworld.com"
+                      className="text-lg font-semibold text-gray-900 transition-colors"
+                      style={{ '--hover-color': '#1a2e56' } as React.CSSProperties}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#1a2e56'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#111827'}
+                    >
+                      info@qstudyworld.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
+                    <Phone className="h-6 w-6" style={{ color: '#1a2e56' }} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Phone number</p>
+                    <a
+                      href="tel:+60125037122"
+                      className="text-lg font-semibold text-gray-900 transition-colors"
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#1a2e56'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#111827'}
+                    >
+                      +6012-503 7122
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Side - Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            >
+              <form
+                onSubmit={onSubmit}
+                className="bg-white rounded-2xl p-8 shadow-lg"
+              >
+                <div className="space-y-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Name
+                    </label>
+                    <input
+                      id="name"
+                      name="name"
+                      required
+                      type="text"
+                      placeholder="Jane Smith"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors"
+                      style={{
+                        '--focus-ring-color': '#1a2e56',
+                        '--focus-border-color': '#1a2e56'
+                      } as React.CSSProperties}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#1a2e56';
+                        e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#d1d5db';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="jane@framer.com"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors"
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#1a2e56';
+                        e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#d1d5db';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="destination" className="block text-sm font-medium text-gray-700 mb-2">
+                      Industry
+                    </label>
+                    <select
+                      id="destination"
+                      name="destination"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors"
+                      defaultValue=""
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#1a2e56';
+                        e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#d1d5db';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <option value="">Select...</option>
+                      <option value="Malaysia">Malaysia</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="Canada">Canada</option>
+                      <option value="Australia">Australia</option>
+                      <option value="Other">Other Destination</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={4}
+                      placeholder="Type your message"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors resize-none"
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = '#1a2e56';
+                        e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = '#d1d5db';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-8 w-full text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                  style={{ 
+                    backgroundColor: '#1a2e56',
+                    '--hover-bg': '#153048'
+                  } as React.CSSProperties}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#153048'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a2e56'}
+                >
+                  <ArrowRight className="h-4 w-4" />
+                  Get a Solution
+                </button>
+              </form>
+            </motion.div>
+          </div>
         </div>
       </div>
     </motion.section>
