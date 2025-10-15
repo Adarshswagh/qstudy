@@ -37,6 +37,7 @@ import {
 import { toast } from "sonner";
 import type { LucideIcon } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
+import StepsSection from "@/components/steps/page";
 
 
 
@@ -98,6 +99,7 @@ type ProgramCategory = {
   category: string;
   description: string;
   highlights: string[];
+  allPrograms: string[];
   icon: LucideIcon;
 };
 
@@ -113,18 +115,56 @@ const programCatalog: ProgramCategory[] = [
       "International Business",
       "Entrepreneurship",
     ],
+    allPrograms: [
+      "Accounting and Finance",
+      "Actuarial Science",
+      "Banking and Finance",
+      "Business Administration",
+      "Business Analytics",
+      "Business Economics",
+      "Business Information System",
+      "Business Management",
+      "Commerce",
+      "Entrepreneurship",
+      "Economics",
+      "International Business",
+      "Logistics and Supply Chain Management",
+      "Management",
+      "Marketing",
+      "Public Administration",
+    ],
   },
   {
     category: "Engineering & Technology",
     description:
-      "Design innovation across the world’s most advanced industries.",
+      "Design innovation across the world's most advanced industries.",
     icon: Cpu,
     highlights: [
-      "Software Engineering",
       "Aerospace Engineering",
-      "Civil & Structural",
-      "Data Science",
-      "Telecommunication",
+      "Computer Science",
+      "Information Technology",
+      "Aircraft Engineering Technology",
+      "Construction Management",
+
+    ],
+    allPrograms: [
+      "Aerospace Engineering",
+      "Computer Science",
+      "Information Technology",
+      "Aircraft Engineering Technology",
+      "Construction Management",
+      "Mechanical Engineering",
+      "Aviation Management",
+      "Electrical & Electronic",
+      "Petroleum Engineering",
+      "Chemical Engineering",
+      "Energy Technology",
+      "Software Engineering",
+      "Civil Engineering",
+      "Integrated Engineering",
+      "Telecommunication Engineering",
+      "Computer Engineering",
+      "Environmental Engineering",
     ],
   },
   {
@@ -132,11 +172,28 @@ const programCatalog: ProgramCategory[] = [
     description: "Shape communities through knowledge, culture, and policy.",
     icon: GraduationCap,
     highlights: [
+      "Anthropology and Sociology",
+      "English",
+      "Liberal Arts",
+      "Communication",
+      "Guidance and Counselling",
+    ],
+    allPrograms: [
+      "Anthropology and Sociology",
+      "English",
+      "Liberal Arts",
+      "Communication",
+      "Guidance and Counselling",
+      "Political Science",
+      "Media Studies",
+      "International Relations",
       "Psychology",
       "Education",
-      "Media & Communication",
-      "Political Science",
-      "Guidance & Counselling",
+      "Journalism",
+      "Public Relations",
+      "Sociology",
+      "Law",
+      "Intercultural Communication",
     ],
   },
   {
@@ -144,11 +201,38 @@ const programCatalog: ProgramCategory[] = [
     description: "Advance global wellbeing through scientific breakthroughs.",
     icon: FlaskConical,
     highlights: [
-      "Biomedical Science",
-      "Pharmaceutical Science",
-      "Nutrition & Dietetics",
+      "Agricultural Science",
       "Environmental Science",
-      "MBBS & Nursing",
+      "Nutrition",
+      "Biochemistry",
+      "Food Science",
+    ],
+    allPrograms: [
+      "Agricultural Science",
+      "Environmental Science",
+      "Nutrition",
+      "Biochemistry",
+      "Food Science",
+      "Pharmaceutical Science",
+      "Biology",
+      "Geology",
+      "Veterinary",
+      "Clinical Research",
+      "Nutrition & Dietetics",
+      "Food Science",
+      "Public Health",
+      "Biomedical Engineering",
+      "Marine Science",
+      "Physics",
+      "Biotechnology",
+      "Mathematics",
+      "Physiotherapy",
+      "Chemistry",
+      "Medical Science",
+      "Statistics",
+      "Dentistry",
+      "Nursing",
+      "MBBS",
     ],
   },
   {
@@ -156,11 +240,25 @@ const programCatalog: ProgramCategory[] = [
     description: "Connect cultures with multilingual and ethical expertise.",
     icon: Languages,
     highlights: [
-      "Islamic Finance",
-      "Arabic & Malay Studies",
-      "Chinese & Japanese",
-      "English Language & Literature",
+      "Arabic",
       "Halal Industry",
+      "Japanese",
+      "Chinese Studies",
+      "Islamic Finance",
+    ],
+    allPrograms: [
+      "Arabic",
+      "Halal Industry",
+      "Japanese",
+      "Chinese Studies",
+      "Islamic Finance",
+      "Malay Studies",
+      "English Language & Literature",
+      "Islamic Studies (Shariah, Usuluddin)",
+      "Tamil",
+      "Spanish",
+      "German",
+      "French",
     ],
   },
 ];
@@ -459,6 +557,7 @@ const Index = () => {
     <div className="overflow-hidden bg-background text-foreground">
       <HeroSection />
       <AboutSection />
+      <StepsSection />
       <ComplianceSection />
       <ProgramsSection />
       <WhySection />
@@ -549,7 +648,7 @@ const HeroSection = () => {
               Study in Malaysia & Beyond
             </div>
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-primary sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
-              Your Largest One-Stop Application Centre
+              Explore academic pathways from Foundation to PhD
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
               QStudy World connects you to globally recognised universities with
@@ -725,6 +824,7 @@ const AboutSection = () => {
     </motion.section>
   );
 };
+
 
 const ComplianceSection = () => {
   const [activeCategory, setActiveCategory] = useState("government");
@@ -933,6 +1033,18 @@ const ComplianceSection = () => {
 };
 
 const ProgramsSection = () => {
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  const toggleExpansion = (category: string) => {
+    // If clicking on the currently expanded category, collapse it
+    if (expandedCategory === category) {
+      setExpandedCategory(null);
+    } else {
+      // Otherwise, expand the clicked category (this automatically collapses any other expanded category)
+      setExpandedCategory(category);
+    }
+  };
+
   return (
     <motion.section
       id="programs"
@@ -950,44 +1062,58 @@ const ProgramsSection = () => {
           align="center"
         />
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
-          {programCatalog.map((program) => (
-            <motion.div
-              key={program.category}
-              whileHover={{ y: -8 }}
-              className="flex h-full flex-col rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-xl shadow-primary/10 transition"
-            >
-              <div className="flex items-center gap-3">
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">
-                  <program.icon className="h-6 w-6" aria-hidden />
-                </div>
-                <h3 className="text-lg font-semibold text-primary">
-                  {program.category}
-                </h3>
-              </div>
-              <p className="mt-4 text-sm text-muted-foreground">
-                {program.description}
-              </p>
-              <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
-                {program.highlights.map((highlight) => (
-                  <li key={highlight} className="flex items-center gap-2">
-                    <CheckCircle2
-                      className="h-4 w-4 text-primary"
-                      aria-hidden
-                    />
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#contact"
-                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1"
+        <div className="mt-16 grid gap-8 lg:grid-cols-2 xl:grid-cols-3 items-start">
+          {programCatalog.map((program, index) => {
+            const isExpanded = expandedCategory === program.category;
+            const allPrograms = program.allPrograms || program.highlights;
+            
+            return (
+              <motion.div
+                key={`${program.category}-${index}`}
+                whileHover={{ y: -8 }}
+                className={`flex flex-col rounded-[2.5rem] border p-8 shadow-xl transition ${
+                  isExpanded 
+                    ? 'border-primary/30 bg-white shadow-primary/20' 
+                    : 'border-primary/10 bg-white/80 shadow-primary/10'
+                }`}
               >
-                Request personalised roadmap
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </a>
-            </motion.div>
-          ))}
+                <div className="flex items-center gap-3">
+                  <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">
+                    <program.icon className="h-6 w-6" aria-hidden />
+                  </div>
+                  <h3 className="text-lg font-semibold text-primary">
+                    {program.category}
+                  </h3>
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  {program.description}
+                </p>
+                <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
+                  {(isExpanded ? allPrograms : program.highlights).map((highlight) => (
+                    <li key={highlight} className="flex items-center gap-2">
+                      <CheckCircle2
+                        className="h-4 w-4 text-primary"
+                        aria-hidden
+                      />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleExpansion(program.category);
+                  }}
+                  className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:translate-x-1"
+                  data-category={program.category}
+                >
+                  {isExpanded ? 'Show Less' : 'Show More'}
+                  <ArrowRight className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} aria-hidden />
+                </button>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.section>
