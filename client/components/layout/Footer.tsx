@@ -30,7 +30,7 @@ const socialLinks = [
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/q-study-world/",
+    href: "https://www.linkedin.com/company/qstudyworld/",
     icon: Linkedin,
   },
   {
@@ -118,7 +118,7 @@ export const Footer = () => {
             </div>
 
             <div className="space-y-4">
-              <p className="text-base font-semibold uppercase tracking-[0.2em] text-primary-foreground/70">
+              <p className="text-base font-semibold upperc  ase tracking-[0.2em] text-primary-foreground/70">
                 Stay Connected
               </p>
               <div className="flex flex-wrap gap-3">
@@ -149,10 +149,10 @@ export const Footer = () => {
               © {new Date().getFullYear()} QStudy World. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <a href="#hero" className="transition hover:text-white">
+              <a href="/privacy-policy" className="transition hover:text-white">
                 Privacy Policy
               </a>
-              <a href="#hero" className="transition hover:text-white">
+              <a href="/terms-and-conditions" className="transition hover:text-white">
                 Terms & Conditions
               </a>
             </div>

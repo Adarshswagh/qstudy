@@ -192,7 +192,7 @@ const StepsSection = () => {
 
                   {/* Step Content Card */}
                   <motion.div 
-                    className="relative rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 shadow-lg shadow-primary/10 backdrop-blur-sm"
+                    className="relative rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 shadow-lg shadow-primary/10 backdrop-blur-sm h-64 flex flex-col"
                     initial={{ 
                       opacity: 0, 
                       y: 30, 
@@ -249,7 +249,7 @@ const StepsSection = () => {
 
                     {/* Content */}
                     <motion.h3 
-                      className="text-lg font-semibold text-primary"
+                      className="text-lg font-semibold text-primary mb-3"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ 
                         opacity: isActive ? 1 : 0,
@@ -265,7 +265,7 @@ const StepsSection = () => {
                     </motion.h3>
                     
                     <motion.p 
-                      className="text-sm text-muted-foreground leading-relaxed"
+                      className="text-sm text-muted-foreground leading-relaxed flex-1"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ 
                         opacity: isActive ? 1 : 0,
