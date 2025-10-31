@@ -118,7 +118,7 @@ export const Footer = () => {
             </div>
 
             <div className="space-y-4">
-              <p className="text-base font-semibold upperc  ase tracking-[0.2em] text-primary-foreground/70">
+              <p className="text-base font-semibold uppercase tracking-[0.2em] text-primary-foreground/70">
                 Stay Connected
               </p>
               <div className="flex flex-wrap gap-3">
@@ -135,10 +135,25 @@ export const Footer = () => {
                   </a>
                 ))}
               </div>
+
+
               <p className="text-xs text-primary-foreground/70">
                 Follow QStudy World for campus updates, scholarship news, and
                 student success stories.
               </p>
+
+              <div className="flex gap-4 pt-2">
+                <img
+                  src="/images/qr-1.png"
+                  alt="QR Code 1"
+                  className="h-32 w-32 transition hover:bg-white/20"
+                />
+                <img
+                  src="/images/qr-2.png"
+                  alt="QR Code 2"
+                  className="h-32 w-32 transition hover:bg-white/20"
+                />
+              </div>
             </div>
           </div>
         </div>

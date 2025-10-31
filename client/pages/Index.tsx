@@ -212,13 +212,11 @@ const programCatalog: ProgramCategory[] = [
       "Environmental Science",
       "Nutrition",
       "Biochemistry",
-      "Food Science",
       "Pharmaceutical Science",
       "Biology",
       "Geology",
       "Veterinary",
       "Clinical Research",
-      "Nutrition & Dietetics",
       "Food Science",
       "Public Health",
       "Biomedical Engineering",
@@ -437,7 +435,13 @@ const contactHighlights = [
   "Personalised program roadmap based on your interests",
 ];
 
-const accreditationBadges = ["IATA", "NAFSA", "IELTS"];
+const accreditationBadges = [
+  { name: "IATA", logo: "/images/l1.png" },
+  { name: "NAFSA", logo: "/images/l2.png" },
+  { name: "IELTS", logo: "/images/l3.png" },
+  { name: "EAQUALS", logo: "/images/l4.png" },
+  { name: "ABE", logo: "/images/l5.png" },
+];
 
 type ComplianceCategory = {
   id: string;
@@ -691,14 +695,22 @@ const HeroSection = () => {
               ))}
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4 text-xs font-semibold tracking-[0.4em] text-muted-foreground">
+            <div className="mt-10 flex flex-wrap items-center gap-6">
               {accreditationBadges.map((badge) => (
-                <span
-                  key={badge}
-                  className="rounded-full border border-border/80 bg-white/80 px-4 py-2 text-[11px] shadow-sm shadow-primary/5"
+                <div
+                  key={badge.name}
+                  className="flex h-25 w-auto items-center justify-center rounded-lg border border-border/80 bg-white/80 px-2 py-2 shadow-sm shadow-primary/5"
                 >
-                  {badge}
-                </span>
+                  <img
+                    src={badge.logo}
+                    alt={badge.name}
+                    className="h-full w-auto max-h-24 object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
               ))}
             </div>
           </motion.div>
