@@ -143,16 +143,26 @@ export const Footer = () => {
               </p>
 
               <div className="flex gap-4 pt-2">
-                <img
-                  src="/images/qr-1.png"
-                  alt="QR Code 1"
-                  className="h-32 w-32 transition hover:bg-white/20"
-                />
-                <img
-                  src="/images/qr-2.png"
-                  alt="QR Code 2"
-                  className="h-32 w-32 transition hover:bg-white/20"
-                />
+                <div className="flex flex-col items-center gap-2">
+                  <img
+                    src="/images/qr-1.png"
+                    alt="QR Code 1"
+                    className="h-32 w-32 transition hover:bg-white/20"
+                  />
+                  <p className="text-xs font-medium text-primary-foreground/90">
+                    Contact Now
+                  </p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <img
+                    src="/images/qr-2.png"
+                    alt="QR Code 2"
+                    className="h-32 w-32 transition hover:bg-white/20"
+                  />
+                  <p className="text-xs font-medium text-primary-foreground/90">
+                    Register Now
+                  </p>
+                </div>
               </div>
             </div>
           </div>
