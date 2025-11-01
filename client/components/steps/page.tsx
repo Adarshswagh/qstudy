@@ -2,7 +2,7 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
-  ArrowRight,
+  ArrowDown,
   CheckCircle2,
   FileCheck2,
   Map,
@@ -312,7 +312,7 @@ const StepsSection = () => {
                         delay: index * 0.2 + 1.8
                       }}
                     >
-                      <ArrowRight className="h-5 w-5 text-primary/40" aria-hidden />
+                      <ArrowDown className="h-5 w-5 text-primary/40" aria-hidden />
                     </motion.div>
                   )}
                 </motion.div>

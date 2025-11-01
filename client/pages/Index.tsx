@@ -954,9 +954,9 @@ const ComplianceSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-          className="mt-12 flex justify-center"
+          className="mt-12 flex justify-center px-5"
         >
-          <div className="flex gap-2">
+          <div className="flex gap-2 text-sm">
             {[
               { id: "government", label: "Government Universities" },
               { id: "private", label: "Private Universities" },
@@ -965,7 +965,7 @@ const ComplianceSection = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveCategory(tab.id)}
-                className={`rounded-lg px-6 py-3 text-sm font-medium transition-all duration-300 ${
+                className={`rounded-lg px-6 py-3 text-[12px] font-medium transition-all duration-300 ${
                   activeCategory === tab.id
                     ? "bg-white text-[#1b2f57]"
                     : "border border-white text-white hover:bg-white/10"

@@ -1909,6 +1909,10 @@ body{
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
+.px-20{
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
 .pb-20{
   padding-bottom: 5rem;
 }
@@ -2009,6 +2013,15 @@ body{
 .text-xs{
   font-size: 0.75rem;
   line-height: 1rem;
+}
+.text-\[10px\]{
+  font-size: 10px;
+}
+.text-\[15px\]{
+  font-size: 15px;
+}
+.text-\[12px\]{
+  font-size: 12px;
 }
 .font-bold{
   font-weight: 700;
@@ -2126,6 +2139,9 @@ body{
 .text-primary-foreground\/80{
   color: hsl(var(--primary-foreground) / 0.8);
 }
+.text-primary-foreground\/90{
+  color: hsl(var(--primary-foreground) / 0.9);
+}
 .text-primary\/40{
   color: hsl(var(--primary) / 0.4);
 }
@@ -2159,8 +2175,8 @@ body{
 .text-white\/90{
   color: rgb(255 255 255 / 0.9);
 }
-.text-primary-foreground\/90{
-  color: hsl(var(--primary-foreground) / 0.9);
+.text-\[10pz\]{
+  color: 10pz;
 }
 .underline-offset-4{
   text-underline-offset: 4px;
