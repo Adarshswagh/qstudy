@@ -49,7 +49,7 @@ export default function ContactForm() {
       {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
       {success && <p className="mb-3 text-sm text-green-600">{success}</p>}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2  ">
         <input
           type="text"
           name="name"
@@ -104,6 +104,7 @@ export default function ContactForm() {
     </div>
   );
 }
+
 
 
 

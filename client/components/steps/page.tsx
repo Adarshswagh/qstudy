@@ -86,7 +86,7 @@ const StepsSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="bg-gradient-to-b from-primary/5 via-white to-primary/5 py-24"
+      className="bg-gradient-to-b from-primary/5 via-white to-primary/5 py-10"
     >
       <div className="container px-6">
         {/* Section Header */}

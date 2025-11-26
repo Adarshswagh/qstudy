@@ -9,15 +9,6 @@ import { cn } from "@/lib/utils";
 // Using public folder path for Next.js
 const logo = '/images/logo.png';
 
-const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Programs", href: "#programs" },
-  { label: "Why QStudy", href: "#why" },
-  { label: "Success Stories", href: "#success" },
-  { label: "FAQs", href: "#faq" },
-  { label: "Contact", href: "#contact" },
-];
-
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -81,17 +72,9 @@ export const Header = () => {
               </div>
             </Link>
 
-          <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground lg:flex">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="transition-colors duration-200 hover:text-primary"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+          <div className="hidden items-center text-3xl font-medium uppercase text-muted-foreground lg:flex">
+            YOUR ONE STOP APPLICATION CENTER
+          </div>
 
           <div className="flex items-center gap-4">
             <a
@@ -127,16 +110,9 @@ export const Header = () => {
           >
             <div className="container px-6 pb-6">
               <div className="flex flex-col gap-3 pt-4 text-base font-semibold text-primary">
-                {navItems.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="rounded-2xl border border-transparent px-4 py-3 transition hover:border-primary/20 hover:bg-primary/5"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                ))}
+                <div className="px-4 py-3 text-center uppercase">
+                  YOUR ONE STOP APPLICATION CENTER
+                </div>
                 <a
                   href="#contact"
                   className="mt-2 rounded-full bg-primary px-5 py-3 text-center text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition hover:bg-primary/90"
