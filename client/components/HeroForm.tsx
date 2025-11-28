@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
@@ -49,6 +50,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     flightDetail: "",
     flightNumber: "",
     contact: "",
+    needsAirportPickup: false,
   });
 
   const handleChange = (
@@ -92,6 +94,13 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     setTransportationFormData({
       ...transportationFormData,
       [name]: value,
+    });
+  };
+
+  const handleTransportationCheckboxChange = (checked: boolean) => {
+    setTransportationFormData({
+      ...transportationFormData,
+      needsAirportPickup: checked,
     });
   };
 
@@ -163,6 +172,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       flightDetail: "",
       flightNumber: "",
       contact: "",
+      needsAirportPickup: false,
     });
   };
 
@@ -728,6 +738,21 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                 required
                 className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
+            </div>
+
+            {/* Airport Pickup Checkbox */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="needsAirportPickup"
+                checked={transportationFormData.needsAirportPickup}
+                onCheckedChange={handleTransportationCheckboxChange}
+              />
+              <label
+                htmlFor="needsAirportPickup"
+                className="text-sm font-medium text-primary cursor-pointer"
+              >
+                I need airport pick up
+              </label>
             </div>
 
             <button
