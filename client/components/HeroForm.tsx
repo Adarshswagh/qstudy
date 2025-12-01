@@ -214,17 +214,17 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
   return (
     <div className="relative">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-6 gap-1">
-          <TabsTrigger value="apply-now" className="text-xs sm:text-sm whitespace-nowrap">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-6 gap-1 sm:gap-2 p-1.5 sm:p-2 h-auto min-h-[3rem] sm:min-h-[2.5rem]">
+          <TabsTrigger value="apply-now" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
             Apply Now
           </TabsTrigger>
-          <TabsTrigger value="check-visa" className="text-xs sm:text-sm whitespace-nowrap">
+          <TabsTrigger value="check-visa" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
             Check my visa
           </TabsTrigger>
-          <TabsTrigger value="accommodation" className="text-xs sm:text-sm whitespace-nowrap">
+          <TabsTrigger value="accommodation" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
             Accommodation
           </TabsTrigger>
-          <TabsTrigger value="transportation" className="text-xs sm:text-sm whitespace-nowrap">
+          <TabsTrigger value="transportation" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
             Transportation
           </TabsTrigger>
         </TabsList>

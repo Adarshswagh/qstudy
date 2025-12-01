@@ -652,7 +652,6 @@ interface SectionHeaderProps {
 const SectionHeader = ({
   eyebrow,
   title,
-  description,
   align = "left",
 }: SectionHeaderProps) => {
   const alignment = align === "center" ? "text-center mx-auto" : "text-left";
@@ -665,9 +664,6 @@ const SectionHeader = ({
       <h2 className="mt-4 text-3xl font-bold tracking-tight text-primary sm:text-4xl">
         {title}
       </h2>
-      <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-        {description}
-      </p>
     </div>
   );
 };
@@ -716,11 +712,11 @@ const HeroSection = () => {
               Explore academic pathways from Foundation to PhD
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            Your One-Stop Application Center — Globally Recognized and Authorized by Top Universities in Malaysia
+            Your One-Stop Application Center Globally Recognized and Authorized by Top Universities in Malaysia
 
             We simplify your entire admission process with fast, smooth, and student-friendly support. From submitting your application to guiding you through every step, we ensure a seamless experience.
 
-            Best of all — our services are completely free.
+            Best of all our services are completely free.
             No visa processing charges, no hidden fees.
             Just simple, reliable, and hassle-free support to help you secure your future.
             </p>
@@ -820,11 +816,11 @@ const AboutSection = () => {
             </span>
           }
           title="Your personalised gateway to world-class education"
-          description="QStudy World is dedicated to guiding ambitious students through every stage of their international education journey. As Malaysia's largest one-stop application centre, we partner with top institutions to deliver expert counselling and life-changing opportunities."
         />
 
 
           <div className="mt-8 space-y-4 text-sm text-muted-foreground">
+            <p>QStudy World is dedicated to guiding ambitious students through every stage of their international education journey. As Malaysia's largest one-stop application centre, we partner with top institutions to deliver expert counselling and life-changing opportunities.</p>
             <p>
               From foundation to postgraduate studies, we champion your
               aspirations with curated program recommendations, scholarship
@@ -945,11 +941,6 @@ const CtaSection = () => {
               Apply Now
               <ArrowRight className="h-4 w-4" aria-hidden />
             </a>
-            <a
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-7 py-3 text-sm font-semibold text-primary-foreground transition hover:-translate-y-0.5 hover:border-white"
-            >
-              Explore Programs
-            </a>
           </div>
         </div>
       </div>
@@ -968,38 +959,13 @@ const FaqSection = () => {
       className="container px-6 py-24"
     >
       <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-        {/* Left Side - FAQ Questions */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqItems.map((item, index) => (
-              <AccordionItem
-                value={`faq-${index}`}
-                key={item.question}
-                className="rounded-xl border border-primary/10 bg-white/80 px-6 py-4 shadow-lg shadow-primary/5"
-              >
-                <AccordionTrigger className="text-left text-base font-semibold text-primary hover:no-underline">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground mt-2">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
-
-        {/* Right Side - Heading and Image */}
+        {/* Right Side - Heading and Image (shown first on mobile) */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-          className="lg:pl-8"
+          className="order-1 lg:order-2 lg:pl-8"
         >
           <h3 className="text-4xl font-bold text-primary mb-6">
             Frequently Asked Questions
@@ -1020,6 +986,32 @@ const FaqSection = () => {
               <GraduationCap className="h-16 w-16" />
             </div>
           </div>
+        </motion.div>
+
+        {/* Left Side - FAQ Questions (shown second on mobile) */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="order-2 lg:order-1"
+        >
+          <Accordion type="single" collapsible className="space-y-4">
+            {faqItems.map((item, index) => (
+              <AccordionItem
+                value={`faq-${index}`}
+                key={item.question}
+                className="rounded-xl border border-primary/10 bg-white/80 px-6 py-4 shadow-lg shadow-primary/5"
+              >
+                <AccordionTrigger className="text-left text-base font-semibold text-primary hover:no-underline">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground mt-2">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </motion.div>
       </div>
     </motion.section>
