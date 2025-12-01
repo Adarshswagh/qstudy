@@ -44,46 +44,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import type { LucideIcon } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import type { CountryCode } from "libphonenumber-js";
 import ContactForm from "@/components/ContactForm";
-import HeroForm from "@/components/HeroForm";
+import HeroForm, { SearchableCountrySelect, validatePhoneField } from "@/components/HeroForm";
 import StepsSection from "@/components/steps/page";
 import { Checkbox } from "@/components/ui/checkbox";
-
-// Countries with their dial codes
-const countries = [
-  { name: "United States", code: "+1", flag: "🇺🇸" },
-  { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
-  { name: "Canada", code: "+1", flag: "🇨🇦" },
-  { name: "Australia", code: "+61", flag: "🇦🇺" },
-  { name: "India", code: "+91", flag: "🇮🇳" },
-  { name: "Malaysia", code: "+60", flag: "🇲🇾" },
-  { name: "Singapore", code: "+65", flag: "🇸🇬" },
-  { name: "China", code: "+86", flag: "🇨🇳" },
-  { name: "Japan", code: "+81", flag: "🇯🇵" },
-  { name: "South Korea", code: "+82", flag: "🇰🇷" },
-  { name: "Germany", code: "+49", flag: "🇩🇪" },
-  { name: "France", code: "+33", flag: "🇫🇷" },
-  { name: "Italy", code: "+39", flag: "🇮🇹" },
-  { name: "Spain", code: "+34", flag: "🇪🇸" },
-  { name: "Netherlands", code: "+31", flag: "🇳🇱" },
-  { name: "Saudi Arabia", code: "+966", flag: "🇸🇦" },
-  { name: "UAE", code: "+971", flag: "🇦🇪" },
-  { name: "Qatar", code: "+974", flag: "🇶🇦" },
-  { name: "Kuwait", code: "+965", flag: "🇰🇼" },
-  { name: "Bahrain", code: "+973", flag: "🇧🇭" },
-  { name: "Oman", code: "+968", flag: "🇴🇲" },
-  { name: "Indonesia", code: "+62", flag: "🇮🇩" },
-  { name: "Thailand", code: "+66", flag: "🇹🇭" },
-  { name: "Philippines", code: "+63", flag: "🇵🇭" },
-  { name: "Vietnam", code: "+84", flag: "🇻🇳" },
-  { name: "Bangladesh", code: "+880", flag: "🇧🇩" },
-  { name: "Pakistan", code: "+92", flag: "🇵🇰" },
-  { name: "Sri Lanka", code: "+94", flag: "🇱🇰" },
-  { name: "Nepal", code: "+977", flag: "🇳🇵" },
-  { name: "Myanmar", code: "+95", flag: "🇲🇲" },
-];
-
-
+import { cn } from "@/lib/utils";
 
 const heroHighlights = [
   {
@@ -1036,8 +1003,32 @@ interface ContactSectionProps {
 }
 
 const ContactSection = ({ onSubmit }: ContactSectionProps) => {
-  const [countryCode, setCountryCode] = useState("+60");
+  const [phoneCountry, setPhoneCountry] = useState<CountryCode | undefined>("MY");
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [consent, setConsent] = useState(false);
+
+  const validateContactPhone = (
+    value = phone,
+    country: CountryCode | undefined = phoneCountry,
+  ) => {
+    const validation = validatePhoneField(value, country, "phone number");
+    if (!validation.isValid) {
+      const message = validation.message ?? "Please enter a valid phone number";
+      setPhoneError(message);
+      return { isValid: false, message };
+    }
+    setPhoneError("");
+    return { isValid: true, message: "" };
+  };
+
+  const handlePhoneInputChange = (value?: string) => {
+    const nextValue = value ?? "";
+    setPhone(nextValue);
+    if (phoneError) {
+      validateContactPhone(nextValue, phoneCountry);
+    }
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1045,9 +1036,16 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
       toast.error("Please agree to the terms and conditions to continue.");
       return;
     }
+    const phoneValidation = validateContactPhone();
+    if (!phoneValidation.isValid) {
+      toast.error(phoneValidation.message);
+      return;
+    }
     onSubmit(event);
     // Reset form state
-    setCountryCode("+60");
+    setPhoneCountry("MY");
+    setPhone("");
+    setPhoneError("");
     setConsent(false);
   };
 
@@ -1200,51 +1198,56 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                     />
                   </div>
 
-                  {/* Phone with Country Code */}
+                  {/* Phone with Country Flag Selector (same as HeroForm) */}
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                       Phone
                     </label>
-                    <div className="flex gap-2">
-                      {/* Country Code Selector */}
-                      <select
-                        value={countryCode}
-                        onChange={(e) => setCountryCode(e.target.value)}
-                        name="countryCode"
-                        className="w-auto min-w-[120px] px-4 py-3 border border-gray-300 rounded-lg transition-colors"
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = '#1a2e56';
-                          e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = '#d1d5db';
-                          e.currentTarget.style.boxShadow = 'none';
-                        }}
-                      >
-                        {countries.map((country) => (
-                          <option key={country.code} value={country.code}>
-                            {country.flag} {country.code}
-                          </option>
-                        ))}
-                      </select>
-                      {/* Phone Input */}
-                      <input
-                        type="tel"
+                    <div
+                      className={cn(
+                        "w-full rounded-lg border bg-white p-0 shadow-inner focus-within:outline-none focus-within:ring-2",
+                        phoneError
+                          ? "border-red-500 focus-within:ring-red-400"
+                          : "border-gray-300 focus-within:ring-[rgba(26,46,86,0.2)]",
+                      )}
+                    >
+                      <PhoneInput
                         id="phone"
                         name="phone"
+                        international
+                        defaultCountry="MY"
+                        country={phoneCountry}
+                        value={phone || undefined}
+                        onChange={handlePhoneInputChange}
+                        onCountryChange={(country) => {
+                          const nextCountry = country ?? undefined;
+                          setPhoneCountry(nextCountry);
+                          if (phone) {
+                            validateContactPhone(phone, nextCountry);
+                          }
+                        }}
+                        onBlur={() => validateContactPhone()}
                         placeholder="Phone Number"
                         required
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg transition-colors"
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = '#1a2e56';
-                          e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = '#d1d5db';
-                          e.currentTarget.style.boxShadow = 'none';
+                        limitMaxLength
+                        style={{
+                          width: "100%",
+                          "--PhoneInput-color--focus": "#1a2e56",
+                          "--PhoneInputCountryFlag-borderColor": "transparent",
+                          "--PhoneInputCountryFlag-height": "1.5rem",
+                          "--PhoneInputCountrySelectArrow-color": "#1a2e56",
+                        } as React.CSSProperties}
+                        countrySelectComponent={SearchableCountrySelect}
+                        className="!border-none !bg-transparent [&>input]:!border-none [&>input]:!bg-transparent [&>input]:!text-gray-900 [&>input]:!text-sm [&>input]:px-4 [&>input]:py-3 [&>input]:!outline-none [&>input]:!ring-0 [&>input]:placeholder:text-gray-400"
+                        numberInputProps={{
+                          className: "!bg-transparent !border-none !outline-none !ring-0",
+                          inputMode: "numeric",
                         }}
                       />
                     </div>
+                    {phoneError && (
+                      <p className="text-red-500 text-xs mt-1">{phoneError}</p>
+                    )}
                   </div>
 
                   {/* Email */}

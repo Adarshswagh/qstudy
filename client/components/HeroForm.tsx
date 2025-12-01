@@ -1,10 +1,280 @@
-import { useState } from "react";
+import { forwardRef, useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
 import { toast } from "sonner";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import type { CountryCode } from "libphonenumber-js";
+import { validatePhoneNumberLength } from "libphonenumber-js";
+import { Metadata } from "libphonenumber-js/core";
+import enLabels from "react-phone-number-input/locale/en.json";
+import metadata from "libphonenumber-js/metadata.min.json";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
 import "react-phone-number-input/style.css";
+
+type PhoneLengthIssue = "INVALID_COUNTRY" | "NOT_A_NUMBER" | "TOO_SHORT" | "TOO_LONG" | "INVALID_LENGTH";
+
+const countryLabels = enLabels as Record<string, string>;
+const lengthHintCache = new Map<string, string | undefined>();
+
+const getCountryDisplayName = (country?: CountryCode) => {
+  if (!country) {
+    return "the selected country";
+  }
+  return countryLabels[country] ?? country;
+};
+
+const getCountryLengthHint = (country?: CountryCode) => {
+  if (!country) return undefined;
+  if (lengthHintCache.has(country)) {
+    return lengthHintCache.get(country);
+  }
+
+  try {
+    const meta = new Metadata(metadata);
+    meta.selectNumberingPlan(country);
+    const possibleLengths = meta.numberingPlan?.possibleLengths?.() ?? [];
+    const numericLengths = Array.from(new Set(possibleLengths)).filter(
+      (value): value is number => typeof value === "number",
+    );
+    const hint =
+      numericLengths.length === 0
+        ? undefined
+        : numericLengths.length === 1
+          ? `${numericLengths[0]} digits`
+          : `${Math.min(...numericLengths)}-${Math.max(...numericLengths)} digits`;
+
+    lengthHintCache.set(country, hint);
+    return hint;
+  } catch {
+    lengthHintCache.set(country, undefined);
+    return undefined;
+  }
+};
+
+export const getLengthIssueMessage = (
+  issue: PhoneLengthIssue,
+  country?: CountryCode,
+  fieldLabel = "contact number",
+) => {
+  const countryName = getCountryDisplayName(country);
+  const lengthHint = getCountryLengthHint(country);
+
+  switch (issue) {
+    case "NOT_A_NUMBER":
+      return `Please enter digits only for the ${fieldLabel}.`;
+    case "INVALID_COUNTRY":
+      return "Please select a country before entering the number.";
+    case "TOO_SHORT":
+      return lengthHint
+        ? `${countryName} numbers must be at least ${lengthHint}.`
+        : `The ${fieldLabel} is too short for ${countryName}.`;
+    case "TOO_LONG":
+      return lengthHint
+        ? `${countryName} numbers can't exceed ${lengthHint}.`
+        : `The ${fieldLabel} is too long for ${countryName}.`;
+    case "INVALID_LENGTH":
+      return lengthHint
+        ? `${countryName} numbers must be ${lengthHint}.`
+        : `Please enter a valid ${countryName} ${fieldLabel}.`;
+    default:
+      return `Please enter a valid ${countryName} ${fieldLabel}.`;
+  }
+};
+
+export const validatePhoneField = (
+  value: string,
+  country?: CountryCode,
+  label = "contact number",
+): { isValid: boolean; message?: string } => {
+  if (!value) {
+    return { isValid: false, message: `Please provide a ${label}.` };
+  }
+
+  const digitsOnly = value.replace(/[^\d]/g, "");
+  if (!digitsOnly) {
+    return { isValid: false, message: `Please enter digits only for the ${label}.` };
+  }
+
+  // Custom rule: India must have exactly 10 digits (ignoring spaces/formatting)
+  if (country === "IN") {
+    // Strip leading country code "91" if present, then validate the national part.
+    const nationalPart = digitsOnly.replace(/^91/, "");
+    if (nationalPart.length !== 10) {
+      return {
+        isValid: false,
+        message: "Indian phone numbers must be exactly 10 digits (excluding country code).",
+      };
+    }
+  }
+
+  const lengthIssue = validatePhoneNumberLength(value, country);
+  if (lengthIssue) {
+    return { isValid: false, message: getLengthIssueMessage(lengthIssue as PhoneLengthIssue, country, label) };
+  }
+
+  if (!isValidPhoneNumber(value)) {
+    const countryName = getCountryDisplayName(country);
+    return {
+      isValid: false,
+      message: `Please enter a valid ${countryName} ${label}.`,
+    };
+  }
+
+  return { isValid: true };
+};
+
+type CountrySelectOption = {
+  value?: string;
+  label: string;
+  divider?: boolean;
+};
+
+interface CountrySelectProps {
+  name?: string;
+  value?: string;
+  onChange: (value?: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  options: CountrySelectOption[];
+  iconComponent: React.ComponentType<{
+    country?: string;
+    label?: string;
+    aspectRatio?: number;
+    className?: string;
+    "aria-hidden"?: boolean;
+  }>;
+  disabled?: boolean;
+  readOnly?: boolean;
+  tabIndex?: number | string;
+  className?: string;
+}
+
+export const SearchableCountrySelect = forwardRef<HTMLButtonElement, CountrySelectProps>(
+  (
+    {
+      value,
+      onChange,
+      onBlur,
+      onFocus,
+      options,
+      iconComponent: IconComponent,
+      disabled,
+      readOnly,
+      name,
+      tabIndex,
+      className,
+    },
+    ref,
+  ) => {
+    const [open, setOpen] = useState(false);
+    const selectableOptions = useMemo(() => options.filter((option) => !option.divider), [options]);
+    const selectedOption =
+      selectableOptions.find((option) => option.value === value) ?? selectableOptions.find((option) => option.value === undefined);
+    const label = selectedOption?.label ?? "Select country";
+
+    const handleSelect = (selectedValue?: string) => {
+      onChange(selectedValue);
+      setOpen(false);
+    };
+
+    return (
+      <div className={cn("PhoneInputCountry relative", className)}>
+        {name ? <input type="hidden" name={name} value={value ?? ""} /> : null}
+        <Popover
+          open={open}
+          onOpenChange={(nextOpen) => {
+            setOpen(nextOpen);
+            if (nextOpen) {
+              onFocus?.();
+            } else {
+              onBlur?.();
+            }
+          }}
+        >
+          <PopoverTrigger asChild>
+            <button
+              ref={ref}
+              type="button"
+              className={cn(
+                "PhoneInputCountrySelect flex w-full items-center justify-between rounded-l-xl border border-transparent bg-transparent px-3 py-2 text-left text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30",
+                disabled || readOnly ? "cursor-not-allowed opacity-60" : "cursor-pointer",
+              )}
+              disabled={disabled || readOnly}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              tabIndex={
+                typeof tabIndex === "number"
+                  ? tabIndex
+                  : typeof tabIndex === "string"
+                    ? Number(tabIndex)
+                    : undefined
+              }
+            >
+              <span className="flex items-center gap-2">
+                {IconComponent ? (
+                  <IconComponent
+                    aria-hidden
+                    country={value}
+                    label={label}
+                    className="h-4 w-6 shrink-0 rounded-sm border border-primary/10 bg-secondary"
+                  />
+                ) : null}
+                <span className="truncate">{label}</span>
+              </span>
+              <ChevronsUpDown className="h-4 w-4 text-muted-foreground" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64 p-0" align="start">
+            <Command>
+              <CommandInput placeholder="Search country..." />
+              <CommandEmpty>No countries found.</CommandEmpty>
+              <CommandList>
+                <CommandGroup>
+                  {selectableOptions.map((option) => (
+                    <CommandItem
+                      key={option.value ?? "INTL"}
+                      value={option.label}
+                      onSelect={() => handleSelect(option.value)}
+                      className="flex items-center gap-2"
+                    >
+                      {IconComponent ? (
+                        <IconComponent
+                          aria-hidden
+                          country={option.value}
+                          label={option.label}
+                          className="h-4 w-6 shrink-0 rounded-sm border border-primary/10 bg-secondary"
+                        />
+                      ) : null}
+                      <span className="flex-1 truncate text-sm">{option.label}</span>
+                      <Check
+                        className={cn(
+                          "h-4 w-4 text-primary",
+                          option.value === value ? "opacity-100" : "opacity-0",
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </div>
+    );
+  },
+);
+
+SearchableCountrySelect.displayName = "SearchableCountrySelect";
 
 interface HeroFormProps {
   universityCategories: {
@@ -16,11 +286,11 @@ interface HeroFormProps {
 
 export default function HeroForm({ universityCategories }: HeroFormProps) {
   const [activeTab, setActiveTab] = useState("apply-now");
-  
-  // Phone input states
-  const [phoneValue, setPhoneValue] = useState<string>("");
-  const [transportationPhoneValue, setTransportationPhoneValue] = useState<string>("");
-  
+  const [phoneCountry, setPhoneCountry] = useState<CountryCode | undefined>("MY");
+  const [transportationCountry, setTransportationCountry] = useState<CountryCode | undefined>("MY");
+  const [phoneError, setPhoneError] = useState("");
+  const [transportationPhoneError, setTransportationPhoneError] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,10 +334,12 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
   const [accommodationFormData, setAccommodationFormData] = useState({
     name: "",
     email: "",
-    area: "",
-    universityType: "",
-    selectedUniversity: "",
-    expectedMovingDate: "",
+    address: "",
+    guardianDetails: "",
+    accommodationType: "",
+    preferredAccommodation: "",
+    startDate: "",
+    endDate: "",
   });
 
   // Separate state for transportation form
@@ -75,6 +347,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     name: "",
     email: "",
     dateOfArrival: "",
+    contactNumber: "",
     flightDetail: "",
     flightNumber: "",
     needsAirportPickup: false,
@@ -128,8 +401,6 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     setAccommodationFormData({
       ...accommodationFormData,
       [name]: value,
-      // Reset selectedUniversity when universityType changes
-      ...(name === "universityType" && { selectedUniversity: "" }),
     });
   };
 
@@ -150,6 +421,56 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     });
   };
 
+  const handlePhoneInputChange = (value?: string) => {
+    const nextValue = value ?? "";
+    setFormData((prev) => ({
+      ...prev,
+      phone: nextValue,
+    }));
+    if (phoneError) {
+      validateApplyPhone(nextValue, phoneCountry);
+    }
+  };
+
+  const handleTransportationPhoneInputChange = (value?: string) => {
+    const nextValue = value ?? "";
+    setTransportationFormData((prev) => ({
+      ...prev,
+      contactNumber: nextValue,
+    }));
+    if (transportationPhoneError) {
+      validateTransportationPhone(nextValue, transportationCountry);
+    }
+  };
+
+  const validateApplyPhone = (
+    value = formData.phone,
+    country: CountryCode | undefined = phoneCountry,
+  ) => {
+    const validation = validatePhoneField(value, country, "phone number");
+    if (!validation.isValid) {
+      const message = validation.message ?? "Please enter a valid phone number";
+      setPhoneError(message);
+      return { isValid: false, message };
+    }
+    setPhoneError("");
+    return { isValid: true, message: "" };
+  };
+
+  const validateTransportationPhone = (
+    value = transportationFormData.contactNumber,
+    country: CountryCode | undefined = transportationCountry,
+  ) => {
+    const validation = validatePhoneField(value, country, "contact number");
+    if (!validation.isValid) {
+      const message = validation.message ?? "Please enter a valid contact number";
+      setTransportationPhoneError(message);
+      return { isValid: false, message };
+    }
+    setTransportationPhoneError("");
+    return { isValid: true, message: "" };
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -159,9 +480,9 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       return;
     }
     
-    // Validate phone number
-    if (phoneValue && !isValidPhoneNumber(phoneValue)) {
-      toast.error("Please enter a valid phone number");
+    const phoneValidation = validateApplyPhone();
+    if (!phoneValidation.isValid) {
+      toast.error(phoneValidation.message);
       return;
     }
     
@@ -182,7 +503,8 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       selectedUniversity: "",
       typeOfQualification: "",
     });
-    setPhoneValue("");
+    setPhoneCountry("MY");
+    setPhoneError("");
     setConsentApplyNow(false);
   };
 
@@ -265,10 +587,12 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     setAccommodationFormData({
       name: "",
       email: "",
-      area: "",
-      universityType: "",
-      selectedUniversity: "",
-      expectedMovingDate: "",
+      address: "",
+      guardianDetails: "",
+      accommodationType: "",
+      preferredAccommodation: "",
+      startDate: "",
+      endDate: "",
     });
     setConsentAccommodation(false);
   };
@@ -282,9 +606,9 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       return;
     }
     
-    // Validate transportation phone number
-    if (transportationPhoneValue && !isValidPhoneNumber(transportationPhoneValue)) {
-      toast.error("Please enter a valid contact number");
+    const phoneValidation = validateTransportationPhone();
+    if (!phoneValidation.isValid) {
+      toast.error(phoneValidation.message);
       return;
     }
     
@@ -298,11 +622,13 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       name: "",
       email: "",
       dateOfArrival: "",
+      contactNumber: "",
       flightDetail: "",
       flightNumber: "",
       needsAirportPickup: false,
     });
-    setTransportationPhoneValue("");
+    setTransportationCountry("MY");
+    setTransportationPhoneError("");
     setConsentTransportation(false);
   };
 
@@ -337,22 +663,6 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
   };
 
   const eligibilityAvailableUniversities = getEligibilityAvailableUniversities();
-
-  // Get universities for accommodation form based on selected university type
-  const getAccommodationAvailableUniversities = () => {
-    if (!accommodationFormData.universityType) return [];
-    
-    const categoryMap: Record<string, keyof typeof universityCategories> = {
-      "Government University": "government",
-      "Private University": "private",
-      "Foreign University": "international",
-    };
-    
-    const categoryKey = categoryMap[accommodationFormData.universityType];
-    return categoryKey ? universityCategories[categoryKey] : [];
-  };
-
-  const accommodationAvailableUniversities = getAccommodationAvailableUniversities();
 
   // Custom styling for phone input to match your design
   const phoneInputStyle = {
@@ -403,7 +713,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   type="text"
                   id="name"
                   name="name"
-                  placeholder="Name"
+                  placeholder=" Name"
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -434,24 +744,39 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               <label htmlFor="phone" className="block text-sm font-medium text-primary mb-1.5">
                 Phone
               </label>
-              <div className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-0 shadow-inner shadow-primary/5 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/30">
+              <div
+                className={cn(
+                  "w-full rounded-xl border bg-secondary/40 p-0 shadow-inner shadow-primary/5 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/30",
+                  phoneError ? "border-red-500 focus-within:ring-red-400" : "border-primary/20",
+                )}
+              >
                 <PhoneInput
                   international
                   defaultCountry="MY"
-                  value={phoneValue}
-                  onChange={setPhoneValue}
+                  country={phoneCountry}
+                  value={formData.phone || undefined}
+                  onChange={handlePhoneInputChange}
+                  onCountryChange={(country) => {
+                    const nextCountry = country ?? undefined;
+                    setPhoneCountry(nextCountry);
+                    if (formData.phone) {
+                      validateApplyPhone(formData.phone, nextCountry);
+                    }
+                  }}
+                  onBlur={() => validateApplyPhone()}
                   placeholder="Enter phone number"
                   required
+                  limitMaxLength
                   style={phoneInputStyle}
+                  countrySelectComponent={SearchableCountrySelect}
                   className="!border-none !bg-transparent [&>input]:!border-none [&>input]:!bg-transparent [&>input]:!text-primary [&>input]:!text-sm [&>input]:p-3 [&>input]:!outline-none [&>input]:!ring-0 [&>input]:placeholder:text-primary/50"
                   numberInputProps={{
-                    className: "!bg-transparent !border-none !outline-none !ring-0"
+                    className: "!bg-transparent !border-none !outline-none !ring-0",
+                    inputMode: "numeric",
                   }}
                 />
               </div>
-              {phoneValue && !isValidPhoneNumber(phoneValue) && (
-                <p className="text-red-500 text-xs mt-1">Please enter a valid phone number</p>
-              )}
+              {phoneError && <p className="text-red-500 text-xs mt-1">{phoneError}</p>}
             </div>
 
             {/* Program Looking For - Next Line */}
@@ -616,7 +941,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   type="text"
                   id="eligibility-name"
                   name="name"
-                  placeholder="Name"
+                  placeholder="Full Name"
                   value={eligibilityFormData.name}
                   onChange={handleEligibilityFormChange}
                   required
@@ -1098,9 +1423,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               </label>
               <input
                 type="text"
-                id="area"
-                name="area"
+                id="accommodation-address"
+                name="address"
                 placeholder="Which area are you looking for"
+                value={accommodationFormData.address}
+                onChange={handleAccommodationFormChange}
                 required
                 className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
@@ -1113,9 +1440,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               </label>
               <input
                 type="text"
-                id="area"
-                name="area"
+                id="guardian-details"
+                name="guardianDetails"
                 placeholder="Guardian / Host Details"
+                value={accommodationFormData.guardianDetails}
+                onChange={handleAccommodationFormChange}
                 required
                 className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
@@ -1131,12 +1460,16 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   Accomdation Type
                 </label>
                 <select
-                  name="universityType"
+                  name="accommodationType"
+                  value={accommodationFormData.accommodationType}
+                  onChange={handleAccommodationFormChange}
                   required
                   className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
-                  <option value="">On-Campus Hostel</option>
+                  <option value="">Select accommodation type</option>
+                  <option value="On-Campus Hostel">On-Campus Hostel</option>
                   <option value="Off-Campus Hostel">Off-Campus Hostel</option>
+                  <option value="Private Residence">Private Residence</option>
                 </select>
               </div>
 
@@ -1145,11 +1478,14 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   Preferred Accomdation
                 </label>
                 <select
-                  name="universityType"
+                  name="preferredAccommodation"
+                  value={accommodationFormData.preferredAccommodation}
+                  onChange={handleAccommodationFormChange}
                   required
                   className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
-                  <option value="">Signle Room</option>
+                  <option value="">Select preferred accommodation</option>
+                  <option value="Single Room">Single Room</option>
                   <option value="Shared Room">Shared Room</option>
                   <option value="Apartment">Apartment</option>
                 </select>
@@ -1161,14 +1497,14 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <h4 className="font-700">Duration OF Stay : </h4><br/>
               <div>
-                <label htmlFor="expectedMovingDate" className="block text-sm font-medium text-primary mb-1.5">
+                <label htmlFor="accommodation-start-date" className="block text-sm font-medium text-primary mb-1.5">
                   Start Date
                 </label>
                 <input
                   type="date"
-                  id="expectedMovingDate"
-                  name="expectedMovingDate"
-                  value={accommodationFormData.expectedMovingDate}
+                  id="accommodation-start-date"
+                  name="startDate"
+                  value={accommodationFormData.startDate}
                   onChange={handleAccommodationFormChange}
                   required
                   className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -1176,14 +1512,14 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               </div>
 
               <div>
-                <label htmlFor="expectedMovingDate" className="block text-sm font-medium text-primary mb-1.5">
+                <label htmlFor="accommodation-end-date" className="block text-sm font-medium text-primary mb-1.5">
                   End Date
                 </label>
                 <input
                   type="date"
-                  id="expectedMovingDate"
-                  name="expectedMovingDate"
-                  value={accommodationFormData.expectedMovingDate}
+                  id="accommodation-end-date"
+                  name="endDate"
+                  value={accommodationFormData.endDate}
                   onChange={handleAccommodationFormChange}
                   required
                   className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -1236,7 +1572,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   type="text"
                   id="transportation-name"
                   name="name"
-                  placeholder="Name"
+                  placeholder="Full Name"
                   value={transportationFormData.name}
                   onChange={handleTransportationFormChange}
                   required
@@ -1283,23 +1619,40 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               <label htmlFor="contact" className="block text-sm font-medium text-primary mb-1.5">
                 Contact
               </label>
-              <div className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-0 shadow-inner shadow-primary/5 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/30">
+              <div
+                className={cn(
+                  "w-full rounded-xl border bg-secondary/40 p-0 shadow-inner shadow-primary/5 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/30",
+                  transportationPhoneError ? "border-red-500 focus-within:ring-red-400" : "border-primary/20",
+                )}
+              >
                 <PhoneInput
                   international
                   defaultCountry="MY"
-                  value={transportationPhoneValue}
-                  onChange={setTransportationPhoneValue}
+                  country={transportationCountry}
+                  value={transportationFormData.contactNumber || undefined}
+                  onChange={handleTransportationPhoneInputChange}
+                  onCountryChange={(country) => {
+                    const nextCountry = country ?? undefined;
+                    setTransportationCountry(nextCountry);
+                    if (transportationFormData.contactNumber) {
+                      validateTransportationPhone(transportationFormData.contactNumber, nextCountry);
+                    }
+                  }}
+                  onBlur={() => validateTransportationPhone()}
                   placeholder="Enter contact number"
                   required
+                  limitMaxLength
                   style={phoneInputStyle}
+                  countrySelectComponent={SearchableCountrySelect}
                   className="!border-none !bg-transparent [&>input]:!border-none [&>input]:!bg-transparent [&>input]:!text-primary [&>input]:!text-sm [&>input]:p-3 [&>input]:!outline-none [&>input]:!ring-0 [&>input]:placeholder:text-primary/50"
                   numberInputProps={{
-                    className: "!bg-transparent !border-none !outline-none !ring-0"
+                    className: "!bg-transparent !border-none !outline-none !ring-0",
+                    inputMode: "numeric",
                   }}
                 />
               </div>
-              {transportationPhoneValue && !isValidPhoneNumber(transportationPhoneValue) && (
-                <p className="text-red-500 text-xs mt-1">Please enter a valid contact number</p>
+              {transportationPhoneError && (
+                <p className="text-red-500 text-xs mt-1">{transportationPhoneError}</p>
               )}
             </div>
 

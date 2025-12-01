@@ -232,7 +232,7 @@ const StepsSection = () => {
                     
                     {/* Icon */}
                     <motion.div 
-                      className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"
+                      className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary"
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ 
                         scale: isActive ? 1 : 0,
