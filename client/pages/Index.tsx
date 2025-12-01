@@ -645,7 +645,7 @@ import type { ReactNode } from "react";
 interface SectionHeaderProps {
   eyebrow: string | ReactNode;
   title: string;
-  description: string;
+  description?: string;
   align?: "left" | "center";
 }
 
