@@ -19,9 +19,12 @@
     "typecheck": "tsc --project tsconfig.json"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "libphonenumber-js": "^1.12.30",
     "next": "^14.2.33",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-phone-number-input": "^3.4.14",
     "react-router-dom": "^7.9.3",
     "zod": "^3.25.76"
   },

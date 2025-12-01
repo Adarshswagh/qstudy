@@ -1,4 +1,5 @@
 "use client";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { type FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -46,6 +47,41 @@ import type { LucideIcon } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import HeroForm from "@/components/HeroForm";
 import StepsSection from "@/components/steps/page";
+import { Checkbox } from "@/components/ui/checkbox";
+
+// Countries with their dial codes
+const countries = [
+  { name: "United States", code: "+1", flag: "🇺🇸" },
+  { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
+  { name: "Canada", code: "+1", flag: "🇨🇦" },
+  { name: "Australia", code: "+61", flag: "🇦🇺" },
+  { name: "India", code: "+91", flag: "🇮🇳" },
+  { name: "Malaysia", code: "+60", flag: "🇲🇾" },
+  { name: "Singapore", code: "+65", flag: "🇸🇬" },
+  { name: "China", code: "+86", flag: "🇨🇳" },
+  { name: "Japan", code: "+81", flag: "🇯🇵" },
+  { name: "South Korea", code: "+82", flag: "🇰🇷" },
+  { name: "Germany", code: "+49", flag: "🇩🇪" },
+  { name: "France", code: "+33", flag: "🇫🇷" },
+  { name: "Italy", code: "+39", flag: "🇮🇹" },
+  { name: "Spain", code: "+34", flag: "🇪🇸" },
+  { name: "Netherlands", code: "+31", flag: "🇳🇱" },
+  { name: "Saudi Arabia", code: "+966", flag: "🇸🇦" },
+  { name: "UAE", code: "+971", flag: "🇦🇪" },
+  { name: "Qatar", code: "+974", flag: "🇶🇦" },
+  { name: "Kuwait", code: "+965", flag: "🇰🇼" },
+  { name: "Bahrain", code: "+973", flag: "🇧🇭" },
+  { name: "Oman", code: "+968", flag: "🇴🇲" },
+  { name: "Indonesia", code: "+62", flag: "🇮🇩" },
+  { name: "Thailand", code: "+66", flag: "🇹🇭" },
+  { name: "Philippines", code: "+63", flag: "🇵🇭" },
+  { name: "Vietnam", code: "+84", flag: "🇻🇳" },
+  { name: "Bangladesh", code: "+880", flag: "🇧🇩" },
+  { name: "Pakistan", code: "+92", flag: "🇵🇰" },
+  { name: "Sri Lanka", code: "+94", flag: "🇱🇰" },
+  { name: "Nepal", code: "+977", flag: "🇳🇵" },
+  { name: "Myanmar", code: "+95", flag: "🇲🇲" },
+];
 
 
 
@@ -346,29 +382,6 @@ type Testimonial = {
   placement: string;
 };
 
-const testimonials: Testimonial[] = [
-  {
-    name: "Aisha Rahman",
-    program: "MBBS, University of Malaya",
-    placement: "Malaysia",
-    quote:
-      "QStudy made my dream of studying medicine come true. From scholarship advice to visa approval, every detail was handled with care.",
-  },
-  {
-    name: "Daniel James",
-    program: "Data Science, Monash University Malaysia",
-    placement: "Australia Pathway",
-    quote:
-      "The counsellors understood my goals and mapped a clear path from foundation to postgraduate studies across Malaysia and Australia.",
-  },
-  {
-    name: "Nurul Hana",
-    program: "International Business, Taylor's University",
-    placement: "Global Mobility",
-    quote:
-      "I loved the personalised guidance and interview prep sessions. Today I’m interning with a multinational in Kuala Lumpur thanks to QStudy.",
-  },
-];
 
 const successMetrics = [
   { value: "100%", label: "Free admission consultation" },
@@ -415,10 +428,10 @@ const faqItems: FaqItem[] = [
   {
     question: "Is the consultation really free?",
     answer:
-      "Yes. QStudy provides 100% free admission consultation from course selection to visa processing. You only cover actual application or university fees where applicable.",
+      "Yes. We provides 100% free admission consultation from course selection to visa processing. You only cover actual application or university fees where applicable.",
   },
   {
-    question: "Which countries can QStudy help me apply to?",
+    question: "Which countries can We help me apply to?",
     answer:
       "We specialise in Malaysia while supporting pathways to the UK, Canada, Australia, and more than 25 global destinations through our partner network.",
   },
@@ -433,7 +446,7 @@ const faqItems: FaqItem[] = [
       "Absolutely. Our counsellors shortlist scholarships based on your profile, help with documentation, and prepare you for interviews.",
   },
   {
-    question: "Can QStudy assist after I receive an offer?",
+    question: "Can We assist after I receive an offer?",
     answer:
       "Yes. We manage visa submissions, accommodation arrangements, pre-departure briefings, and arrival support to ensure a smooth transition.",
   },
@@ -700,18 +713,18 @@ const HeroSection = () => {
 
       <div className="container px-6">
         {/* Rest of your hero content remains the same */}
-        <div className="grid items-start gap-16 lg:grid-cols-[1.05fr,0.9fr]">
+        <div className="grid items-start gap-4 lg:grid-cols-[1fr,1.5fr]">
           <motion.div
             initial={{ opacity: 0, y: 48 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="relative"
+            className="relative max-w-xl"
           >
             <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
               Explore academic pathways from Foundation to PhD
             </h1>
-            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+            <p className="mt-5 max-w-2xl text-lg text-muted-foreground text-justify">
             Your One-Stop Application Center Globally Recognized and Authorized by Top Universities in Malaysia
 
             We simplify your entire admission process with fast, smooth, and student-friendly support. From submitting your application to guiding you through every step, we ensure a seamless experience.
@@ -739,7 +752,7 @@ const HeroSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative lg:self-start"
+            className="relative lg:self-start max-w-5xl"
           >
             <div className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-2xl shadow-primary/15 backdrop-blur">
               <div
@@ -812,7 +825,7 @@ const AboutSection = () => {
           eyebrow={
             <span className="inline-flex items-center gap-2 rounded-full bg-[blue-50] px-4 py-1.5 text-sm font-semibold text-[#1b2f57] border border-blue-200">
               <span className="h-2 w-2 rounded-full bg-[#1b2f57]"></span>
-              About QStudy
+              About Us
             </span>
           }
           title="Your personalised gateway to world-class education"
@@ -820,7 +833,7 @@ const AboutSection = () => {
 
 
           <div className="mt-8 space-y-4 text-sm text-muted-foreground">
-            <p>QStudy World is dedicated to guiding ambitious students through every stage of their international education journey. As Malaysia's largest one-stop application centre, we partner with top institutions to deliver expert counselling and life-changing opportunities.</p>
+            <p>As Malaysia's largest one-stop application centre, we partner with top institutions to deliver expert counselling and life-changing opportunities.</p>
             <p>
               From foundation to postgraduate studies, we champion your
               aspirations with curated program recommendations, scholarship
@@ -870,7 +883,7 @@ const WhySection = () => {
       className="container px-6 py-24"
     >
       <SectionHeader
-        eyebrow="Why Choose QStudy"
+        eyebrow="Why Choose Us"
         title="Premium support that sets you up for success"
         description="We combine official university partnerships, seasoned counsellors, and technology-driven guidance to deliver an unmatched admissions experience."
         align="center"
@@ -929,14 +942,14 @@ const CtaSection = () => {
               Apply now for a free preocessing & consultation – where every question matters
             </h3>
             <p className="mt-4 text-sm text-primary-foreground/80">
-              Confidence from the first enquiry to campus arrival. Let QStudy
+              Confidence from the first enquiry to campus arrival. Let Us
               design your personalised roadmap.
             </p>
           </div>
           <div className="flex flex-wrap gap-4">
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-primary shadow-lg shadow-primary/30 transition hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-primary shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary hover:text-white hover:border hover:border-primary"
             >
               Apply Now
               <ArrowRight className="h-4 w-4" aria-hidden />
@@ -1023,6 +1036,21 @@ interface ContactSectionProps {
 }
 
 const ContactSection = ({ onSubmit }: ContactSectionProps) => {
+  const [countryCode, setCountryCode] = useState("+60");
+  const [consent, setConsent] = useState(false);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!consent) {
+      toast.error("Please agree to the terms and conditions to continue.");
+      return;
+    }
+    onSubmit(event);
+    // Reset form state
+    setCountryCode("+60");
+    setConsent(false);
+  };
+
   return (
     <motion.section
       id="contact"
@@ -1094,6 +1122,43 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                   </div>
                 </div>
               </div>
+
+              {/* Social Media Icons */}
+              <div className="pt-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Social Media
+                </label>
+
+                <div className="flex items-center gap-4">
+                  {/* Facebook */}
+                  <a
+                    href="https://facebook.com/"
+                    target="_blank"
+                    className="p-3 rounded-full border border-gray-300 hover:border-[#1a2e56] hover:text-[#1a2e56] transition-colors"
+                  >
+                    <i className="fa-brands fa-facebook-f text-xl"></i>
+                  </a>
+
+                  {/* Instagram */}
+                  <a
+                    href="https://instagram.com/"
+                    target="_blank"
+                    className="p-3 rounded-full border border-gray-300 hover:border-[#1a2e56] hover:text-[#1a2e56] transition-colors"
+                  >
+                    <i className="fa-brands fa-instagram text-xl"></i>
+                  </a>
+
+                  {/* Telegram */}
+                  <a
+                    href="https://t.me/"
+                    target="_blank"
+                    className="p-3 rounded-full border border-gray-300 hover:border-[#1a2e56] hover:text-[#1a2e56] transition-colors"
+                  >
+                    <i className="fa-brands fa-telegram text-xl"></i>
+                  </a>
+                </div>
+              </div>
+
             </motion.div>
 
             {/* Right Side - Contact Form */}
@@ -1104,10 +1169,11 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
             >
               <form
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
                 className="bg-white rounded-2xl p-8 shadow-lg"
               >
                 <div className="space-y-6">
+                  {/* Name */}
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                       Name
@@ -1134,6 +1200,54 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                     />
                   </div>
 
+                  {/* Phone with Country Code */}
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone
+                    </label>
+                    <div className="flex gap-2">
+                      {/* Country Code Selector */}
+                      <select
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                        name="countryCode"
+                        className="w-auto min-w-[120px] px-4 py-3 border border-gray-300 rounded-lg transition-colors"
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = '#1a2e56';
+                          e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = '#d1d5db';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
+                      >
+                        {countries.map((country) => (
+                          <option key={country.code} value={country.code}>
+                            {country.flag} {country.code}
+                          </option>
+                        ))}
+                      </select>
+                      {/* Phone Input */}
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Phone Number"
+                        required
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg transition-colors"
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = '#1a2e56';
+                          e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = '#d1d5db';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                       Email
@@ -1143,7 +1257,7 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                       name="email"
                       type="email"
                       required
-                      placeholder="jane@framer.com"
+                      placeholder="jane@example.com"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors"
                       onFocus={(e) => {
                         e.currentTarget.style.borderColor = '#1a2e56';
@@ -1156,33 +1270,7 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                     />
                   </div>
 
-                  <div>
-                    <label htmlFor="destination" className="block text-sm font-medium text-gray-700 mb-2">
-                      Industry
-                    </label>
-                    <select
-                      id="destination"
-                      name="destination"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors"
-                      defaultValue=""
-                      onFocus={(e) => {
-                        e.currentTarget.style.borderColor = '#1a2e56';
-                        e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 46, 86, 0.2)';
-                      }}
-                      onBlur={(e) => {
-                        e.currentTarget.style.borderColor = '#d1d5db';
-                        e.currentTarget.style.boxShadow = 'none';
-                      }}
-                    >
-                      <option value="">Select...</option>
-                      <option value="Malaysia">Malaysia</option>
-                      <option value="United Kingdom">United Kingdom</option>
-                      <option value="Canada">Canada</option>
-                      <option value="Australia">Australia</option>
-                      <option value="Other">Other Destination</option>
-                    </select>
-                  </div>
-
+                  {/* Message */}
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                       Message
@@ -1203,16 +1291,32 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                       }}
                     />
                   </div>
+
+                  {/* Consent Checkbox */}
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="consent"
+                      checked={consent}
+                      onCheckedChange={(checked) => setConsent(checked === true)}
+                      required
+                      className="mt-1"
+                    />
+                    <label
+                      htmlFor="consent"
+                      className="text-sm text-gray-700 cursor-pointer leading-relaxed"
+                    >
+                      I agree to the terms and conditions and privacy policy
+                    </label>
+                  </div>
                 </div>
 
                 <button
                   type="submit"
-                  className="mt-8 w-full text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                  className="mt-8 w-full text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 hover:bg-white hover:text-primary hover:border hover:border-primary"
                   style={{ 
-                    backgroundColor: '#1a2e56',
-                    '--hover-bg': '#153048'
+                    backgroundColor: '#1a2e56'                    
                   } as React.CSSProperties}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#153048'}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fff'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a2e56'}
                 >
                   <ArrowRight className="h-4 w-4" />

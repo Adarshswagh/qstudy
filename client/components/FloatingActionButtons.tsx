@@ -94,6 +94,40 @@ export const FloatingActionButtons = ({
 
       {/* Right side - Call button and Go to Top button */}
       <div className="flex flex-col gap-3 pointer-events-auto">
+
+                {/* Go to Top button */}
+        <AnimatePresence>
+          {isVisible && (
+            <motion.button
+              onClick={scrollToTop}
+              className={cn(
+                "group relative flex items-center justify-center",
+                "h-14 w-14 rounded-full shadow-lg transition-all duration-300",
+                "bg-primary hover:bg-primary/90 active:scale-95",
+                "focus:outline-none focus:ring-4 focus:ring-primary/30",
+                "sm:h-16 sm:w-16 border hover:bg-white"
+              )}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Scroll to top"
+            >
+              <ArrowUp className="h-6 w-6 text-white hover:text-primary sm:h-7 sm:w-7" />
+              
+              {/* Tooltip */}
+              <div className="absolute left-full ml-3 hidden group-hover:block">
+                <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap">
+                  Back to Top
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900"></div>
+                </div>
+              </div>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
+
         {/* Call Button */}
         <motion.button
           onClick={handleCall}
@@ -119,37 +153,7 @@ export const FloatingActionButtons = ({
           </div>
         </motion.button>
 
-        {/* Go to Top button */}
-        <AnimatePresence>
-          {isVisible && (
-            <motion.button
-              onClick={scrollToTop}
-              className={cn(
-                "group relative flex items-center justify-center",
-                "h-14 w-14 rounded-full shadow-lg transition-all duration-300",
-                "bg-primary hover:bg-primary/90 active:scale-95",
-                "focus:outline-none focus:ring-4 focus:ring-primary/30",
-                "sm:h-16 sm:w-16"
-              )}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Scroll to top"
-            >
-              <ArrowUp className="h-6 w-6 text-white sm:h-7 sm:w-7" />
-              
-              {/* Tooltip */}
-              <div className="absolute left-full ml-3 hidden group-hover:block">
-                <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap">
-                  Back to Top
-                  <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900"></div>
-                </div>
-              </div>
-            </motion.button>
-          )}
-        </AnimatePresence>
+
       </div>
     </div>
   );

@@ -229,12 +229,12 @@ const PrivacyPolicy = () => {
                     Kuala Lumpur, Malaysia
                   </p>
                   <p className="text-gray-700">
-                    <strong>Email:</strong> info@qstudyworld.com<br />
-                    <strong>Phone:</strong> +60 12-503 7122
+                    <strong>Email:</strong> <a href="mailto:info@qstudyworld.com" className="text-primary hover:underline">info@qstudyworld.com</a><br />
+                    <strong>Phone:</strong> <a href="tel:+60125037122" className="text-primary hover:underline">+60 12-503 7122</a>
                   </p>
                   <p className="text-gray-700">
                     <strong>Data Protection Officer:</strong><br />
-                    Email: privacy@qstudyworld.com
+                    Email: <a href="mailto:privacy@qstudyworld.com" className="text-primary hover:underline">privacy@qstudyworld.com</a>
                   </p>
                 </div>
               </section>
