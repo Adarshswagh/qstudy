@@ -7,7 +7,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 // Using public folder path for Next.js
-const logo = '/images/logo.png';
+const logo = '/images/logo.svg';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -64,8 +64,8 @@ export const Header = () => {
                 <Image
                   src={logo}
                   alt="QStudy Logo"
-                  width={130}
-                  height={120}
+                  width={200}
+                  height={  250}
                   className=""
                   priority
                 />
