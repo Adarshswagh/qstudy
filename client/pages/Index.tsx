@@ -1084,43 +1084,6 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <Mail className="h-6 w-6" style={{ color: '#1a2e56' }} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">E-mail</p>
-                    <a
-                      href="mailto:info@qstudyworld.com"
-                      className="text-lg font-semibold text-gray-900 transition-colors"
-                      style={{ '--hover-color': '#1a2e56' } as React.CSSProperties}
-                      onMouseEnter={(e) => e.currentTarget.style.color = '#1a2e56'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = '#111827'}
-                    >
-                      info@qstudyworld.com
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <Phone className="h-6 w-6" style={{ color: '#1a2e56' }} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Phone number</p>
-                    <a
-                      href="tel:+60125037122"
-                      className="text-lg font-semibold text-gray-900 transition-colors"
-                      onMouseEnter={(e) => e.currentTarget.style.color = '#1a2e56'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = '#111827'}
-                    >
-                      +6012-503 7122
-                    </a>
-                  </div>
-                </div>
-              </div>
-
               {/* Social Media Icons */}
               <div className="pt-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">

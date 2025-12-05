@@ -40,7 +40,7 @@ export const Footer = () => {
         <div className="border-t border-black">
           <div className="container flex flex-col items-center justify-between gap-4 px-6 py-6 text-md text-primary sm:flex-row">
             <p>
-              © {new Date().getFullYear()} QStudy World. All rights reserved.
+              © {new Date().getFullYear()} Powered By QStudy World
             </p>
             <div className="flex gap-6">
               <a href="/privacy-policy" className="transition text-primary text-md hover:text-primary/80">
