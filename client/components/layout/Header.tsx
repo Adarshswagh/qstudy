@@ -88,7 +88,7 @@ export const Header = () => {
           </Link>
 
           <div className="flex-1 min-w-0 text-right">
-            <div className="text-[20px] sm:text-md font-medium uppercase text-muted-foreground leading-tight text-end">
+            <div className="text-[15px] sm:text-sm font-medium uppercase text-muted-foreground leading-tight text-end">
               One Stop Study In Malaysia Application Centre
             </div>
           </div>

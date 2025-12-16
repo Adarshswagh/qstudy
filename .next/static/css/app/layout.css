@@ -2025,6 +2025,9 @@ body{
 .text-\[20px\]{
   font-size: 20px;
 }
+.text-\[15px\]{
+  font-size: 15px;
+}
 .font-bold{
   font-weight: 700;
 }
@@ -3747,6 +3750,10 @@ body{
     text-align: left;
   }
 
+  .sm\:text-justify{
+    text-align: justify;
+  }
+
   .sm\:text-3xl{
     font-size: 1.875rem;
     line-height: 2.25rem;
@@ -3874,6 +3881,10 @@ body{
     text-align: left;
   }
 
+  .md\:text-justify{
+    text-align: justify;
+  }
+
   .md\:text-sm{
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -3951,6 +3962,10 @@ body{
 
   .lg\:inline-flex{
     display: inline-flex;
+  }
+
+  .lg\:grid{
+    display: grid;
   }
 
   .lg\:hidden{

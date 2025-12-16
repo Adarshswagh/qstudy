@@ -680,7 +680,7 @@ const HeroSection = () => {
 
       <div className="container px-4 sm:px-6">
         {/* Rest of your hero content remains the same */}
-        <div className="grid items-start gap-6 md:gap-8 md:grid-cols-[1fr,1.2fr] lg:grid-cols-[1fr,1.5fr]">
+        <div className="flex flex-col gap-6 md:gap-8 lg:grid lg:grid-cols-[1fr,1.5fr] lg:items-start">
           <motion.div
             initial={{ opacity: 0, y: 48 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -691,7 +691,7 @@ const HeroSection = () => {
             <h1 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
               Explore academic pathways from Foundation to PhD
             </h1>
-            <p className="mt-4 sm:mt-5 max-w-2xl text-base sm:text-lg text-muted-foreground text-justify md:text-left">
+            <p className="mt-4 sm:mt-5 max-w-2xl text-base sm:text-lg text-muted-foreground text-justify ">
             Your One-Stop Application Center Globally Recognized and Authorized by Top Universities in Malaysia
 
             We simplify your entire admission process with fast, smooth, and student-friendly support. From submitting your application to guiding you through every step, we ensure a seamless experience.
@@ -719,7 +719,7 @@ const HeroSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative md:self-start w-full max-w-5xl"
+            className="relative w-full max-w-5xl lg:self-start"
           >
             <div className="relative overflow-hidden rounded-2xl md:rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 md:p-8 shadow-2xl shadow-primary/15 backdrop-blur">
               <div
