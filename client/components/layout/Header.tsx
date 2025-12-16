@@ -54,7 +54,7 @@ export const Header = () => {
             </Link>
 
             <div className=" md:text-lg lg:text-xl xl:text-3xl font-medium uppercase text-muted-foreground text-center">
-              One Stop Study In Malaysia Application Centre
+              One Stop Study In Malaysia Application Center
             </div>
           </div>
 
@@ -89,7 +89,7 @@ export const Header = () => {
 
           <div className="flex-1 min-w-0 text-right">
             <div className="text-[15px] sm:text-sm font-medium uppercase text-muted-foreground leading-tight text-end">
-              One Stop Study In Malaysia Application Centre
+              One Stop Study In Malaysia Application Center
             </div>
           </div>
         </div>
