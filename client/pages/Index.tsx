@@ -652,7 +652,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden pb-1  0 pt-20"
+      className="relative overflow-hidden pb-10 md:pb-16 pt-16 md:pt-20"
     >
       {/* Background Image */}
       <div 
@@ -678,20 +678,20 @@ const HeroSection = () => {
         aria-hidden
       />
 
-      <div className="container px-6">
+      <div className="container px-4 sm:px-6">
         {/* Rest of your hero content remains the same */}
-        <div className="grid items-start gap-4 lg:grid-cols-[1fr,1.5fr]">
+        <div className="grid items-start gap-6 md:gap-8 md:grid-cols-[1fr,1.2fr] lg:grid-cols-[1fr,1.5fr]">
           <motion.div
             initial={{ opacity: 0, y: 48 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="relative max-w-xl"
+            className="relative max-w-xl md:max-w-none"
           >
-            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
+            <h1 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
               Explore academic pathways from Foundation to PhD
             </h1>
-            <p className="mt-5 max-w-2xl text-lg text-muted-foreground text-justify">
+            <p className="mt-4 sm:mt-5 max-w-2xl text-base sm:text-lg text-muted-foreground text-justify md:text-left">
             Your One-Stop Application Center Globally Recognized and Authorized by Top Universities in Malaysia
 
             We simplify your entire admission process with fast, smooth, and student-friendly support. From submitting your application to guiding you through every step, we ensure a seamless experience.
@@ -719,9 +719,9 @@ const HeroSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative lg:self-start max-w-5xl"
+            className="relative md:self-start w-full max-w-5xl"
           >
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-primary/10 bg-white/80 p-8 shadow-2xl shadow-primary/15 backdrop-blur">
+            <div className="relative overflow-hidden rounded-2xl md:rounded-[2.5rem] border border-primary/10 bg-white/80 p-6 md:p-8 shadow-2xl shadow-primary/15 backdrop-blur">
               <div
                 className="absolute -top-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
                 aria-hidden 

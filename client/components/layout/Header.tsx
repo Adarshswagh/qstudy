@@ -1,7 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -11,7 +9,6 @@ const logo = '/images/logo.svg';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,24 +23,6 @@ export const Header = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!mobileOpen) {
-      return;
-    }
-
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setMobileOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [mobileOpen]);
-
   return (
     <header
       className={cn(
@@ -53,11 +32,13 @@ export const Header = () => {
           : "bg-transparent",
       )}
     >
-      <div className="container px-6">
-        <div className="flex items-center justify-between py-3">
+      <div className="container px-4 sm:px-6">
+        {/* Desktop/Tablet Layout: Logo + Text (left) | Button (right) */}
+        <div className="hidden md:flex items-center justify-between py-3">
+          <div className="flex items-center gap-5 md:gap-4 lg:gap-40 flex-1 min-w-0">
             <Link
               href="/"
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 flex-shrink-0"
               aria-label="QStudy home"
             >
               <div className="h-auto w-auto">
@@ -72,59 +53,47 @@ export const Header = () => {
               </div>
             </Link>
 
-          <div className="hidden items-center text-3xl font-medium uppercase text-muted-foreground lg:flex">
-          One Stop Study In Malaysia Application Centre
+            <div className=" md:text-lg lg:text-xl xl:text-3xl font-medium uppercase text-muted-foreground text-center">
+              One Stop Study In Malaysia Application Centre
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-shrink-0">
             <a
               href="#contact"
-              className="hidden rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-white hover:text-primary hover:border  hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:inline-flex"
+              className="rounded-full bg-primary px-4 md:px-5 py-2 text-xs md:text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-white hover:text-primary hover:border hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap"
             >
               Get Started
             </a>
-            <button
-              type="button"
-              className="grid h-11 w-11 place-items-center rounded-full border border-border bg-white/80 text-primary shadow-sm transition hover:border-primary/40 hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:hidden"
-              onClick={() => setMobileOpen((prev) => !prev)}
-              aria-label="Toggle navigation"
-            >
-              {mobileOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </button>
+          </div>
+        </div>
+
+        {/* Mobile Layout: Logo (left) | Text (right) */}
+        <div className="flex md:hidden items-center justify-between gap-0 py-2 sm:py-3 ">
+          <Link
+            href="/"
+            className="flex items-center gap-2 flex-shrink-0"
+            aria-label="QStudy home"
+          >
+            <div className="h-auto w-auto">
+              <Image
+                src={logo}
+                alt="QStudy Logo"
+                width={80}
+                height={96}
+                className=""
+                priority
+              />
+            </div>
+          </Link>
+
+          <div className="flex-1 min-w-0 text-right">
+            <div className="text-[20px] sm:text-md font-medium uppercase text-muted-foreground leading-tight text-end">
+              One Stop Study In Malaysia Application Centre
+            </div>
           </div>
         </div>
       </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.nav
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-border bg-white/95 backdrop-blur-xl lg:hidden"
-          >
-            <div className="container px-6 pb-6">
-              <div className="flex flex-col gap-3 pt-4 text-base font-semibold text-primary">
-                <div className="px-4 py-3 text-center uppercase">
-                  YOUR ONE STOP APPLICATION CENTER
-                </div>
-                <a
-                  href="#contact"
-                  className="mt-2 rounded-full bg-primary px-5 py-3 text-center text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition hover:bg-primary/90"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Get Started
-                </a>
-              </div>
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
     </header>
   );
 };
