@@ -350,8 +350,13 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     contactNumber: "",
     flightDetail: "",
     flightNumber: "",
+    numberOfLuggage: "",
+    numberOfPerson: "",
     needsAirportPickup: false,
   });
+  
+  // State for flight ticket file
+  const [flightTicketFile, setFlightTicketFile] = useState<File | null>(null);
 
   // Consent states for all forms
   const [consentApplyNow, setConsentApplyNow] = useState(false);
@@ -419,6 +424,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       ...transportationFormData,
       needsAirportPickup: checked,
     });
+  };
+
+  const handleFlightTicketChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setFlightTicketFile(file);
   };
 
   const handlePhoneInputChange = (value?: string) => {
@@ -625,8 +635,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       contactNumber: "",
       flightDetail: "",
       flightNumber: "",
+      numberOfLuggage: "",
+      numberOfPerson: "",
       needsAirportPickup: false,
     });
+    setFlightTicketFile(null);
     setTransportationCountry("MY");
     setTransportationPhoneError("");
     setConsentTransportation(false);
@@ -677,11 +690,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     <div className="relative">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 mb-6 gap-1 sm:gap-2 p-1.5 sm:p-2 h-auto min-h-[3rem] sm:min-h-[2.5rem]">
+        <TabsTrigger value="check-eligibility" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
+            Check My Eligibility
+          </TabsTrigger>
           <TabsTrigger value="apply-now" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
             Apply Now
-          </TabsTrigger>
-          <TabsTrigger value="check-eligibility" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
-            Check My Eligibility
           </TabsTrigger>
           <TabsTrigger value="check-visa" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
             Check My Visa
@@ -817,8 +830,8 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
                   <option value="">Select Qualification</option>
-                  <option value="Greater than 10">Greater than 10</option>
-                  <option value="Greater than 12">Greater than 12</option>
+                  <option value="Grade 1O / O level ">Grade 1O / O level </option>
+                  <option value="Grade 12 / A Level">Grade 12 / A Level</option>
                   <option value="Foundation">Foundation</option>
                   <option value="Diploma">Diploma</option>
                   <option value="Degree">Degree</option>
@@ -844,6 +857,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   <option value="Cambridge University">Cambridge University</option>
                   <option value="ICSE / ISC">ICSE / ISC</option>
                   <option value="IB">IB</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
@@ -1045,8 +1059,8 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
                   <option value="">Select Qualification</option>
-                  <option value="Greater than 10">Greater than 10</option>
-                  <option value="Greater than 12">Greater than 12</option>
+                  <option value="Grade 1O / O level ">Grade 1O / O level </option>
+                  <option value="Grade 12 / A Level">Grade 12 / A Level</option>
                   <option value="Foundation">Foundation</option>
                   <option value="Diploma">Diploma</option>
                   <option value="Degree">Degree</option>
@@ -1072,6 +1086,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   <option value="Cambridge University">Cambridge University</option>
                   <option value="ICSE / ISC">ICSE / ISC</option>
                   <option value="IB">IB</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
@@ -1257,94 +1272,6 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             </div>
 
 
-            {/* Course & Institution */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-primary mb-1.5">
-                  Course Name
-                </label>
-                <input
-                  type="text"
-                  name="course"
-                  placeholder="Course Name"
-                  value={visaFormData.course}
-                  onChange={handleVisaFormChange}
-                  required
-                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-primary mb-1.5">
-                  Institution Name
-                </label>
-                <input
-                  type="text"
-                  name="institution"
-                  placeholder="Institution Name"
-                  value={visaFormData.institution}
-                  onChange={handleVisaFormChange}
-                  required
-                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner"
-                />
-              </div>
-            </div>
-
-            {/* Highest Qualification */}
-            <div>
-              <label className="block text-sm font-medium text-primary mb-1.5">
-                Highest Qualification Completed
-              </label>
-              <input
-                type="text"
-                name="qualification"
-                placeholder="Qualification"
-                value={visaFormData.qualification}
-                onChange={handleVisaFormChange}
-                required
-                className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner"
-              />
-            </div>
-
-            {/* English Proficiency & Funding Source */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-primary mb-1.5">
-                  English Proficiency 
-                </label>
-                <select
-                  name="funding"
-                  value={visaFormData.funding}
-                  onChange={handleVisaFormChange}
-                  required
-                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner"
-                >
-                  <option value="ielts">IELTS</option>
-                  <option value="toefl">TOEFL</option>
-                  <option value="muet">MUET</option>
-                  <option value="proof">Proof</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-primary mb-1.5">
-                  Funding Source
-                </label>
-                <select
-                  name="funding"
-                  value={visaFormData.funding}
-                  onChange={handleVisaFormChange}
-                  required
-                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner"
-                >
-                  <option value="">Select</option>
-                  <option value="self">Self</option>
-                  <option value="sponsor">Sponsor</option>
-                </select>
-              </div>
-            </div>
-
-
             {/* Consent */}
             <div className="flex items-start space-x-2 mt-2">
               <Checkbox
@@ -1414,43 +1341,53 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* List of Universities Type & Select University in one line (when university type is selected) */}
+            <div className={eligibilityFormData.universityType && eligibilityAvailableUniversities.length > 0 ? "grid grid-cols-1 sm:grid-cols-2 gap-4" : ""}>
+              {/* List of Universities Type */}
+              <div>
+                <label htmlFor="eligibility-universityType" className="block text-sm font-medium text-primary mb-1.5">
+                  List Of Universities
+                </label>
+                <select
+                  id="eligibility-universityType"
+                  name="universityType"
+                  value={eligibilityFormData.universityType}
+                  onChange={handleEligibilityFormChange}
+                  required
+                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                >
+                  <option value="">Select University Type</option>
+                  <option value="Government University">Government University</option>
+                  <option value="Private University">Private University</option>
+                  <option value="Foreign University">Foreign University</option>
+                </select>
+              </div>
 
-            {/* Which Area You Looking For */}
-            <div>
-              <label htmlFor="area" className="block text-sm font-medium text-primary mb-1.5">
-                Address Of Accomdation
-              </label>
-              <input
-                type="text"
-                id="accommodation-address"
-                name="address"
-                placeholder="Which area are you looking for"
-                value={accommodationFormData.address}
-                onChange={handleAccommodationFormChange}
-                required
-                className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-              />
+              {/* Selected University (conditional) */}
+              {eligibilityFormData.universityType && eligibilityAvailableUniversities.length > 0 && (
+                <div>
+                  <label htmlFor="eligibility-selectedUniversity" className="block text-sm font-medium text-primary mb-1.5">
+                    Select University
+                  </label>
+                  <select
+                    id="eligibility-selectedUniversity"
+                    name="selectedUniversity"
+                    value={eligibilityFormData.selectedUniversity}
+                    onChange={handleEligibilityFormChange}
+                    required
+                    className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  >
+                    <option value="">Select University</option>
+                    {eligibilityAvailableUniversities.map((university) => (
+                      <option key={university.name} value={university.name}>
+                        {university.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
 
-            {/* Which Area You Looking For */}
-            <div>
-              <label htmlFor="area" className="block text-sm font-medium text-primary mb-1.5">
-                Guardian / Host Details
-              </label>
-              <input
-                type="text"
-                id="guardian-details"
-                name="guardianDetails"
-                placeholder="Guardian / Host Details"
-                value={accommodationFormData.guardianDetails}
-                onChange={handleAccommodationFormChange}
-                required
-                className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-              />
-            </div>
-
-            </div>
 
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1598,96 +1535,209 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               </div>
             </div>
 
-            {/* Date of Arrival */}
-            <div>
-              <label htmlFor="dateOfArrival" className="block text-sm font-medium text-primary mb-1.5">
-                Date of Arrival
-              </label>
-              <input
-                type="date"
-                id="dateOfArrival"
-                name="dateOfArrival"
-                value={transportationFormData.dateOfArrival}
-                onChange={handleTransportationFormChange}
-                required
-                className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
-              />
-            </div>
-
-            {/* Contact with Country Flag Selector */}
-            <div>
-              <label htmlFor="contact" className="block text-sm font-medium text-primary mb-1.5">
-                Contact
-              </label>
-              <div
-                className={cn(
-                  "w-full rounded-xl border bg-secondary/40 p-0 shadow-inner shadow-primary/5 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/30",
-                  transportationPhoneError ? "border-red-500 focus-within:ring-red-400" : "border-primary/20",
-                )}
-              >
-                <PhoneInput
-                  international
-                  defaultCountry="MY"
-                  country={transportationCountry}
-                  value={transportationFormData.contactNumber || undefined}
-                  onChange={handleTransportationPhoneInputChange}
-                  onCountryChange={(country) => {
-                    const nextCountry = country ?? undefined;
-                    setTransportationCountry(nextCountry);
-                    if (transportationFormData.contactNumber) {
-                      validateTransportationPhone(transportationFormData.contactNumber, nextCountry);
-                    }
-                  }}
-                  onBlur={() => validateTransportationPhone()}
-                  placeholder="Enter contact number"
+            {/* Date of Arrival & Contact in one line */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Date of Arrival */}
+              <div>
+                <label htmlFor="dateOfArrival" className="block text-sm font-medium text-primary mb-1.5">
+                  Date of Arrival
+                </label>
+                <input
+                  type="date"
+                  id="dateOfArrival"
+                  name="dateOfArrival"
+                  value={transportationFormData.dateOfArrival}
+                  onChange={handleTransportationFormChange}
                   required
-                  limitMaxLength
-                  style={phoneInputStyle}
-                  countrySelectComponent={SearchableCountrySelect}
-                  className="!border-none !bg-transparent [&>input]:!border-none [&>input]:!bg-transparent [&>input]:!text-primary [&>input]:!text-sm [&>input]:p-3 [&>input]:!outline-none [&>input]:!ring-0 [&>input]:placeholder:text-primary/50"
-                  numberInputProps={{
-                    className: "!bg-transparent !border-none !outline-none !ring-0",
-                    inputMode: "numeric",
-                  }}
+                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
                 />
               </div>
-              {transportationPhoneError && (
-                <p className="text-red-500 text-xs mt-1">{transportationPhoneError}</p>
+
+              {/* Contact with Country Flag Selector */}
+              <div>
+                <label htmlFor="contact" className="block text-sm font-medium text-primary mb-1.5">
+                  Contact
+                </label>
+                <div
+                  className={cn(
+                    "w-full rounded-xl border bg-secondary/40 p-0 shadow-inner shadow-primary/5 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/30",
+                    transportationPhoneError ? "border-red-500 focus-within:ring-red-400" : "border-primary/20",
+                  )}
+                >
+                  <PhoneInput
+                    international
+                    defaultCountry="MY"
+                    country={transportationCountry}
+                    value={transportationFormData.contactNumber || undefined}
+                    onChange={handleTransportationPhoneInputChange}
+                    onCountryChange={(country) => {
+                      const nextCountry = country ?? undefined;
+                      setTransportationCountry(nextCountry);
+                      if (transportationFormData.contactNumber) {
+                        validateTransportationPhone(transportationFormData.contactNumber, nextCountry);
+                      }
+                    }}
+                    onBlur={() => validateTransportationPhone()}
+                    placeholder="Enter contact number"
+                    required
+                    limitMaxLength
+                    style={phoneInputStyle}
+                    countrySelectComponent={SearchableCountrySelect}
+                    className="!border-none !bg-transparent [&>input]:!border-none [&>input]:!bg-transparent [&>input]:!text-primary [&>input]:!text-sm [&>input]:p-3 [&>input]:!outline-none [&>input]:!ring-0 [&>input]:placeholder:text-primary/50"
+                    numberInputProps={{
+                      className: "!bg-transparent !border-none !outline-none !ring-0",
+                      inputMode: "numeric",
+                    }}
+                  />
+                </div>
+                {transportationPhoneError && (
+                  <p className="text-red-500 text-xs mt-1">{transportationPhoneError}</p>
+                )}
+              </div>
+            </div>
+
+                        {/* List of Universities Type & Select University in one line (when university type is selected) */}
+                        <div className={eligibilityFormData.universityType && eligibilityAvailableUniversities.length > 0 ? "grid grid-cols-1 sm:grid-cols-2 gap-4" : ""}>
+              {/* List of Universities Type */}
+              <div>
+                <label htmlFor="eligibility-universityType" className="block text-sm font-medium text-primary mb-1.5">
+                  List Of Universities
+                </label>
+                <select
+                  id="eligibility-universityType"
+                  name="universityType"
+                  value={eligibilityFormData.universityType}
+                  onChange={handleEligibilityFormChange}
+                  required
+                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                >
+                  <option value="">Select University Type</option>
+                  <option value="Government University">Government University</option>
+                  <option value="Private University">Private University</option>
+                  <option value="Foreign University">Foreign University</option>
+                </select>
+              </div>
+
+              {/* Selected University (conditional) */}
+              {eligibilityFormData.universityType && eligibilityAvailableUniversities.length > 0 && (
+                <div>
+                  <label htmlFor="eligibility-selectedUniversity" className="block text-sm font-medium text-primary mb-1.5">
+                    Select University
+                  </label>
+                  <select
+                    id="eligibility-selectedUniversity"
+                    name="selectedUniversity"
+                    value={eligibilityFormData.selectedUniversity}
+                    onChange={handleEligibilityFormChange}
+                    required
+                    className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  >
+                    <option value="">Select University</option>
+                    {eligibilityAvailableUniversities.map((university) => (
+                      <option key={university.name} value={university.name}>
+                        {university.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               )}
             </div>
 
-            {/* Flight Detail */}
-            <div>
-              <label htmlFor="flightDetail" className="block text-sm font-medium text-primary mb-1.5">
-                Flight Detail
-              </label>
-              <textarea
-                id="flightDetail"
-                name="flightDetail"
-                placeholder="Enter flight details (e.g., airline, route, etc.)"
-                value={transportationFormData.flightDetail}
-                onChange={handleTransportationFormChange}
-                required
-                rows={3}
-                className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
-              />
+
+            {/* Flight Detail & Flight Number in one line */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Flight Detail */}
+              <div>
+                <label htmlFor="flightDetail" className="block text-sm font-medium text-primary mb-1.5">
+                  Flight Detail
+                </label>
+                <textarea
+                  id="flightDetail"
+                  name="flightDetail"
+                  placeholder="Enter flight details (e.g., airline, route, etc.)"
+                  value={transportationFormData.flightDetail}
+                  onChange={handleTransportationFormChange}
+                  required
+                  rows={3}
+                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                />
+              </div>
+
+              {/* Flight Number */}
+              <div>
+                <label htmlFor="flightNumber" className="block text-sm font-medium text-primary mb-1.5">
+                  Flight Number
+                </label>
+                <input
+                  type="text"
+                  id="flightNumber"
+                  name="flightNumber"
+                  placeholder="Flight Number"
+                  value={transportationFormData.flightNumber}
+                  onChange={handleTransportationFormChange}
+                  required
+                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
             </div>
 
-            {/* Flight Number */}
+            {/* Number of Luggage & Number of Person in one line */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Number of Luggage */}
+              <div>
+                <label htmlFor="numberOfLuggage" className="block text-sm font-medium text-primary mb-1.5">
+                  Number of Luggage
+                </label>
+                <input
+                  type="number"
+                  id="numberOfLuggage"
+                  name="numberOfLuggage"
+                  placeholder="Number of Luggage"
+                  value={transportationFormData.numberOfLuggage}
+                  onChange={handleTransportationFormChange}
+                  required
+                  min="0"
+                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+
+              {/* Number of Person */}
+              <div>
+                <label htmlFor="numberOfPerson" className="block text-sm font-medium text-primary mb-1.5">
+                  Number of Person
+                </label>
+                <input
+                  type="number"
+                  id="numberOfPerson"
+                  name="numberOfPerson"
+                  placeholder="Number of Person"
+                  value={transportationFormData.numberOfPerson}
+                  onChange={handleTransportationFormChange}
+                  required
+                  min="1"
+                  className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+            </div>
+
+            {/* Attach Flight Ticket */}
             <div>
-              <label htmlFor="flightNumber" className="block text-sm font-medium text-primary mb-1.5">
-                Flight Number
+              <label htmlFor="flightTicket" className="block text-sm font-medium text-primary mb-1.5">
+                Attach Flight Ticket
               </label>
               <input
-                type="text"
-                id="flightNumber"
-                name="flightNumber"
-                placeholder="Flight Number"
-                value={transportationFormData.flightNumber}
-                onChange={handleTransportationFormChange}
-                required
-                className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                type="file"
+                id="flightTicket"
+                name="flightTicket"
+                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                onChange={handleFlightTicketChange}
+                className="w-full rounded-xl border border-primary/20 bg-secondary/40 p-3 text-sm text-primary shadow-inner shadow-primary/5 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90 file:cursor-pointer"
               />
+              {flightTicketFile && (
+                <p className="text-sm text-primary/70 mt-1">
+                  Selected: {flightTicketFile.name}
+                </p>
+              )}
             </div>
 
             {/* Airport Pickup Checkbox */}

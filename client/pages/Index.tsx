@@ -493,16 +493,15 @@ const universityLogos: Record<string, UniversityLogo[]> = {
     { name: "Sunway University", logo: "/images/logos/sunway.png" },
     { name: "Asia Pacific University", logo: "/images/logos/apu.png" },
     { name: "INTI International University", logo: "/images/logos/inti.png" },
+    { name: "Universiti Teknologi Petronas", logo: "/images/logos/utp.png" },
     { name: "HELP University", logo: "/images/logos/help.png" },
     { name: "UCSI University", logo: "/images/logos/ucsi.png" },
     { name: "Multimedia University", logo: "/images/logos/mmu.png" },
     { name: "Universiti Tunku Abdul Rahman", logo: "/images/logos/utar.png" },
     { name: "SEGI University", logo: "/images/logos/segi.png" },
     { name: "Management & Science University", logo: "/images/logos/msu.png" },
-    { name: "Limkokwing University", logo: "/images/logos/limkokwing.png" },
     { name: "Quest International University", logo: "/images/logos/quest.png" },
     { name: "Universiti Tenaga Nasional", logo: "/images/logos/uniten.png" },
-    { name: "Universiti Teknologi Petronas", logo: "/images/logos/utp.png" },
     { name: "Universiti Islam Antarabangsa Malaysia", logo: "/images/logos/uiam.png" },
     { name: "Universiti Tun Hussein Onn Malaysia", logo: "/images/logos/uthm.png" },
     { name: "Universiti Teknikal Malaysia Melaka", logo: "/images/logos/utem.png" },
@@ -538,8 +537,11 @@ const universityCategories = {
     { name: "Universiti Kebangsaan Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/2.png" },
     { name: "Universiti Sains Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/3.png" },
     { name: "Universiti Teknologi Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/4.png" },
+    { name: "Universiti University Tun Hussien One", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/6.png" },
+    { name: "Universiti Tun Hussein Onn Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/6.png" },
+    { name: "Univeristy Utara malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/6.png" },
     { name: "Universiti Putra Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/5.png" },
-    { name: "Universiti Teknologi MARA", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/6.png" },
+    { name: "Universiti Islam Antarabangsa Malaysia", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/6.png" },
     { name: "Universiti Malaysia Sabah", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/7.png" },
     { name: "Universiti Malaysia Sarawak", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/8.png" },
     { name: "Universiti Malaysia Terengganu", logo: "/images/MALAYSIAN GOVERNMENT UNIVERSITIES/9.png" },
@@ -554,17 +556,15 @@ const universityCategories = {
     { name: "Sunway University", logo: "/images/logos/sunway.png" },
     { name: "Asia Pacific University", logo: "/images/logos/apu.png" },
     { name: "INTI International University", logo: "/images/logos/inti.png" },
+    { name: "Universiti Teknologi Petronas", logo: "/images/logos/utp.png" },
     { name: "HELP University", logo: "/images/logos/help.png" },
     { name: "UCSI University", logo: "/images/logos/ucsi.png" },
     { name: "Multimedia University", logo: "/images/logos/mmu.png" },
     { name: "Universiti Tunku Abdul Rahman", logo: "/images/logos/utar.png" },
     { name: "SEGI University", logo: "/images/logos/segi.png" },
     { name: "Management & Science University", logo: "/images/logos/msu.png" },
-    { name: "Limkokwing University", logo: "/images/logos/limkokwing.png" },
     { name: "Quest International University", logo: "/images/logos/quest.png" },
     { name: "Universiti Tenaga Nasional", logo: "/images/logos/uniten.png" },
-    { name: "Universiti Teknologi Petronas", logo: "/images/logos/utp.png" },
-    { name: "Universiti Islam Antarabangsa Malaysia", logo: "/images/logos/uiam.png" },
     { name: "Universiti Tun Hussein Onn Malaysia", logo: "/images/logos/uthm.png" },
     { name: "Universiti Teknikal Malaysia Melaka", logo: "/images/logos/utem.png" },
     { name: "Universiti Malaysia Perlis", logo: "/images/logos/unimap.png" },
@@ -652,7 +652,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden pb-20 pt-20"
+      className="relative overflow-hidden pb-1  0 pt-20"
     >
       {/* Background Image */}
       <div 
@@ -757,7 +757,7 @@ const AboutSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="container px-6 pb-20 pt-10"
+      className="container px-6 pb-0 "
     >
       <div className="grid items-center gap-14 lg:grid-cols-2">
         {/* Left side - Image */}
@@ -847,11 +847,11 @@ const WhySection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="container px-6 py-24"
+      className="container px-6 py-10"
     >
       <SectionHeader
         eyebrow="Why Choose Us"
-        title="Premium support that sets you up for success"
+        title="Free Premium support that sets you up for success"
         description="We combine official university partnerships, seasoned counsellors, and technology-driven guidance to deliver an unmatched admissions experience."
         align="center"
       />
@@ -889,7 +889,7 @@ const CtaSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="relative isolate py-24"
+      className="relative isolate py-10"
     >
       <div
         className="absolute inset-0 -z-10 bg-gradient-to-r from-primary to-primary/80"
@@ -1084,41 +1084,29 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
                 </p>
               </div>
 
-              {/* Social Media Icons */}
-              <div className="pt-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Social Media
-                </label>
-
-                <div className="flex items-center gap-4">
-                  {/* Facebook */}
-                  <a
-                    href="https://facebook.com/"
-                    target="_blank"
-                    className="p-3 rounded-full border border-gray-300 hover:border-[#1a2e56] hover:text-[#1a2e56] transition-colors"
-                  >
-                    <i className="fa-brands fa-facebook-f text-xl"></i>
-                  </a>
-
-                  {/* Instagram */}
-                  <a
-                    href="https://instagram.com/"
-                    target="_blank"
-                    className="p-3 rounded-full border border-gray-300 hover:border-[#1a2e56] hover:text-[#1a2e56] transition-colors"
-                  >
-                    <i className="fa-brands fa-instagram text-xl"></i>
-                  </a>
-
-                  {/* Telegram */}
-                  <a
-                    href="https://t.me/"
-                    target="_blank"
-                    className="p-3 rounded-full border border-gray-300 hover:border-[#1a2e56] hover:text-[#1a2e56] transition-colors"
-                  >
-                    <i className="fa-brands fa-telegram text-xl"></i>
-                  </a>
-                </div>
+              {/* QR Codes */}
+              <div className="flex gap-4">
+              <div className="flex flex-col items-center gap-2">
+                <img
+                  src="/images/qr-1.png"
+                  alt="QR Code 1"
+                  className="h-40 w-40 transition bg-primary hover:bg-primary/80"
+                />
+                <p className="text-xs font-medium text-black">
+                  Contact Now
+                </p>
               </div>
+              <div className="flex flex-col items-center gap-2">
+                <img
+                  src="/images/qr-2.png"
+                  alt="QR Code 2"
+                  className="h-40 w-40 transition bg-primary hover:bg-primary/80"
+                />
+                <p className="text-xs font-medium text-black">
+                  Register Now
+                </p>
+              </div>
+            </div>
 
             </motion.div>
 

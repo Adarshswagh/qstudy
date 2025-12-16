@@ -54,7 +54,7 @@ export const Header = () => {
       )}
     >
       <div className="container px-6">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between py-3">
             <Link
               href="/"
               className="flex items-center gap-3"
@@ -64,8 +64,8 @@ export const Header = () => {
                 <Image
                   src={logo}
                   alt="QStudy Logo"
-                  width={200}
-                  height={  250}
+                  width={150}
+                  height={180}
                   className=""
                   priority
                 />
@@ -73,7 +73,7 @@ export const Header = () => {
             </Link>
 
           <div className="hidden items-center text-3xl font-medium uppercase text-muted-foreground lg:flex">
-            YOUR ONE STOP APPLICATION CENTER
+          One Stop Study In Malaysia Application Centre
           </div>
 
           <div className="flex items-center gap-4">
