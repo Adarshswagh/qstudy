@@ -1007,6 +1007,7 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [consent, setConsent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateContactPhone = (
     value = phone,
@@ -1030,23 +1031,70 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
     if (!consent) {
       toast.error("Please agree to the terms and conditions to continue.");
       return;
     }
+    
     const phoneValidation = validateContactPhone();
     if (!phoneValidation.isValid) {
       toast.error(phoneValidation.message);
       return;
     }
-    onSubmit(event);
-    // Reset form state
-    setPhoneCountry("MY");
-    setPhone("");
-    setPhoneError("");
-    setConsent(false);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const name = (formData.get("name") as string)?.trim() || "";
+    const email = (formData.get("email") as string)?.trim() || "";
+    const message = (formData.get("message") as string)?.trim() || "";
+
+    if (!name || !email || !phone || !message) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://cms-be-a5eg.onrender.com/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          contact: phone,
+          message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      toast.success(
+        `Thank you, ${name}! Our counsellors will connect with you within 24 hours.`,
+      );
+
+      // Reset form
+      form.reset();
+      setPhoneCountry("MY");
+      setPhone("");
+      setPhoneError("");
+      setConsent(false);
+      
+      // Call the original onSubmit for any additional handling
+      onSubmit(event);
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      toast.error("Failed to submit your message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -1266,15 +1314,33 @@ const ContactSection = ({ onSubmit }: ContactSectionProps) => {
 
                 <button
                   type="submit"
-                  className="mt-8 w-full text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 hover:bg-white hover:text-primary hover:border hover:border-primary"
+                  disabled={isSubmitting}
+                  className="mt-8 w-full text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 hover:bg-white hover:text-primary hover:border hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ 
                     backgroundColor: '#1a2e56'                    
                   } as React.CSSProperties}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fff'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a2e56'}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitting) {
+                      e.currentTarget.style.backgroundColor = '#fff';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSubmitting) {
+                      e.currentTarget.style.backgroundColor = '#1a2e56';
+                    }
+                  }}
                 >
-                  <ArrowRight className="h-4 w-4" />
-                  Get a Solution
+                  {isSubmitting ? (
+                    <>
+                      <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <ArrowRight className="h-4 w-4" />
+                      Get a Solution
+                    </>
+                  )}
                 </button>
               </form>
             </motion.div>

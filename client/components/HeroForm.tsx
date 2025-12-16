@@ -284,12 +284,183 @@ interface HeroFormProps {
   };
 }
 
+// API helper function to convert file to base64
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+// API call functions
+const submitUniversityAdmission = async (data: {
+  fullName: string;
+  emailAddress: string;
+  contactNumber: string;
+  preferredProgram: string;
+  highestAcademicQualification: string;
+  typeOfQualification: string;
+  universityCategory: string;
+  preferredUniversity: string;
+}) => {
+  const response = await fetch("https://cms-be-a5eg.onrender.com/api/university-admissions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const responseData = await response.json();
+  
+  if (!response.ok) {
+    const errorMessage = responseData?.message || responseData?.error || response.statusText;
+    console.error("API Error:", responseData);
+    throw new Error(errorMessage);
+  }
+  
+  console.log("API Success Response:", responseData);
+  return responseData;
+};
+
+const submitCheckEligibility = async (data: {
+  fullName: string;
+  emailAddress: string;
+  gender: string;
+  nationality: string;
+  preferredProgram: string;
+  highestAcademicQualification: string;
+  typeOfQualification: string;
+  universityCategory: string;
+  preferredUniversity: string;
+}) => {
+  const response = await fetch("https://cms-be-a5eg.onrender.com/api/check-eligibility", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const responseData = await response.json();
+  
+  if (!response.ok) {
+    const errorMessage = responseData?.message || responseData?.error || response.statusText;
+    console.error("API Error:", responseData);
+    throw new Error(errorMessage);
+  }
+  
+  console.log("API Success Response:", responseData);
+  return responseData;
+};
+
+const submitCheckVisa = async (data: {
+  fullName: string;
+  emailAddress: string;
+  dateOfBirth: string;
+  nationality: string;
+  passportNumber: string;
+  passportExpiryDate: string;
+}) => {
+  const response = await fetch("https://cms-be-a5eg.onrender.com/api/check-visa", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const responseData = await response.json();
+  
+  if (!response.ok) {
+    const errorMessage = responseData?.message || responseData?.error || response.statusText;
+    console.error("API Error:", responseData);
+    throw new Error(errorMessage);
+  }
+  
+  console.log("API Success Response:", responseData);
+  return responseData;
+};
+
+const submitAccommodation = async (data: {
+  fullName: string;
+  emailAddress: string;
+  universityCategory: string;
+  universityName: string;
+  typeOfAccommodation: string;
+  preferredAccommodation: string;
+  startDate: string;
+  endDate: string;
+}) => {
+  const response = await fetch("https://cms-be-a5eg.onrender.com/api/accommodation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const responseData = await response.json();
+  
+  if (!response.ok) {
+    const errorMessage = responseData?.message || responseData?.error || response.statusText;
+    console.error("API Error:", responseData);
+    throw new Error(errorMessage);
+  }
+  
+  console.log("API Success Response:", responseData);
+  return responseData;
+};
+
+const submitTransportation = async (data: {
+  fullName: string;
+  emailAddress: string;
+  arrivalDate: string;
+  contactNumber: string;
+  universityCategory: string;
+  universityName: string;
+  flightDetails: string;
+  flightNumber: string;
+  numberOfLuggage: number;
+  numberOfPassengers: number;
+  flightTicketUpload: string;
+  airportPickupRequirement: string;
+}) => {
+  const response = await fetch("https://cms-be-a5eg.onrender.com/api/transportation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const responseData = await response.json();
+  
+  if (!response.ok) {
+    const errorMessage = responseData?.message || responseData?.error || response.statusText;
+    console.error("API Error:", responseData);
+    throw new Error(errorMessage);
+  }
+  
+  console.log("API Success Response:", responseData);
+  return responseData;
+};
+
 export default function HeroForm({ universityCategories }: HeroFormProps) {
   const [activeTab, setActiveTab] = useState("apply-now");
   const [phoneCountry, setPhoneCountry] = useState<CountryCode | undefined>("MY");
   const [transportationCountry, setTransportationCountry] = useState<CountryCode | undefined>("MY");
   const [phoneError, setPhoneError] = useState("");
   const [transportationPhoneError, setTransportationPhoneError] = useState("");
+  
+  // Loading states for each form
+  const [isSubmittingApplyNow, setIsSubmittingApplyNow] = useState(false);
+  const [isSubmittingEligibility, setIsSubmittingEligibility] = useState(false);
+  const [isSubmittingVisa, setIsSubmittingVisa] = useState(false);
+  const [isSubmittingAccommodation, setIsSubmittingAccommodation] = useState(false);
+  const [isSubmittingTransportation, setIsSubmittingTransportation] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -481,7 +652,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
     return { isValid: true, message: "" };
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate consent
@@ -496,29 +667,54 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       return;
     }
     
-    // Handle form submission
-    const name = formData.name || "Future Scholar";
-    toast.success(
-      `Thank you, ${name}! Our counsellors will connect with you within 24 hours.`,
-    );
+    setIsSubmittingApplyNow(true);
     
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      highestQualification: "",
-      programLookingFor: "",
-      universityType: "",
-      selectedUniversity: "",
-      typeOfQualification: "",
-    });
-    setPhoneCountry("MY");
-    setPhoneError("");
-    setConsentApplyNow(false);
+    try {
+      // Map form data to API format
+      const apiData = {
+        fullName: formData.name,
+        emailAddress: formData.email,
+        contactNumber: formData.phone,
+        preferredProgram: formData.programLookingFor,
+        highestAcademicQualification: formData.highestQualification,
+        typeOfQualification: formData.typeOfQualification,
+        universityCategory: formData.universityType,
+        preferredUniversity: formData.selectedUniversity,
+      };
+      
+      console.log("Submitting Apply Now form with data:", apiData);
+      const response = await submitUniversityAdmission(apiData);
+      console.log("Form submitted successfully. Response:", response);
+      
+      const name = formData.name || "Future Scholar";
+      toast.success(
+        `Thank you, ${name}! Our counsellors will connect with you within 24 hours.`,
+      );
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        highestQualification: "",
+        programLookingFor: "",
+        universityType: "",
+        selectedUniversity: "",
+        typeOfQualification: "",
+      });
+      setPhoneCountry("MY");
+      setPhoneError("");
+      setConsentApplyNow(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to submit form. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmittingApplyNow(false);
+    }
   };
 
-  const handleEligibilityFormSubmit = (e: React.FormEvent) => {
+  const handleEligibilityFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate consent
@@ -527,28 +723,54 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       return;
     }
     
-    // Handle eligibility form submission
-    const name = eligibilityFormData.name || "Future Scholar";
-    toast.success(
-      `Thank you, ${name}! We will check your eligibility and get back to you within 24 hours.`,
-    );
+    setIsSubmittingEligibility(true);
     
-    // Reset eligibility form
-    setEligibilityFormData({
-      name: "",
-      email: "",
-      gender: "",
-      nationality: "",
-      programLookingFor: "",
-      highestQualification: "",
-      typeOfQualification: "",
-      universityType: "",
-      selectedUniversity: "",
-    });
-    setConsentEligibility(false);
+    try {
+      // Map form data to API format
+      const apiData = {
+        fullName: eligibilityFormData.name,
+        emailAddress: eligibilityFormData.email,
+        gender: eligibilityFormData.gender,
+        nationality: eligibilityFormData.nationality,
+        preferredProgram: eligibilityFormData.programLookingFor,
+        highestAcademicQualification: eligibilityFormData.highestQualification,
+        typeOfQualification: eligibilityFormData.typeOfQualification,
+        universityCategory: eligibilityFormData.universityType,
+        preferredUniversity: eligibilityFormData.selectedUniversity,
+      };
+      
+      console.log("Submitting Eligibility form with data:", apiData);
+      const response = await submitCheckEligibility(apiData);
+      console.log("Form submitted successfully. Response:", response);
+      
+      const name = eligibilityFormData.name || "Future Scholar";
+      toast.success(
+        `Thank you, ${name}! We will check your eligibility and get back to you within 24 hours.`,
+      );
+      
+      // Reset eligibility form
+      setEligibilityFormData({
+        name: "",
+        email: "",
+        gender: "",
+        nationality: "",
+        programLookingFor: "",
+        highestQualification: "",
+        typeOfQualification: "",
+        universityType: "",
+        selectedUniversity: "",
+      });
+      setConsentEligibility(false);
+    } catch (error) {
+      console.error("Error submitting eligibility form:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to submit form. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmittingEligibility(false);
+    }
   };
 
-  const handleVisaFormSubmit = (e: React.FormEvent) => {
+  const handleVisaFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate consent
@@ -557,29 +779,53 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       return;
     }
     
-    // Handle visa form submission
-    const name = visaFormData.fullName || "Future Scholar";
-    toast.success(
-      `Thank you, ${name}! We will check your visa status and get back to you within 24 hours.`,
-    );
-    // Reset visa form
-    setVisaFormData({
-      fullName: "",
-      email: "",
-      dob: "",
-      nationality: "",
-      passportNumber: "",
-      passportExpiry: "",
-      course: "",
-      institution: "",
-      qualification: "",
-      englishLevel: "",
-      funding: "",
-    });
-    setConsentVisa(false);
+    setIsSubmittingVisa(true);
+    
+    try {
+      // Map form data to API format
+      const apiData = {
+        fullName: visaFormData.fullName,
+        emailAddress: visaFormData.email,
+        dateOfBirth: visaFormData.dob,
+        nationality: visaFormData.nationality,
+        passportNumber: visaFormData.passportNumber,
+        passportExpiryDate: visaFormData.passportExpiry,
+      };
+      
+      console.log("Submitting Visa form with data:", apiData);
+      const response = await submitCheckVisa(apiData);
+      console.log("Form submitted successfully. Response:", response);
+      
+      const name = visaFormData.fullName || "Future Scholar";
+      toast.success(
+        `Thank you, ${name}! We will check your visa status and get back to you within 24 hours.`,
+      );
+      
+      // Reset visa form
+      setVisaFormData({
+        fullName: "",
+        email: "",
+        dob: "",
+        nationality: "",
+        passportNumber: "",
+        passportExpiry: "",
+        course: "",
+        institution: "",
+        qualification: "",
+        englishLevel: "",
+        funding: "",
+      });
+      setConsentVisa(false);
+    } catch (error) {
+      console.error("Error submitting visa form:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to submit form. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmittingVisa(false);
+    }
   };
 
-  const handleAccommodationFormSubmit = (e: React.FormEvent) => {
+  const handleAccommodationFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate consent
@@ -588,26 +834,52 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       return;
     }
     
-    // Handle accommodation form submission
-    const name = accommodationFormData.name || "Future Scholar";
-    toast.success(
-      `Thank you, ${name}! We will assist you with accommodation and get back to you within 24 hours.`,
-    );
-    // Reset accommodation form
-    setAccommodationFormData({
-      name: "",
-      email: "",
-      address: "",
-      guardianDetails: "",
-      accommodationType: "",
-      preferredAccommodation: "",
-      startDate: "",
-      endDate: "",
-    });
-    setConsentAccommodation(false);
+    setIsSubmittingAccommodation(true);
+    
+    try {
+      // Map form data to API format
+      const apiData = {
+        fullName: accommodationFormData.name,
+        emailAddress: accommodationFormData.email,
+        universityCategory: eligibilityFormData.universityType,
+        universityName: eligibilityFormData.selectedUniversity,
+        typeOfAccommodation: accommodationFormData.accommodationType,
+        preferredAccommodation: accommodationFormData.preferredAccommodation,
+        startDate: accommodationFormData.startDate,
+        endDate: accommodationFormData.endDate,
+      };
+      
+      console.log("Submitting Accommodation form with data:", apiData);
+      const response = await submitAccommodation(apiData);
+      console.log("Form submitted successfully. Response:", response);
+      
+      const name = accommodationFormData.name || "Future Scholar";
+      toast.success(
+        `Thank you, ${name}! We will assist you with accommodation and get back to you within 24 hours.`,
+      );
+      
+      // Reset accommodation form
+      setAccommodationFormData({
+        name: "",
+        email: "",
+        address: "",
+        guardianDetails: "",
+        accommodationType: "",
+        preferredAccommodation: "",
+        startDate: "",
+        endDate: "",
+      });
+      setConsentAccommodation(false);
+    } catch (error) {
+      console.error("Error submitting accommodation form:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to submit form. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmittingAccommodation(false);
+    }
   };
 
-  const handleTransportationFormSubmit = (e: React.FormEvent) => {
+  const handleTransportationFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate consent
@@ -622,27 +894,71 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
       return;
     }
     
-    // Handle transportation form submission
-    const name = transportationFormData.name || "Future Scholar";
-    toast.success(
-      `Thank you, ${name}! We will assist you with transportation and get back to you within 24 hours.`,
-    );
-    // Reset transportation form
-    setTransportationFormData({
-      name: "",
-      email: "",
-      dateOfArrival: "",
-      contactNumber: "",
-      flightDetail: "",
-      flightNumber: "",
-      numberOfLuggage: "",
-      numberOfPerson: "",
-      needsAirportPickup: false,
-    });
-    setFlightTicketFile(null);
-    setTransportationCountry("MY");
-    setTransportationPhoneError("");
-    setConsentTransportation(false);
+    setIsSubmittingTransportation(true);
+    
+    try {
+      // Convert flight ticket file to base64 if available
+      let flightTicketUpload = "";
+      if (flightTicketFile) {
+        try {
+          flightTicketUpload = await fileToBase64(flightTicketFile);
+          console.log("Flight ticket converted to base64, length:", flightTicketUpload.length);
+        } catch (error) {
+          console.error("Error converting file to base64:", error);
+          toast.error("Failed to process flight ticket file. Please try again.");
+          setIsSubmittingTransportation(false);
+          return;
+        }
+      }
+      
+      // Map form data to API format
+      const apiData = {
+        fullName: transportationFormData.name,
+        emailAddress: transportationFormData.email,
+        arrivalDate: transportationFormData.dateOfArrival,
+        contactNumber: transportationFormData.contactNumber,
+        universityCategory: eligibilityFormData.universityType,
+        universityName: eligibilityFormData.selectedUniversity,
+        flightDetails: transportationFormData.flightDetail,
+        flightNumber: transportationFormData.flightNumber,
+        numberOfLuggage: parseInt(transportationFormData.numberOfLuggage) || 0,
+        numberOfPassengers: parseInt(transportationFormData.numberOfPerson) || 1,
+        flightTicketUpload: flightTicketUpload,
+        airportPickupRequirement: transportationFormData.needsAirportPickup ? "Yes" : "No",
+      };
+      
+      console.log("Submitting Transportation form with data:", { ...apiData, flightTicketUpload: flightTicketUpload ? `[base64 string, length: ${flightTicketUpload.length}]` : "" });
+      const response = await submitTransportation(apiData);
+      console.log("Form submitted successfully. Response:", response);
+      
+      const name = transportationFormData.name || "Future Scholar";
+      toast.success(
+        `Thank you, ${name}! We will assist you with transportation and get back to you within 24 hours.`,
+      );
+      
+      // Reset transportation form
+      setTransportationFormData({
+        name: "",
+        email: "",
+        dateOfArrival: "",
+        contactNumber: "",
+        flightDetail: "",
+        flightNumber: "",
+        numberOfLuggage: "",
+        numberOfPerson: "",
+        needsAirportPickup: false,
+      });
+      setFlightTicketFile(null);
+      setTransportationCountry("MY");
+      setTransportationPhoneError("");
+      setConsentTransportation(false);
+    } catch (error) {
+      console.error("Error submitting transportation form:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to submit form. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmittingTransportation(false);
+    }
   };
 
   // Get universities based on selected university type
@@ -688,6 +1004,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
   return (
     <div className="relative">
+      <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-6 text-center">Choose your option</h2>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 mb-6 gap-1 sm:gap-2 p-1.5 sm:p-2 h-auto min-h-[3rem] sm:min-h-[2.5rem]">
         <TabsTrigger value="check-eligibility" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
@@ -928,9 +1245,10 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary"
+              disabled={isSubmittingApplyNow}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit
+              {isSubmittingApplyNow ? "Submitting..." : "Submit"}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </button>
           </form>
@@ -1157,9 +1475,10 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary"
+              disabled={isSubmittingEligibility}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Check Eligibility
+              {isSubmittingEligibility ? "Checking..." : "Check Eligibility"}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </button>
           </form>
@@ -1288,9 +1607,10 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 hover:-translate-y-0.5 hover:bg-primary/90"
+              disabled={isSubmittingVisa}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Check Visa Status
+              {isSubmittingVisa ? "Checking..." : "Check Visa Status"}
               <ArrowRight className="h-4 w-4" />
             </button>
             </form>
@@ -1483,9 +1803,10 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             <button
               type="submit"
-              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              disabled={isSubmittingAccommodation}
+              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit
+              {isSubmittingAccommodation ? "Submitting..." : "Submit"}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </button>
           </form>
@@ -1774,9 +2095,10 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             <button
               type="submit"
-              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              disabled={isSubmittingTransportation}
+              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit
+              {isSubmittingTransportation ? "Submitting..." : "Submit"}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </button>
           </form>
