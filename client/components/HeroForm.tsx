@@ -1003,40 +1003,40 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
   } as React.CSSProperties;
 
   return (
-    <div className="relative">
-      <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-6 text-center">Choose your option</h2>
+    <div className="relative w-full max-w-full overflow-hidden">
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-4 sm:mb-6 text-center">Choose your option</h2>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 mb-6 gap-1 sm:gap-2 p-1.5 sm:p-2 h-auto min-h-[3rem] sm:min-h-[2.5rem]">
-        <TabsTrigger value="check-eligibility" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mb-4 sm:mb-6 gap-1 sm:gap-1 p-1 sm:p-1.5 md:p-2 h-auto min-h-[2.5rem] sm:min-h-[3rem] bg-muted overflow-x-auto">
+        <TabsTrigger value="check-eligibility" className={cn("text-[9px] xs:text-[9px] sm:text-[9px] md:text-xs px-1.5 sm:px-2 md:px-3 lg:px-4 py-1.5 sm:py-2 whitespace-nowrap w-full h-full rounded-md !bg-primary !text-primary-foreground data-[state=active]:!bg-primary data-[state=active]:!text-primary-foreground data-[state=active]:!border-b-4 data-[state=active]:!border-primary-foreground data-[state=active]:!shadow-lg data-[state=active]:!shadow-primary/50 hover:bg-primary/90 border-b-2 border-b-transparent")}>
             Check My Eligibility
           </TabsTrigger>
-          <TabsTrigger value="apply-now" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
+          <TabsTrigger value="apply-now" className={cn("text-[9px] xs:text-[9px] sm:text-[9px] md:text-xs px-1.5 sm:px-2 md:px-3 lg:px-4 py-1.5 sm:py-2 whitespace-nowrap w-full h-full rounded-md !bg-muted !text-muted-foreground data-[state=active]:!bg-muted data-[state=active]:!text-foreground data-[state=active]:!border-b-4 data-[state=active]:!border-primary data-[state=active]:!shadow-lg data-[state=active]:!shadow-primary/50 hover:bg-muted/80 border-b-2 border-b-transparent")}>
             Apply Now
           </TabsTrigger>
-          <TabsTrigger value="check-visa" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
+          <TabsTrigger value="check-visa" className={cn("text-[9px] xs:text-[9px] sm:text-[9px] md:text-xs px-1.5 sm:px-2 md:px-3 lg:px-4 py-1.5 sm:py-2 whitespace-nowrap w-full h-full rounded-md !bg-primary !text-primary-foreground data-[state=active]:!bg-primary data-[state=active]:!text-primary-foreground data-[state=active]:!border-b-4 data-[state=active]:!border-primary-foreground data-[state=active]:!shadow-lg data-[state=active]:!shadow-primary/50 hover:bg-primary/90 border-b-2 border-b-transparent")}>
             Check My Visa
           </TabsTrigger>
-          <TabsTrigger value="accommodation" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
+          <TabsTrigger value="accommodation" className={cn("text-[9px] xs:text-[9px] sm:text-[9px] md:text-xs px-1.5 sm:px-2 md:px-3 lg:px-4 py-1.5 sm:py-2 whitespace-nowrap w-full h-full rounded-md !bg-muted !text-muted-foreground data-[state=active]:!bg-muted data-[state=active]:!text-foreground data-[state=active]:!border-b-4 data-[state=active]:!border-primary data-[state=active]:!shadow-lg data-[state=active]:!shadow-primary/50 hover:bg-muted/80 border-b-2 border-b-transparent")}>
             Accommodation
           </TabsTrigger>
-          <TabsTrigger value="transportation" className="text-[10px] sm:text-xs md:text-sm px-2 sm:px-3 md:px-4 py-2 sm:py-1.5 whitespace-nowrap w-full h-full rounded-md">
+          <TabsTrigger value="transportation" className={cn("text-[9px] xs:text-[9px] sm:text-[9px] md:text-xs px-1.5 sm:px-2 md:px-3 lg:px-4 py-1.5 sm:py-2 whitespace-nowrap w-full h-full rounded-md !bg-primary !text-primary-foreground data-[state=active]:!bg-primary data-[state=active]:!text-primary-foreground data-[state=active]:!border-b-4 data-[state=active]:!border-primary-foreground data-[state=active]:!shadow-lg data-[state=active]:!shadow-primary/50 hover:bg-primary/90 border-b-2 border-b-transparent")}>
             Transportation
           </TabsTrigger>
         </TabsList>
 
         {/* Apply Now Tab */}
         <TabsContent value="apply-now">
-          <h3 className="text-lg font-bold text-primary mb-2">Apply Me Now</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-primary mb-2">Apply Me Now</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4">
             Fill out the form below and our counsellors will get back to you within 24 hours.
           </p>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4">
             
             {/* Name & Email in one line */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Name */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-primary mb-1.5">
+                <label htmlFor="name" className="block text-xs sm:text-sm font-medium text-primary mb-1.5 ml-2">
                   Name
                 </label>
                 <input
@@ -1053,7 +1053,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-primary mb-1.5">
+                <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-primary mb-1.5 ml-2">
                   Email
                 </label>
                 <input
@@ -1071,7 +1071,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             {/* Phone with Country Flag Selector */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-primary mb-1.5">
+              <label htmlFor="phone" className="block text-xs sm:text-sm font-medium text-primary mb-1.5 ml-2">
                 Phone
               </label>
               <div
@@ -1111,7 +1111,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             {/* Program Looking For - Next Line */}
             <div>
-              <label htmlFor="programLookingFor" className="block text-sm font-medium text-primary mb-1.5">
+              <label htmlFor="programLookingFor" className="block text-xs sm:text-sm font-medium text-primary mb-1.5 ml-2">
                 Program Looking For
               </label>
               <select
@@ -1135,7 +1135,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Highest Qualification */}
               <div>
-                <label htmlFor="highestQualification" className="block text-sm font-medium text-primary mb-1.5">
+                <label htmlFor="highestQualification" className="block text-sm font-medium text-primary mb-1.5 ml-2">
                   Highest Qualification
                 </label>
                 <select
@@ -1153,12 +1153,13 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
                   <option value="Diploma">Diploma</option>
                   <option value="Degree">Degree</option>
                   <option value="Master">Master</option>
+                  <option value="PhD">PhD</option>
                 </select>
               </div>
 
               {/* Type of Qualification */}
               <div>
-                <label htmlFor="typeOfQualification" className="block text-sm font-medium text-primary mb-1.5">
+                <label htmlFor="typeOfQualification" className="block text-sm font-medium text-primary mb-1.5 ml-2">
                   Type of Qualification
                 </label>
                 <select
@@ -1183,7 +1184,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <div className={formData.universityType && availableUniversities.length > 0 ? "grid grid-cols-1 sm:grid-cols-2 gap-4" : ""}>
               {/* List of Universities Type */}
               <div>
-                <label htmlFor="universityType" className="block text-sm font-medium text-primary mb-1.5">
+                <label htmlFor="universityType" className="block text-sm font-medium text-primary mb-1.5 ml-2">
                   List Of Universities
                 </label>
                 <select
@@ -1204,7 +1205,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
               {/* Selected University (conditional) */}
               {formData.universityType && availableUniversities.length > 0 && (
                 <div>
-                  <label htmlFor="selectedUniversity" className="block text-sm font-medium text-primary mb-1.5">
+                  <label htmlFor="selectedUniversity" className="block text-sm font-medium text-primary mb-1.5 ml-2">
                     Select University
                   </label>
                   <select
@@ -1227,17 +1228,17 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             </div>
 
             {/* Consent Box for Apply Now */}
-            <div className="flex items-start space-x-2 mt-3">
+            <div className="flex items-start gap-2 sm:gap-3 mt-3">
               <Checkbox
                 id="consentApplyNow"
                 checked={consentApplyNow}
                 onCheckedChange={(checked) => setConsentApplyNow(checked === true)}
                 required
-                className="mt-1"
+                className="mt-0.5 sm:mt-1 flex-shrink-0"
               />
               <label
                 htmlFor="consentApplyNow"
-                className="text-sm text-primary cursor-pointer leading-relaxed"
+                className="text-xs sm:text-sm text-primary cursor-pointer leading-relaxed flex-1"
               >
                 I confirm that the information provided is accurate and I consent to be contacted by the university.
               </label>
@@ -1246,7 +1247,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <button
               type="submit"
               disabled={isSubmittingApplyNow}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
             >
               {isSubmittingApplyNow ? "Submitting..." : "Submit"}
               <ArrowRight className="h-4 w-4" aria-hidden />
@@ -1256,11 +1257,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
         {/* Check Eligibility Tab */}
         <TabsContent value="check-eligibility">
-          <h3 className="text-lg font-bold text-primary mb-2">Check My Eligibility</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-primary mb-2">Check My Eligibility</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4">
             Fill out the form below to check your eligibility for various programs.
           </p>
-          <form onSubmit={handleEligibilityFormSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleEligibilityFormSubmit} className="flex flex-col gap-3 sm:gap-4">
             
             {/* Name & Email in one line */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1457,17 +1458,17 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             </div>
 
             {/* Consent Box for Eligibility */}
-            <div className="flex items-start space-x-2 mt-3">
+            <div className="flex items-start gap-2 sm:gap-3 mt-3">
               <Checkbox
                 id="consentEligibility"
                 checked={consentEligibility}
                 onCheckedChange={(checked) => setConsentEligibility(checked === true)}
                 required
-                className="mt-1"
+                className="mt-0.5 sm:mt-1 flex-shrink-0"
               />
               <label
                 htmlFor="consentEligibility"
-                className="text-sm text-primary cursor-pointer leading-relaxed"
+                className="text-xs sm:text-sm text-primary cursor-pointer leading-relaxed flex-1"
               >
                 I confirm that the information provided is accurate and I consent to be contacted for eligibility assessment.
               </label>
@@ -1476,7 +1477,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <button
               type="submit"
               disabled={isSubmittingEligibility}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border hover:bg-white hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
             >
               {isSubmittingEligibility ? "Checking..." : "Check Eligibility"}
               <ArrowRight className="h-4 w-4" aria-hidden />
@@ -1486,14 +1487,14 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
         {/* Check Visa Tab */}
         <TabsContent value="check-visa">
-          <h3 className="text-lg font-bold text-primary mb-2">Check my visa</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-primary mb-2">Check my visa</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4">
             Fill out the form below and we will check your visa status and get back to you within 24 hours.
           </p>
-          <form onSubmit={handleVisaFormSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleVisaFormSubmit} className="flex flex-col gap-3 sm:gap-4">
 
             {/* Full Name & DOB */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="block text-sm font-medium text-primary mb-1.5">
                   Full Name (as per passport)
@@ -1529,7 +1530,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             </div>
 
             {/* Nationality & Passport Number */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="block text-sm font-medium text-primary mb-1.5">
                   Date of Birth
@@ -1592,15 +1593,15 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
 
             {/* Consent */}
-            <div className="flex items-start space-x-2 mt-2">
+            <div className="flex items-start gap-2 sm:gap-3 mt-2">
               <Checkbox
                 id="consentVisa"
                 checked={consentVisa}
                 onCheckedChange={(checked) => setConsentVisa(checked === true)}
                 required
-                className="mt-1"
+                className="mt-0.5 sm:mt-1 flex-shrink-0"
               />
-              <label htmlFor="consentVisa" className="text-sm text-primary leading-relaxed">
+              <label htmlFor="consentVisa" className="text-xs sm:text-sm text-primary leading-relaxed flex-1">
                 I confirm that the information provided is accurate and I consent to visa status checking.
               </label>
             </div>
@@ -1608,7 +1609,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <button
               type="submit"
               disabled={isSubmittingVisa}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
             >
               {isSubmittingVisa ? "Checking..." : "Check Visa Status"}
               <ArrowRight className="h-4 w-4" />
@@ -1619,11 +1620,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
         {/* Accommodation Tab */}
         <TabsContent value="accommodation">
-          <h3 className="text-lg font-bold text-primary mb-2">I need accommodation</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-primary mb-2">I need accommodation</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4">
             Fill out the form below and we will assist you with accommodation options.
           </p>
-          <form onSubmit={handleAccommodationFormSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleAccommodationFormSubmit} className="flex flex-col gap-3 sm:gap-4">
             {/* Name & Email in one line */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Name */}
@@ -1750,9 +1751,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
             </div>
 
-            {/* List of Universities Type & Select University in one line (when university type is selected) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <h4 className="font-700">Duration OF Stay : </h4><br/>
+            {/* Duration of Stay */}
+            <div className="mb-2">
+              <h4 className="text-sm sm:text-base font-bold text-primary">Duration of Stay</h4>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label htmlFor="accommodation-start-date" className="block text-sm font-medium text-primary mb-1.5">
                   Start Date
@@ -1785,17 +1788,17 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             </div>
 
             {/* Consent Box for Accommodation */}
-            <div className="flex items-start space-x-2 mt-3">
+            <div className="flex items-start gap-2 sm:gap-3 mt-3">
               <Checkbox
                 id="consentAccommodation"
                 checked={consentAccommodation}
                 onCheckedChange={(checked) => setConsentAccommodation(checked === true)}
                 required
-                className="mt-1"
+                className="mt-0.5 sm:mt-1 flex-shrink-0"
               />
               <label
                 htmlFor="consentAccommodation"
-                className="text-sm text-primary cursor-pointer leading-relaxed"
+                className="text-xs sm:text-sm text-primary cursor-pointer leading-relaxed flex-1"
               >
                 I confirm that the information provided is accurate and I consent to accommodation assistance.
               </label>
@@ -1804,7 +1807,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <button
               type="submit"
               disabled={isSubmittingAccommodation}
-              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
             >
               {isSubmittingAccommodation ? "Submitting..." : "Submit"}
               <ArrowRight className="h-4 w-4" aria-hidden />
@@ -1814,11 +1817,11 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
 
         {/* Transportation Tab */}
         <TabsContent value="transportation">
-          <h3 className="text-lg font-bold text-primary mb-2">Transportation</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-primary mb-2">Transportation</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4">
             Fill out the form below and we will assist you with transportation arrangements.
           </p>
-          <form onSubmit={handleTransportationFormSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleTransportationFormSubmit} className="flex flex-col gap-3 sm:gap-4">
             {/* Name & Email in one line */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Name */}
@@ -2062,32 +2065,33 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             </div>
 
             {/* Airport Pickup Checkbox */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Checkbox
                 id="needsAirportPickup"
                 checked={transportationFormData.needsAirportPickup}
                 onCheckedChange={handleTransportationCheckboxChange}
+                className="flex-shrink-0"
               />
               <label
                 htmlFor="needsAirportPickup"
-                className="text-sm font-medium text-primary cursor-pointer"
+                className="text-sm font-medium text-primary cursor-pointer flex-1"
               >
                 I need airport pick up
               </label>
             </div>
 
             {/* Consent Box for Transportation */}
-            <div className="flex items-start space-x-2 mt-3">
+            <div className="flex items-start gap-2 sm:gap-3 mt-3">
               <Checkbox
                 id="consentTransportation"
                 checked={consentTransportation}
                 onCheckedChange={(checked) => setConsentTransportation(checked === true)}
                 required
-                className="mt-1"
+                className="mt-0.5 sm:mt-1 flex-shrink-0"
               />
               <label
                 htmlFor="consentTransportation"
-                className="text-sm text-primary cursor-pointer leading-relaxed"
+                className="text-xs sm:text-sm text-primary cursor-pointer leading-relaxed flex-1"
               >
                 I confirm that the information provided is accurate and I consent to transportation assistance.
               </label>
@@ -2096,7 +2100,7 @@ export default function HeroForm({ universityCategories }: HeroFormProps) {
             <button
               type="submit"
               disabled={isSubmittingTransportation}
-              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="hover:border hover:bg-white hover:text-primary inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
             >
               {isSubmittingTransportation ? "Submitting..." : "Submit"}
               <ArrowRight className="h-4 w-4" aria-hidden />

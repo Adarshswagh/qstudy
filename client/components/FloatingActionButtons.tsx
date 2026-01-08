@@ -46,7 +46,7 @@ export const FloatingActionButtons = ({
   };
 
   return (
-    <div className="fixed bottom-6 left-4 right-4 z-50 flex justify-between items-end pointer-events-none">
+    <div className="fixed bottom-6 right-4  z-50 flex justify-between items-end pointer-events-none">
       {/* Left side - WhatsApp button */}
       <div className="pointer-events-auto">
         <motion.button
@@ -85,7 +85,7 @@ export const FloatingActionButtons = ({
           {/* Tooltip */}
           <div className="absolute right-full mr-3 hidden group-hover:block">
             <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap">
-              WhatsApp Us
+              Live Chat Here 
               <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
             </div>
           </div>
@@ -129,7 +129,7 @@ export const FloatingActionButtons = ({
 
 
         {/* Call Button */}
-        <motion.button
+        {/* <motion.button
           onClick={handleCall}
           className={cn(
             "group relative flex items-center justify-center",
@@ -144,14 +144,14 @@ export const FloatingActionButtons = ({
         >
           <Phone className="h-6 w-6 text-white sm:h-7 sm:w-7" />
           
-          {/* Tooltip */}
+         
           <div className="absolute left-full ml-3 hidden group-hover:block">
             <div className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap">
               Call Us
               <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900"></div>
             </div>
           </div>
-        </motion.button>
+        </motion.button> */}
 
 
       </div>
